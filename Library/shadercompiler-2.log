@@ -1,0 +1,236 @@
+Base path: /Applications/Unity/Unity.app/Contents
+Pipe name: \\.\pipe\UnityShaderCompiler-2--1335664640
+Cmd: getPlatforms
+Cmd: compileSnippet
+  api=1 type=0 insize=6535 outsize=1076 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=6535 outsize=0 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_ON DIRLIGHTMAP_OFF ok=0
+Cmd: compileSnippet
+  api=0 type=0 insize=6535 outsize=1570 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=6535 outsize=0 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=6535 outsize=421 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=6535 outsize=2134 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=6535 outsize=0 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=6535 outsize=1769 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=6535 outsize=395 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=6535 outsize=352 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=6535 outsize=506 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=6535 outsize=466 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=6535 outsize=549 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6535 outsize=1900 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=4330 outsize=885 kw=POINT ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=4330 outsize=0 kw=DIRECTIONAL ok=0
+Cmd: compileSnippet
+  api=0 type=0 insize=4330 outsize=1387 kw=SPOT ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=4330 outsize=0 kw=SPOT ok=0
+Cmd: compileSnippet
+  api=0 type=0 insize=4330 outsize=1350 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=4330 outsize=0 kw=POINT_COOKIE ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=4330 outsize=840 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=4330 outsize=515 kw=POINT ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=4330 outsize=348 kw=DIRECTIONAL ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=4330 outsize=783 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4330 outsize=2249 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=4330 outsize=551 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=4330 outsize=450 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4330 outsize=1599 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=4154 outsize=581 kw= ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4154 outsize=1307 kw= ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=5975 outsize=739 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=5975 outsize=618 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=5975 outsize=739 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=5975 outsize=618 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (80): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (109): implicit truncation of vector type
+  api=4 type=0 insize=5975 outsize=0 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=0
+Cmd: compileSnippet
+  api=1 type=1 insize=5975 outsize=395 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5975 outsize=753 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=5975 outsize=2322 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=5975 outsize=1428 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=5975 outsize=622 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=6445 outsize=969 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=6445 outsize=194 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=6445 outsize=1534 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (110): implicit truncation of vector type
+  api=4 type=0 insize=6445 outsize=0 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=0
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=6445 outsize=0 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=6445 outsize=321 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=6445 outsize=0 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=6445 outsize=1534 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=6445 outsize=0 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=6445 outsize=1641 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=1
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=6445 outsize=0 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF VERTEXLIGHT_ON ok=0
+Cmd: compileSnippet
+  api=1 type=1 insize=6445 outsize=358 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=6445 outsize=2080 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6445 outsize=1282 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=6445 outsize=484 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=6445 outsize=1729 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=6445 outsize=539 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=6445 outsize=485 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=6445 outsize=2738 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_ON DIRLIGHTMAP_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=4265 outsize=780 kw=POINT ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (110): implicit truncation of vector type
+  api=4 type=0 insize=4265 outsize=0 kw=DIRECTIONAL ok=0
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=4265 outsize=0 kw=DIRECTIONAL ok=0
+Cmd: compileSnippet
+  api=0 type=0 insize=4265 outsize=1351 kw=SPOT ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (110): implicit truncation of vector type
+  api=4 type=0 insize=4265 outsize=0 kw=SPOT ok=0
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=4265 outsize=0 kw=SPOT ok=0
+Cmd: compileSnippet
+  api=1 type=0 insize=4265 outsize=780 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=4265 outsize=0 kw=POINT_COOKIE ok=0
+Cmd: compileSnippet
+  api=0 type=0 insize=4265 outsize=1234 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (110): implicit truncation of vector type
+  api=4 type=0 insize=4265 outsize=0 kw=DIRECTIONAL_COOKIE ok=0
+Cmd: compileSnippet
+  api=1 type=1 insize=4265 outsize=476 kw=POINT ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=4265 outsize=2608 kw=POINT ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=4265 outsize=1869 kw=DIRECTIONAL ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4265 outsize=2176 kw=SPOT ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=4265 outsize=622 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=4265 outsize=524 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=4265 outsize=2836 kw=POINT_COOKIE ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=4265 outsize=1526 kw=DIRECTIONAL_COOKIE ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=4194 outsize=509 kw= ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=4194 outsize=314 kw= ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=5942 outsize=639 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=1 type=0 insize=5942 outsize=503 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=5942 outsize=905 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (110): implicit truncation of vector type
+  api=4 type=0 insize=5942 outsize=0 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=0
+Cmd: compileSnippet
+  api=0 type=0 insize=5942 outsize=855 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  error: 2 plat 4 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 4 at (110): implicit truncation of vector type
+  api=4 type=0 insize=5942 outsize=0 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=0
+Cmd: compileSnippet
+  error: 2 plat 8 at (81): 'vert': output parameter 'o' not completely initialized
+  error: 1 plat 8 at (110): implicit truncation of vector type
+  api=8 type=0 insize=5942 outsize=0 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=0
+Cmd: compileSnippet
+  api=1 type=1 insize=5942 outsize=354 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=5942 outsize=2129 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=5942 outsize=2249 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_OFF ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5942 outsize=354 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=5942 outsize=299 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=5942 outsize=1355 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5942 outsize=691 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=5942 outsize=2200 kw=LIGHTMAP_ON DIRLIGHTMAP_OFF HDR_LIGHT_PREPASS_ON ok=1
+End of pipe
+
+Quitting shader compiler process
