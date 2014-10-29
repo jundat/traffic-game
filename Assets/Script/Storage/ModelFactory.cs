@@ -44,6 +44,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			break;
 
 		case LayerType.Sign:
+			ins = InitSign (tile);
 			break;
 
 		case LayerType.View:
@@ -59,10 +60,9 @@ public class ModelFactory : Singleton <ModelFactory> {
 	private GameObject InitRoad (ModelTile tile) {
 
 		GameObject ins = null;
-		string name = Enum.GetName (typeof (LayerType), LayerType.Road);
 
 		GameObject prefab = null;
-		dictModels.TryGetValue (name, out prefab);
+		dictModels.TryGetValue ("Road", out prefab);
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 			
@@ -84,6 +84,37 @@ public class ModelFactory : Singleton <ModelFactory> {
 			return null;
 		}
 
+		return ins;
+	}
+
+	private GameObject InitSign (ModelTile tile) {
+
+		GameObject ins = null;
+
+		GameObject prefab = null;
+		dictModels.TryGetValue ("Sign", out prefab);
+		if (prefab != null) {
+			ins = GameObject.Instantiate (prefab) as GameObject;
+			SignHandler handler = ins.GetComponent <SignHandler> ();
+			
+			//Texture
+			Texture tt = null;
+			dictTextures.TryGetValue (tile.typeId+"", out tt);
+			if (tt != null) {
+				handler.SetSign (tt);
+			} else {
+				Debug.LogError ("Null texture at tile: " + tile.objId);
+			}
+
+			
+			//Size + Position
+			//ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
+			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 0, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+
+		} else {
+			return null;
+		}
+		
 		return ins;
 	}
 }
