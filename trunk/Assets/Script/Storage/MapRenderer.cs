@@ -18,8 +18,9 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 			foreach (KeyValuePair<string, ModelTile> p2 in p.Value.tile) {
 				ModelTile tile = p2.Value;
 				GameObject go = ModelFactory.Instance.GetNewModel (tile);
-				go.transform.parent = this.transform;
-
+				if (go != null) {
+					go.transform.parent = this.transform;
+				}
 			}
 		}
 	}
