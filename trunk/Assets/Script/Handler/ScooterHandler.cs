@@ -25,12 +25,17 @@ public class ScooterHandler : MonoBehaviour {
 				dir = MyDirection.left;
 				anim.SetInteger ("dir",2);
 			}
-		} else if (Input.GetKey (KeyCode.D) == true) { //left
+		} else if (Input.GetKey (KeyCode.D) == true) { //right
 			if (dir != MyDirection.right) {
 				dir = MyDirection.right;
 				anim.SetInteger ("dir",1);
 			}
 		} else {
+			dir = MyDirection.ahead;
+			anim.SetInteger ("dir",0);
+		}
+
+		if (Input.GetKey (KeyCode.W) == true) {
 			dir = MyDirection.ahead;
 			anim.SetInteger ("dir",0);
 		}
