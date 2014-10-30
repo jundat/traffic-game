@@ -53,6 +53,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			break;
 
 		case LayerType.Other:
+			ins = InitOther (tile);
 			break;
 		}
 
@@ -109,9 +110,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 				Debug.LogError ("Null texture at tile: " + tile.objId);
 			}
 
-			
-			//Size + Position
-			//ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
+			//Position
 			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 
 			//Rotation
@@ -148,6 +147,46 @@ public class ModelFactory : Singleton <ModelFactory> {
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);			
+		} else {
+			return null;
+		}
+		
+		return ins;
+	}
+	#endregion
+
+	
+	#region OTHER
+	private GameObject InitOther (ModelTile tile) {
+		GameObject ins = null;
+		GameObject prefab = null;
+		dictModels.TryGetValue (""+tile.typeId, out prefab);
+		if (prefab != null) {
+			ins = GameObject.Instantiate (prefab) as GameObject;
+			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+						
+			//Rotation
+			int rot = 0;
+			string huong = tile.properties[TileKey.LIGHT_HUONG];
+			Debug.Log (huong);
+			switch (huong) {
+			case MyDirection.DOWN:
+				rot = 0;
+				break;
+			case MyDirection.LEFT:
+				rot = 90;
+				break;
+			case MyDirection.UP:
+				rot = 180;
+				break;
+			case MyDirection.RIGHT:
+				rot = 270;
+				break;
+			default:
+				Debug.Log ("Default HUONG");
+				break;
+			}
+			ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
 		} else {
 			return null;
 		}
