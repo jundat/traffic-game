@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class ModelFactory : Singleton <ModelFactory> {
 
+
 	public ModelFactory () {
 		Load ();
 	}
@@ -12,6 +13,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 	Dictionary <string, GameObject> dictModels = new Dictionary<string, GameObject> ();
 	Dictionary<string, Texture> dictTextures = new Dictionary<string, Texture> ();
 
+	#region LOAD
 	private void Load () {
 		GameObject[] gos = Resources.LoadAll<GameObject> ("Prefabs");
 		for (int i = 0; i < gos.Length; ++i) {
@@ -33,11 +35,10 @@ public class ModelFactory : Singleton <ModelFactory> {
 			//Debug.Log (tts[i].name);
 		}
 	}
+	#endregion
 
 	public GameObject GetNewModel (ModelTile tile) {
-
 		GameObject ins = null;
-
 		switch (tile.layerType) {
 		case LayerType.Road:
 			ins = InitRoad (tile);
@@ -48,6 +49,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			break;
 
 		case LayerType.View:
+			ins = InitView (tile);
 			break;
 
 		case LayerType.Other:
@@ -57,10 +59,9 @@ public class ModelFactory : Singleton <ModelFactory> {
 		return ins;
 	}
 
+	#region ROAD
 	private GameObject InitRoad (ModelTile tile) {
-
 		GameObject ins = null;
-
 		GameObject prefab = null;
 		dictModels.TryGetValue ("Road", out prefab);
 		if (prefab != null) {
@@ -78,7 +79,9 @@ public class ModelFactory : Singleton <ModelFactory> {
 
 			//Size + Position
 			ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
-			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 0, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 
+			                                           ins.transform.localPosition.y + Global.DELTA_HEIGH * tile.objId, 
+			                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 
 		} else {
 			return null;
@@ -86,11 +89,11 @@ public class ModelFactory : Singleton <ModelFactory> {
 
 		return ins;
 	}
+	#endregion
 
+	#region SIGN
 	private GameObject InitSign (ModelTile tile) {
-
 		GameObject ins = null;
-
 		GameObject prefab = null;
 		dictModels.TryGetValue ("Sign", out prefab);
 		if (prefab != null) {
@@ -109,7 +112,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			
 			//Size + Position
 			//ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
-			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 0, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 
 			//Rotation
 			int rot = 0;
@@ -135,4 +138,21 @@ public class ModelFactory : Singleton <ModelFactory> {
 		
 		return ins;
 	}
+	#endregion
+
+	#region VIEW
+	private GameObject InitView (ModelTile tile) {
+		GameObject ins = null;
+		GameObject prefab = null;
+		dictModels.TryGetValue (""+tile.typeId, out prefab);
+		if (prefab != null) {
+			ins = GameObject.Instantiate (prefab) as GameObject;
+			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);			
+		} else {
+			return null;
+		}
+		
+		return ins;
+	}
+	#endregion
 }

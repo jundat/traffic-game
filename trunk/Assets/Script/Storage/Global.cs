@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Global {
+	public const float DELTA_HEIGH = 0.001f;
+
 	public const float SCALE_TILE = 1.0f / 32; //0.03125f; // 1/32
 	public const float SCALE_SIZE = 10.0f;
 
