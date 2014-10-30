@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: 9bc448b3a593c40a5896bc7a67655b56
+guid: 3da59accc06154e0a8189839c38c549d
 TextureImporter:
   fileIDToRecycleName:
-    21300000: land
+    21300000: emptySign
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0

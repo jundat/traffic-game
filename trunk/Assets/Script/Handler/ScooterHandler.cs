@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum MyDirection {
+public enum BikeDirection {
 	left,
 	right,
 	ahead
@@ -11,7 +11,7 @@ public class ScooterHandler : MonoBehaviour {
 
 	private Animator anim;
 
-	MyDirection dir = MyDirection.ahead;
+	BikeDirection dir = BikeDirection.ahead;
 
 	// Use this for initialization
 	void Start () {
@@ -21,22 +21,22 @@ public class ScooterHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey (KeyCode.A) == true) { //left
-			if (dir != MyDirection.left) {
-				dir = MyDirection.left;
+			if (dir != BikeDirection.left) {
+				dir = BikeDirection.left;
 				anim.SetInteger ("dir",2);
 			}
 		} else if (Input.GetKey (KeyCode.D) == true) { //right
-			if (dir != MyDirection.right) {
-				dir = MyDirection.right;
+			if (dir != BikeDirection.right) {
+				dir = BikeDirection.right;
 				anim.SetInteger ("dir",1);
 			}
 		} else {
-			dir = MyDirection.ahead;
+			dir = BikeDirection.ahead;
 			anim.SetInteger ("dir",0);
 		}
 
 		if (Input.GetKey (KeyCode.W) == true) {
-			dir = MyDirection.ahead;
+			dir = BikeDirection.ahead;
 			anim.SetInteger ("dir",0);
 		}
 	}

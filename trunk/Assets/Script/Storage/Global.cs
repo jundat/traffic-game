@@ -10,3 +10,11 @@ public class Global {
 	public const string VIEW_RES = "200";
 	public const string OTHER_RES = "300";
 }
+
+
+public struct MyDirection {
+	public const string UP = "UP";
+	public const string DOWN = "DOWN";
+	public const string LEFT = "LEFT";
+	public const string RIGHT = "RIGHT";
+}

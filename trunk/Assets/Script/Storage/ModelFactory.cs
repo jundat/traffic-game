@@ -111,6 +111,24 @@ public class ModelFactory : Singleton <ModelFactory> {
 			//ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
 			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 0, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 
+			//Rotation
+			int rot = 0;
+			switch (tile.properties[TileKey.SIGN_DIR]) {
+			case MyDirection.UP:
+				rot = 0;
+				break;
+			case MyDirection.RIGHT:
+				rot = 90;
+				break;
+			case MyDirection.DOWN:
+				rot = 180;
+				break;
+			case MyDirection.LEFT:
+				rot = 270;
+				break;
+			}
+			ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
+
 		} else {
 			return null;
 		}

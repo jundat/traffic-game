@@ -9,6 +9,5 @@ public class SignHandler : MonoBehaviour {
 	public void SetSign (Texture texture)
 	{
 		plane1.material.SetTexture ("_MainTex", texture);
-		plane2.material.SetTexture ("_MainTex", texture);
 	}
 }
