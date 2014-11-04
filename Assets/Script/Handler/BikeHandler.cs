@@ -3,16 +3,23 @@ using System.Collections;
 
 public class BikeHandler : MonoBehaviour {
 
-	public HelmetHandler helmetOff;
+	public HelmetHandler helmet;
+	public UIButton btnTakeOff;
 
 	void Start () {
+		btnTakeOff.gameObject.SetActive (false);
 	}
 
 	void Update () {
 	}
 
 	public void OnHelmetClick () {
-		helmetOff.Wear ();
-		Debug.Log ("Click");
+		helmet.Wear ();
+		btnTakeOff.gameObject.SetActive (true);
+	}
+
+	public void OnTakeOffHelmet () {
+		helmet.UnWear ();
+		btnTakeOff.gameObject.SetActive (false);
 	}
 }
