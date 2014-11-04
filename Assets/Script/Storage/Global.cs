@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class Global {
+	public const bool DEBUG_LIGHT = true;
+
 	public const float DELTA_HEIGH = 0.001f;
 
 	public const float SCALE_TILE = 1.0f / 32; //0.03125f; // 1/32
@@ -11,6 +13,11 @@ public class Global {
 	public const string SIGN_RES = "100";
 	public const string VIEW_RES = "200";
 	public const string OTHER_RES = "300";
+
+	public const string LAYER_OTHER = "1";
+	public const string LAYER_VIEW = "2";
+	public const string LAYER_SIGN = "3";
+	public const string LAYER_ROAD = "4";
 }
 
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapManager : Singleton <MapManager> {
 
@@ -8,5 +9,6 @@ public class MapManager : Singleton <MapManager> {
 	public void Init () {
 		map = MapLoader.Instance.Load ("Map/map");
 		MapRenderer.Instance.Init (map);
+
 	}
 }

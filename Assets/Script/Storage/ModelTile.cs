@@ -26,7 +26,7 @@ public struct TileKey {
 	public static string SIGN_DIR = "SIGN_DIR";
 }
 
-
+[System.Serializable]
 public class ModelTile {
 
 	public int objId;

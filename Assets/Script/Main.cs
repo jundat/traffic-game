@@ -10,5 +10,7 @@ public class Main : MonoBehaviour {
 		MapManager.Instance.Init ();
 	}
 
-	void Update () {}
+	void Update () {
+		TrafficLightManager.Instance.Update ();
+	}
 }
