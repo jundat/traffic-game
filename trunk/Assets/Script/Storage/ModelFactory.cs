@@ -67,7 +67,9 @@ public class ModelFactory : Singleton <ModelFactory> {
 		dictModels.TryGetValue ("Road", out prefab);
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
-			
+			RoadHandler handler = ins.GetComponent<RoadHandler>();
+			handler.tile = tile;
+
 			//Texture
 			Texture tt = null;
 			dictTextures.TryGetValue (tile.typeId+"", out tt);
@@ -100,6 +102,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 			SignHandler handler = ins.GetComponent <SignHandler> ();
+			handler.tile = tile;
 			
 			//Texture
 			Texture tt = null;
@@ -107,7 +110,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			if (tt != null) {
 				handler.SetSign (tt);
 			} else {
-				Debug.LogError ("Null texture at tile: " + tile.objId);
+				Debug.LogError ("Null texture at tile: " + tile.typeId + "," + tile.objId);
 			}
 
 			//Position
@@ -160,33 +163,38 @@ public class ModelFactory : Singleton <ModelFactory> {
 	private GameObject InitOther (ModelTile tile) {
 		GameObject ins = null;
 		GameObject prefab = null;
+
 		dictModels.TryGetValue (""+tile.typeId, out prefab);
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
-						
-			//Rotation
-			int rot = 0;
-			string huong = tile.properties[TileKey.LIGHT_HUONG];
-			Debug.Log (huong);
-			switch (huong) {
-			case MyDirection.DOWN:
-				rot = 0;
-				break;
-			case MyDirection.LEFT:
-				rot = 90;
-				break;
-			case MyDirection.UP:
-				rot = 180;
-				break;
-			case MyDirection.RIGHT:
-				rot = 270;
-				break;
-			default:
-				Debug.Log ("Default HUONG");
-				break;
+
+			if (tile.typeId == 301) { //Light
+				TrafficLightHandler handler = ins.GetComponent<TrafficLightHandler>();
+				handler.tile = tile;
+
+				//Rotation
+				int rot = 0;
+				string huong = tile.properties[TileKey.LIGHT_HUONG];
+				
+				switch (huong) {
+				case MyDirection.DOWN:
+					rot = 0;
+					break;
+				case MyDirection.LEFT:
+					rot = 90;
+					break;
+				case MyDirection.UP:
+					rot = 180;
+					break;
+				case MyDirection.RIGHT:
+					rot = 270;
+					break;
+				}
+				ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
+			} else {
+				//.....................
 			}
-			ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
 		} else {
 			return null;
 		}

@@ -9,7 +9,7 @@ public class ModelMap {
 	public int width = 0;
 	public int height = 0;
 
-	public Dictionary<string, string> info = new Dictionary<string, string> ();
-	public Dictionary<string, string> state = new Dictionary<string, string> ();
-	public Dictionary<string, ModelLayer> layer = new Dictionary<string, ModelLayer> ();
+	public Dictionary<string, string> info;
+	public Dictionary<string, string> state;
+	public Dictionary<string, ModelLayer> layer;
 }
