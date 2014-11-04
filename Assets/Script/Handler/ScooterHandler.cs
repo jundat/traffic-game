@@ -20,12 +20,12 @@ public class ScooterHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey (KeyCode.A) == true) { //left
+		if (Input.GetKey (KeyCode.A) == true || Input.GetKey (KeyCode.LeftArrow) == true) { //left
 			if (dir != BikeDirection.left) {
 				dir = BikeDirection.left;
 				anim.SetInteger ("dir",2);
 			}
-		} else if (Input.GetKey (KeyCode.D) == true) { //right
+		} else if (Input.GetKey (KeyCode.D) == true || Input.GetKey (KeyCode.RightArrow) == true) { //right
 			if (dir != BikeDirection.right) {
 				dir = BikeDirection.right;
 				anim.SetInteger ("dir",1);
@@ -35,9 +35,9 @@ public class ScooterHandler : MonoBehaviour {
 			anim.SetInteger ("dir",0);
 		}
 
-		if (Input.GetKey (KeyCode.W) == true) {
-			dir = BikeDirection.ahead;
-			anim.SetInteger ("dir",0);
-		}
+//		if (Input.GetKey (KeyCode.W) == true || Input.GetKey (KeyCode.UpArrow) == true) {
+//			dir = BikeDirection.ahead;
+//			anim.SetInteger ("dir",0);
+//		}
 	}
 }
