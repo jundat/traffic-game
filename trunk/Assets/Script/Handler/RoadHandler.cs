@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class RoadHandler : TileHandler {
 
-	private LightStatus lightStatus = LightStatus.none;
+	private TrafficLightStatus lightStatus = TrafficLightStatus.none;
 
-	public LightStatus LightStatus {
+	public TrafficLightStatus LightStatus {
 		get {
 			return lightStatus;
 		}
@@ -16,19 +16,19 @@ public class RoadHandler : TileHandler {
 			if (Global.DEBUG_LIGHT) { 
 				MeshRenderer render = gameObject.GetComponent <MeshRenderer> ();
 				switch (lightStatus) {
-				case LightStatus.none:
+				case TrafficLightStatus.none:
 					render.material.color = Color.white;
 					break;
 
-				case LightStatus.green:
+				case TrafficLightStatus.green:
 					render.material.color = Color.green;
 					break;
 
-				case LightStatus.red:
+				case TrafficLightStatus.red:
 					render.material.color = Color.red;
 					break;
 					
-				case LightStatus.yellow:
+				case TrafficLightStatus.yellow:
 					render.material.color = Color.yellow;
 					break;
 				}
