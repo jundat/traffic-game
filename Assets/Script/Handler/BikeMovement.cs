@@ -3,14 +3,21 @@ using System.Collections;
 
 public class BikeMovement : MonoBehaviour {
 
+	public const float TO_REAL_SPEED = 0.5f;
+
 	//Moto
-	public float MaxMoveSpeed = 500;
-	public float RotateSpeed = 300;
-	public float accelMoveFoward = 100;
-	public float accelMoveBackward = 400;
+	public float MaxMoveSpeed = 280;
+	public float RotateSpeed = 70;
+	public float accelMoveFoward = 50;
+	public float accelMoveBackward = 100;
 	public float accelAutoStop = 100;
 	private float moveSpeed = 0.0f;
 
+	public float Speed {
+		get {
+			return moveSpeed * TO_REAL_SPEED;
+		}
+	}
 
 	void Start () {}
 
