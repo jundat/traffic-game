@@ -4,26 +4,39 @@ using System.Collections;
 public class BikeHandler : MonoBehaviour {
 
 	private BikeMovement bikeMovement;
-	public HelmetHandler helmet;
 	public ScooterHandler scooterHandler;
 
-	public UIButton btnTakeOff;
+	//helmet
+	public HelmetHandler helmet;
+	public UIButton btnTakeHelmetOff;
 
+	//light-near-far
 	private bool isLightOn = false;
 	public GameObject objLight;
 	public Light nearLight;
 	public Light farLight;
 
+	//horn
 	public AudioClip sndHorn;
 
+	//light-left-right
+	private int leftRightLight = 0; //default = None
+	public Light leftLight;
+	public Light rightLight;
+
+
 	void Start () {
-		btnTakeOff.gameObject.SetActive (false);
+		btnTakeHelmetOff.gameObject.SetActive (false);
 
 		nearLight.gameObject.SetActive (true);
 		farLight.gameObject.SetActive (false);
 		objLight.SetActive (false);
 
 		bikeMovement = this.gameObject.GetComponent <BikeMovement> ();
+		
+		leftLight.gameObject.SetActive (false);
+		rightLight.gameObject.SetActive (false);
+
 	}
 
 	void Update () {
@@ -32,7 +45,7 @@ public class BikeHandler : MonoBehaviour {
 		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 160);
 
 
-		//Light --------------------------
+		//Light Near/Far--------------------------
 
 		if (Input.GetKeyUp (KeyCode.L)) {
 			LightOnOff ();
@@ -46,12 +59,55 @@ public class BikeHandler : MonoBehaviour {
 			LightNear ();
 		}
 
-		//Sound --------------------------
+		//Sound ----------------------------------
 
 		if (Input.GetKeyUp (KeyCode.B)) {
 			Beep ();
 		}
+
+		//Light Left/Right -----------------------
+
+		if (Input.GetKeyUp (KeyCode.Q) || Input.GetKeyUp (KeyCode.Less)) {
+			LeftLight ();
+		}
+
+		if (Input.GetKeyUp (KeyCode.E) || Input.GetKeyUp (KeyCode.Greater)) {
+			RightLight ();
+		}
 	}
+
+	#region LIGHT Left-Right
+	private void LeftLight () {
+		leftRightLight--;
+		if (leftRightLight < -1) {
+			leftRightLight = -1;
+		}
+		
+		RefreshTurnLight ();
+	}
+
+	private void RightLight () {
+		leftRightLight++;
+		if (leftRightLight > 1) {
+			leftRightLight = 1;
+		}
+
+		RefreshTurnLight ();
+	}
+
+	private void RefreshTurnLight () {
+		if (leftRightLight == -1) {
+			leftLight.gameObject.SetActive (true);
+			rightLight.gameObject.SetActive (false);
+		} else if (leftRightLight == 1) {
+			leftLight.gameObject.SetActive (false);
+			rightLight.gameObject.SetActive (true);
+		} else {
+			leftLight.gameObject.SetActive (false);
+			rightLight.gameObject.SetActive (false);
+		}
+	}
+	#endregion
 
 	#region HORN
 	public void Beep () {
@@ -105,12 +161,12 @@ public class BikeHandler : MonoBehaviour {
 
 	public void OnHelmetClick () {
 		helmet.Wear ();
-		btnTakeOff.gameObject.SetActive (true);
+		btnTakeHelmetOff.gameObject.SetActive (true);
 	}
 
 	public void OnTakeOffHelmet () {
 		helmet.UnWear ();
-		btnTakeOff.gameObject.SetActive (false);
+		btnTakeHelmetOff.gameObject.SetActive (false);
 	}
 	#endregion
 }
