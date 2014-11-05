@@ -3,9 +3,13 @@ using System.Collections;
 
 public class BikeHandler : MonoBehaviour {
 
+	private BikeMovement bikeMovement;
 	public HelmetHandler helmet;
+	public ScooterHandler scooterHandler;
+
 	public UIButton btnTakeOff;
 
+	private bool isLightOn = false;
 	public GameObject objLight;
 	public Light nearLight;
 	public Light farLight;
@@ -18,14 +22,20 @@ public class BikeHandler : MonoBehaviour {
 		nearLight.gameObject.SetActive (true);
 		farLight.gameObject.SetActive (false);
 		objLight.SetActive (false);
+
+		bikeMovement = this.gameObject.GetComponent <BikeMovement> ();
 	}
 
 	void Update () {
 
+		//Update Speed
+		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 140);
+
+
 		//Light --------------------------
 
 		if (Input.GetKeyUp (KeyCode.L)) {
-			LightOn ();
+			LightOnOff ();
 		}
 
 		if (Input.GetKeyUp (KeyCode.F)) {
@@ -62,8 +72,13 @@ public class BikeHandler : MonoBehaviour {
 		}
 	}
 
-	public void LightOn () {
-		objLight.SetActive (true);
+	public void LightOnOff () {
+		isLightOn = ! isLightOn;
+		if (isLightOn) {
+			objLight.SetActive (true);
+		} else {
+			objLight.SetActive (false);
+		}
 	}
 
 	public void LightOff () {
