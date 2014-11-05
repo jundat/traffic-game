@@ -10,15 +10,26 @@ public enum BikeDirection {
 public class ScooterHandler : MonoBehaviour {
 
 	private Animator anim;
-
 	BikeDirection dir = BikeDirection.ahead;
 
-	// Use this for initialization
+	public const float minAngle = 0;
+	public const float maxAngle = 156.5f;
+	public float angle = 0.0f;
+	private float speed = 0;
+	public GameObject kim;
+
+	public void SetSpeed (float speed, float minSpeed, float maxSpeed) {
+		this.speed = speed;
+		float totalAngle = maxAngle - minAngle;
+		float totalVelo = maxSpeed - minSpeed;
+		float anglePerSpeed = totalAngle / totalVelo;
+		angle = anglePerSpeed * speed;
+	}
+
 	void Start () {
 		anim = GetComponent<Animator>();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 		if (Input.GetKey (KeyCode.A) == true || Input.GetKey (KeyCode.LeftArrow) == true) { //left
 			if (dir != BikeDirection.left) {
@@ -34,10 +45,8 @@ public class ScooterHandler : MonoBehaviour {
 			dir = BikeDirection.ahead;
 			anim.SetInteger ("dir",0);
 		}
+		
+		kim.transform.localEulerAngles = new Vector3 (0, angle, 0);
 
-//		if (Input.GetKey (KeyCode.W) == true || Input.GetKey (KeyCode.UpArrow) == true) {
-//			dir = BikeDirection.ahead;
-//			anim.SetInteger ("dir",0);
-//		}
 	}
 }
