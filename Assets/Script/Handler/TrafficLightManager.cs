@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -20,8 +20,8 @@ public class TrafficLightManager : Singleton <TrafficLightManager> {
 		}
 
 		//up-down
-		LightStatus ud = GetStatus (time);
-		LightStatus lr = GetStatus (time + RED_TIME);
+		TrafficLightStatus ud = GetStatus (time);
+		TrafficLightStatus lr = GetStatus (time + RED_TIME);
 
 		for (int i = 0; i < listLight.Count; ++i) {
 			if (listLight[i].Direction == MyDirection.UP || listLight[i].Direction == MyDirection.DOWN) {
@@ -36,18 +36,18 @@ public class TrafficLightManager : Singleton <TrafficLightManager> {
 		listLight.Add (light);
 	}
 
-	private LightStatus GetStatus (float t) {
+	private TrafficLightStatus GetStatus (float t) {
 		int t2 = (int)t;
 		int total = (int) TOTAL_TIME;
 
 		t2 %= total;
 
 		if (t2 < GREEN_TIME) {
-			return LightStatus.green;
+			return TrafficLightStatus.green;
 		} else if (t2 < GREEN_TIME + YELLOW_TIME) {
-			return LightStatus.yellow;
+			return TrafficLightStatus.yellow;
 		} else {
-			return LightStatus.red;
+			return TrafficLightStatus.red;
 		}
 	}
 }

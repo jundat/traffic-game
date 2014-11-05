@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public enum LightStatus {
+public enum TrafficLightStatus {
 	none,
 	green,
 	yellow,
@@ -22,13 +22,13 @@ public class TrafficLightHandler : TileHandler {
 	public MeshRenderer yellowLight;
 	public MeshRenderer greenLight;
 
-	private LightStatus status = LightStatus.none;
+	private TrafficLightStatus status = TrafficLightStatus.none;
 
 	public void Init (ModelTile tile) {
 		this.tile = tile;
 	}
 
-	public LightStatus Status {
+	public TrafficLightStatus Status {
 		get {
 			return status;
 		}
@@ -38,19 +38,19 @@ public class TrafficLightHandler : TileHandler {
 				road.LightStatus = status;
 
 				switch (status) {
-				case LightStatus.green:
+				case TrafficLightStatus.green:
 					redLight.material = black;
 					yellowLight.material = black;
 					greenLight.material = green;
 					break;
 
-				case LightStatus.red:
+				case TrafficLightStatus.red:
 					redLight.material = red;
 					yellowLight.material = black;
 					greenLight.material = black;
 					break;
 
-				case LightStatus.yellow:
+				case TrafficLightStatus.yellow:
 					redLight.material = black;
 					yellowLight.material = yellow;
 					greenLight.material = black;
