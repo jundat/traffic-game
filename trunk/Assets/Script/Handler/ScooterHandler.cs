@@ -13,7 +13,7 @@ public class ScooterHandler : MonoBehaviour {
 	BikeDirection dir = BikeDirection.ahead;
 
 	public const float minAngle = 0;
-	public const float maxAngle = 156.5f;
+	public const float maxAngle = 240.0f;
 	public float angle = 0.0f;
 	private float speed = 0;
 	public GameObject kim;

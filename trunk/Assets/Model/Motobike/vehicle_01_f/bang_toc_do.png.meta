@@ -1,8 +1,10 @@
 fileFormatVersion: 2
-guid: 621221f7fa6e54b15b8cd63ae8f5677b
+guid: 072c613abe07d44cdb9a6f0dff92a992
 TextureImporter:
   fileIDToRecycleName:
     21300000: white
+    21300002: white 1
+    21300004: bang_toc_do
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -26,9 +28,9 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 1
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 1
   lightmap: 0
   compressionQuality: 50

@@ -29,7 +29,7 @@ public class BikeHandler : MonoBehaviour {
 	void Update () {
 
 		//Update Speed
-		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 140);
+		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 160);
 
 
 		//Light --------------------------
