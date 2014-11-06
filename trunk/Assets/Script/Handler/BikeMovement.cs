@@ -8,6 +8,10 @@ public class BikeMovement : MonoBehaviour {
 	//Moto
 	public float MaxMoveSpeed = 280;
 	public float RotateSpeed = 70;
+
+	private float RotateAccelSpeed = 10;
+	private float RotateMinSpeed = 10;
+
 	public float accelMoveFoward = 50;
 	public float accelMoveBackward = 100;
 	public float accelAutoStop = 100;
@@ -28,26 +32,34 @@ public class BikeMovement : MonoBehaviour {
 
 			transform.localEulerAngles = 
 				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y - RotateSpeed * Time.deltaTime, 0);
+			
+			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
+			if (moveSpeed < 0.2) {
+				moveSpeed = 0;
+			}
 		} else if (Input.GetKey (KeyCode.D) == true 
 		           || Input.GetKey (KeyCode.RightArrow) == true) { //right
 
 			transform.localEulerAngles = 
 				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * Time.deltaTime, 0);
+			
+			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
+			if (moveSpeed < 0.2) {
+				moveSpeed = 0;
+			}
 		}
 
 		//Foward
-		if (Input.GetKey (KeyCode.W) == true 
-		    || Input.GetKey (KeyCode.UpArrow) == true) { //ahead
+		if (Input.GetKey (KeyCode.W) 
+		    || Input.GetKey (KeyCode.UpArrow)) { 	//Forward
 
 			moveSpeed += accelMoveFoward * Time.deltaTime;
 			if (moveSpeed > MaxMoveSpeed) {
 				moveSpeed = MaxMoveSpeed;
 			}
-		}
-
-		if (Input.GetKey (KeyCode.Space) == true 
-		    || Input.GetKey (KeyCode.DownArrow) == true 
-		    || Input.GetKey (KeyCode.S) == true) {
+		} else if (Input.GetKey (KeyCode.Space) 	//Backward
+		    || Input.GetKey (KeyCode.DownArrow) 
+		    || Input.GetKey (KeyCode.S)) {
 
 			moveSpeed -= accelMoveBackward * Time.deltaTime;
 			if (moveSpeed < 0.2) {
