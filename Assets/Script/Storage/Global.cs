@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Global {
+
 	public const bool DEBUG_LIGHT = true;
 
 	public const float DELTA_HEIGH = 0.001f;
@@ -26,4 +27,9 @@ public struct MyDirection {
 	public const string DOWN = "DOWN";
 	public const string LEFT = "LEFT";
 	public const string RIGHT = "RIGHT";
+}
+
+public class OBJ {
+	public const string FINISH_POINT = "303(Clone)";
+
 }

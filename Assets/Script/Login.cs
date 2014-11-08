@@ -6,7 +6,7 @@ public class Login : MonoBehaviour {
 	public UIInput inMssv;
 	public UIInput inPassword;
 	public GameObject objWait;
-
+	public UILabel lbError;
 	
 	void Start () {
 		objWait.SetActive (false);

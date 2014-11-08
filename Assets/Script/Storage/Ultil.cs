@@ -34,4 +34,8 @@ public class Ultil {
 
 		return value;
 	}
+
+	public static Vector2 ParseToMapPosition (float tilex, float tiley) {
+		return new Vector2 (tilex * Global.SCALE_TILE * Global.SCALE_SIZE, tiley * Global.SCALE_TILE * Global.SCALE_SIZE);
+	}
 }
