@@ -6,14 +6,26 @@ using Pathfinding.Serialization.JsonFx;
 
 public class MiniMap : SingletonMono<MiniMap> {
 
-	public UICamera cameraMiniMap;
+	public Camera cameraMiniMap;
 	public int MiniMapLayer;
 	public GameObject layerRoad;
 	public GameObject layerSign;
 	public GameObject layerView;
 	public GameObject layerOther;
+	public UITexture ttMiniMap;
 
 	string json;
+	private bool isBigMap = false;
+	private const int SMALL_WIDTH = 320;
+	private const int SMALL_HEIGHT = 160;
+	private const int BIG_WIDTH = 960;
+	private const int BIG_HEIGHT = 480;
+	private const float SMALL_CAMERA = 2.5f;
+	private const float BIG_CAMERA = 4;
+
+	void Start () {
+
+	}
 
 	void Update () {
 		float x = PlayerHandler.Instance.transform.localPosition.x;
@@ -102,6 +114,20 @@ public class MiniMap : SingletonMono<MiniMap> {
 		}
 		
 		return null;
+	}
+
+	public void OnClickMap () {
+		isBigMap = ! isBigMap;
+
+		if (isBigMap) {
+			ttMiniMap.width = BIG_WIDTH;
+			ttMiniMap.height = BIG_HEIGHT;
+			cameraMiniMap.orthographicSize = BIG_CAMERA;
+		} else {
+			ttMiniMap.width = SMALL_WIDTH;
+			ttMiniMap.height = SMALL_HEIGHT;
+			cameraMiniMap.orthographicSize = SMALL_CAMERA;
+		}
 	}
 
 }
