@@ -28,12 +28,21 @@ public class MiniMap : SingletonMono<MiniMap> {
 	}
 
 	void Update () {
+		//Position ----------------
+
 		float x = PlayerHandler.Instance.transform.localPosition.x;
 		float y = PlayerHandler.Instance.transform.localPosition.z;
 
 		Vector2 v = Ultil.ParseReal2Map (x, y);
 		float z = cameraMiniMap.transform.localPosition.z;
 		cameraMiniMap.transform.localPosition = new Vector3 (-v.x, -v.y, z);
+
+		//Rotation ----------------
+
+		float roty = PlayerHandler.Instance.transform.localEulerAngles.y;
+		Vector3 oldrot = cameraMiniMap.transform.localEulerAngles;
+		Vector3 newrot = new Vector3 (oldrot.x, oldrot.y, 180-roty);
+		cameraMiniMap.transform.localEulerAngles = newrot;
 	}
 
 	public void Import (string s) {
@@ -120,13 +129,25 @@ public class MiniMap : SingletonMono<MiniMap> {
 		isBigMap = ! isBigMap;
 
 		if (isBigMap) {
+			ttMiniMap.pivot = UIWidget.Pivot.TopLeft;
+
 			ttMiniMap.width = BIG_WIDTH;
 			ttMiniMap.height = BIG_HEIGHT;
 			cameraMiniMap.orthographicSize = BIG_CAMERA;
+
+			ttMiniMap.pivot = UIWidget.Pivot.Center;
+			BoxCollider box = ttMiniMap.GetComponent<BoxCollider> ();
+			box.center = Vector3.zero;
 		} else {
+			ttMiniMap.pivot = UIWidget.Pivot.TopLeft;
+
 			ttMiniMap.width = SMALL_WIDTH;
 			ttMiniMap.height = SMALL_HEIGHT;
 			cameraMiniMap.orthographicSize = SMALL_CAMERA;
+
+			ttMiniMap.pivot = UIWidget.Pivot.Center;
+			BoxCollider box = ttMiniMap.GetComponent<BoxCollider> ();
+			box.center = Vector3.zero;
 		}
 	}
 
