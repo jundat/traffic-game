@@ -11,5 +11,6 @@ public class MapManager : Singleton <MapManager> {
 	public void Init () {
 		map = MapLoader.Instance.Load ("Map/map");
 		MapRenderer.Instance.Init (map);
+		MiniMap.Instance.Import (MapLoader.Instance.json);
 	}
 }
