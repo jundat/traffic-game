@@ -11,8 +11,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	void Start () {}
 
-	void Update () {}
-	
 	void OnTriggerEnter(Collider other) {
 		Debug.Log ("Collide: " + other.name);
 

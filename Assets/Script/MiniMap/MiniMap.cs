@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using Pathfinding.Serialization.JsonFx;
 
 public class MiniMap : SingletonMono<MiniMap> {
-	
+
+	public UICamera cameraMiniMap;
 	public int MiniMapLayer;
 	public GameObject layerRoad;
 	public GameObject layerSign;
@@ -13,6 +14,15 @@ public class MiniMap : SingletonMono<MiniMap> {
 	public GameObject layerOther;
 
 	string json;
+
+	void Update () {
+		float x = PlayerHandler.Instance.transform.localPosition.x;
+		float y = PlayerHandler.Instance.transform.localPosition.z;
+
+		Vector2 v = Ultil.ParseReal2Map (x, y);
+		float z = cameraMiniMap.transform.localPosition.z;
+		cameraMiniMap.transform.localPosition = new Vector3 (-v.x, -v.y, z);
+	}
 
 	public void Import (string s) {
 		Dictionary<string, object>  total = JsonReader.Deserialize <Dictionary<string, object>> (s);

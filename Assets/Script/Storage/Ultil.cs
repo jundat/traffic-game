@@ -35,10 +35,19 @@ public class Ultil {
 		return value;
 	}
 
-	public static Vector2 ParseToMapPosition (float tilex, float tiley) {
-		return new Vector2 (tilex * Global.SCALE_TILE * Global.SCALE_SIZE, tiley * Global.SCALE_TILE * Global.SCALE_SIZE);
+	public static Vector2 ParseMap2Real (float tilex, float tiley) {
+		float x = tilex * Global.SCALE_TILE * Global.SCALE_SIZE;
+		float y = tiley * Global.SCALE_TILE * Global.SCALE_SIZE;
+
+		return new Vector2 (x, y);
 	}
 
+	public static Vector2 ParseReal2Map (float x, float y) {
+		float tilex = x / Global.SCALE_TILE / Global.SCALE_SIZE;
+		float tiley = y / Global.SCALE_TILE / Global.SCALE_SIZE;
+
+		return new Vector2 (tilex, tiley);
+	}
 	
 	public static int CompareTextureName(Texture x, Texture y) {
 		int xx = int.Parse (x.name);
