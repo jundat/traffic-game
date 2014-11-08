@@ -16,10 +16,10 @@ public class MiniMap : SingletonMono<MiniMap> {
 
 	string json;
 	private bool isBigMap = false;
-	private const int SMALL_WIDTH = 320;
+	private const int SMALL_WIDTH = 160;
 	private const int SMALL_HEIGHT = 160;
-	private const int BIG_WIDTH = 960;
-	private const int BIG_HEIGHT = 480;
+	private const int BIG_WIDTH = 640;
+	private const int BIG_HEIGHT = 640;
 	private const float SMALL_CAMERA = 2.5f;
 	private const float BIG_CAMERA = 4;
 
