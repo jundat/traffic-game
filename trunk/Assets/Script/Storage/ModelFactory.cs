@@ -57,6 +57,12 @@ public class ModelFactory : Singleton <ModelFactory> {
 			break;
 		}
 
+		TileHandler handler = ins.GetComponent<TileHandler>();
+		if (handler == null) {
+			handler = ins.AddComponent <TileHandler> ();
+		}
+		handler.tile = tile;
+
 		return ins;
 	}
 
@@ -157,7 +163,6 @@ public class ModelFactory : Singleton <ModelFactory> {
 		return ins;
 	}
 	#endregion
-
 	
 	#region OTHER
 	private GameObject InitOther (ModelTile tile) {
@@ -192,8 +197,6 @@ public class ModelFactory : Singleton <ModelFactory> {
 					break;
 				}
 				ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
-			} else {
-				//.....................
 			}
 		} else {
 			return null;

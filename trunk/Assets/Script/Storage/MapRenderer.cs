@@ -24,11 +24,14 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 
 			foreach (KeyValuePair<string, ModelTile> p2 in p.Value.tile) {
 				ModelTile tile = p2.Value;
-				GameObject go = ModelFactory.Instance.GetNewModel (tile);
-				TileHandler handler = go.GetComponent <TileHandler> ();
 
+				GameObject go = ModelFactory.Instance.GetNewModel (tile);
+				if (go == null) {
+					continue;
+				}
 
 				if (go != null) {
+					TileHandler handler = go.GetComponent <TileHandler> ();
 					go.transform.parent = this.transform;
 
 					switch (layerType) {
@@ -44,6 +47,9 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 					case LayerType.Road:
 						layerRoad[tile.objId] = handler;
 						break;
+					default:
+						Debug.LogError ("Wrong: " + tile.typeId);
+						break;
 					}
 				} else {
 					Debug.Log ("Null prefab: " + tile.typeId + "," + tile.objId);
@@ -53,15 +59,37 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 
 		//Light
 		foreach (KeyValuePair<int, TileHandler> p in layerOther) {
-			if (p.Value.tile.typeId == 301) { //light
-				TrafficLightHandler light = (TrafficLightHandler) p.Value;
+			ModelTile tile = p.Value.tile;
 
+			switch (tile.typeId) {
+			case 301: //light
+			{
+				TrafficLightHandler light = (TrafficLightHandler) p.Value;
+				
 				string idRoad = p.Value.tile.properties[TileKey.LIGHT_LAN_DUONG];
 				RoadHandler road = layerRoad[int.Parse (idRoad)] as RoadHandler;
 				light.road = road;
-
-				light.Init (p.Value.tile);
+				
+				light.Init (tile);
 				TrafficLightManager.Instance.AddLight (light);
+				break;
+			}
+
+			case 302: //start point
+			{
+				Vector2 newpos2d = Ultil.ParseToMapPosition (tile.x, tile.y);
+				MapManager.Instance.startPoint = new Vector3 (newpos2d.x, 0, newpos2d.y);
+				Vector3 oldpos = PlayerHandler.Instance.transform.localPosition;
+				PlayerHandler.Instance.transform.localPosition = new Vector3 (newpos2d.x, oldpos.y, newpos2d.y);
+				break;
+			}
+				
+			case 303: //finish point
+			{
+				Vector2 newpos2d = Ultil.ParseToMapPosition (tile.x, tile.y);
+				MapManager.Instance.finishPoint = new Vector3 (newpos2d.x, 0, newpos2d.y);
+				break;
+			}
 			}
 		}
 	}
