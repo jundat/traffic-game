@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -77,7 +77,7 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 
 			case 302: //start point
 			{
-				Vector2 newpos2d = Ultil.ParseToMapPosition (tile.x, tile.y);
+				Vector2 newpos2d = Ultil.ParseMap2Real (tile.x, tile.y);
 				MapManager.Instance.startPoint = new Vector3 (newpos2d.x, 0, newpos2d.y);
 				Vector3 oldpos = PlayerHandler.Instance.transform.localPosition;
 				PlayerHandler.Instance.transform.localPosition = new Vector3 (newpos2d.x, oldpos.y, newpos2d.y);
@@ -86,7 +86,7 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 				
 			case 303: //finish point
 			{
-				Vector2 newpos2d = Ultil.ParseToMapPosition (tile.x, tile.y);
+				Vector2 newpos2d = Ultil.ParseMap2Real (tile.x, tile.y);
 				MapManager.Instance.finishPoint = new Vector3 (newpos2d.x, 0, newpos2d.y);
 				break;
 			}
