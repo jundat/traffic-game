@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BikeMovement : MonoBehaviour {
+public class BikeMovement2 : MonoBehaviour {
 
 	public const float TO_REAL_SPEED = 0.5f;
 
 	//Moto
+	public float Gravity = -0.5f;
+
 	public float MaxMoveSpeed = 280;
 	public float RotateSpeed = 70;
 
@@ -17,13 +19,17 @@ public class BikeMovement : MonoBehaviour {
 	public float accelAutoStop = 100;
 	private float moveSpeed = 0.0f;
 
+	private CharacterController controller;
+
 	public float Speed {
 		get {
 			return moveSpeed * TO_REAL_SPEED;
 		}
 	}
 
-	void Start () {}
+	void Start () {
+		controller = GetComponent<CharacterController> ();
+	}
 
 	void Update () {
 
@@ -48,25 +54,29 @@ public class BikeMovement : MonoBehaviour {
 				moveSpeed = 0;
 			}
 		}
-
+		
 		//Foward
 		if (Input.GetKey (KeyCode.W) 
 		    || Input.GetKey (KeyCode.UpArrow)) { 	//Forward
-
+			
 			moveSpeed += accelMoveFoward * Time.deltaTime;
 			if (moveSpeed > MaxMoveSpeed) {
 				moveSpeed = MaxMoveSpeed;
 			}
 		} else if (Input.GetKey (KeyCode.Space) 	//Backward
-		    || Input.GetKey (KeyCode.DownArrow) 
-		    || Input.GetKey (KeyCode.S)) {
-
+		           || Input.GetKey (KeyCode.DownArrow) 
+		           || Input.GetKey (KeyCode.S)) {
+			
 			moveSpeed -= accelMoveBackward * Time.deltaTime;
 			if (moveSpeed < 0.2) {
 				moveSpeed = 0;
 			}
 		}
+		
+		//transform.localPosition += transform.forward * moveSpeed * Time.deltaTime;
+		Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
+		controller.Move (v);
 
-		transform.localPosition += transform.forward * moveSpeed * Time.deltaTime;
+		controller.Move (transform.up * Gravity);
 	}
 }

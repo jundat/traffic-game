@@ -88,9 +88,19 @@ public class ModelFactory : Singleton <ModelFactory> {
 
 			//Size + Position
 			ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
-			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 
-			                                           ins.transform.localPosition.y + Global.DELTA_HEIGH * tile.objId, 
-			                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+
+			float y1 = ins.transform.localPosition.y;
+			float y2 = ins.transform.localPosition.y + Global.DELTA_HEIGH;
+
+			if (tile.typeId >= 8 && tile.typeId <= 11) { //bus
+				ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 
+				                                           y2, 
+				                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+			} else { //road
+				ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 
+				                                           y1, 
+				                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
+			}
 
 		} else {
 			return null;
