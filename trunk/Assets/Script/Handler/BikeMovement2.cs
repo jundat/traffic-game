@@ -38,21 +38,23 @@ public class BikeMovement2 : MonoBehaviour {
 
 			transform.localEulerAngles = 
 				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y - RotateSpeed * Time.deltaTime, 0);
-			
-			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
-			if (moveSpeed < 0.2) {
-				moveSpeed = 0;
-			}
+
+			//Reduce velocity on rotate
+//			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
+//			if (moveSpeed < 0.2) {
+//				moveSpeed = 0;
+//			}
 		} else if (Input.GetKey (KeyCode.D) == true 
 		           || Input.GetKey (KeyCode.RightArrow) == true) { //right
 
 			transform.localEulerAngles = 
 				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * Time.deltaTime, 0);
-			
-			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
-			if (moveSpeed < 0.2) {
-				moveSpeed = 0;
-			}
+
+			//Reduce velocity on rotate
+//			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
+//			if (moveSpeed < 0.2) {
+//				moveSpeed = 0;
+//			}
 		}
 		
 		//Foward
