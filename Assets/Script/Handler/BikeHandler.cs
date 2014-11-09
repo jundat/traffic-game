@@ -1,42 +1,44 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BikeHandler : MonoBehaviour {
+
+	public const int LEFT_LIGHT = -1;
+	public const int NONE_TURN_LIGHT = 0;
+	public const int RIGHT_LIGHT = 1;
 
 	private BikeMovement2 bikeMovement;
 	public ScooterHandler scooterHandler;
 
 	//helmet
+	public bool isHelmetOn;
 	public HelmetHandler helmet;
-	public UIButton btnTakeHelmetOff;
 
-	//light-near-far
-	private bool isLightOn = false;
+	//light
+	public bool isLightOn;
 	public GameObject objLight;
+
+	//near-far
+	public bool isNearLight;
 	public Light nearLight;
 	public Light farLight;
 
-	//horn
-	public AudioClip sndHorn;
-
 	//light-left-right
-	private int leftRightLight = 0; //default = None
+	public int leftRightLight = NONE_TURN_LIGHT; //default = None
 	public Light leftLight;
 	public Light rightLight;
 
 
 	void Start () {
-		btnTakeHelmetOff.gameObject.SetActive (false);
-
-		nearLight.gameObject.SetActive (true);
-		farLight.gameObject.SetActive (false);
-		objLight.SetActive (false);
-
 		bikeMovement = this.gameObject.GetComponent <BikeMovement2> ();
-		
-		leftLight.gameObject.SetActive (false);
-		rightLight.gameObject.SetActive (false);
+		UI2DManager.Instance.onHideHelmet = this.OnTakeOffHelmet;
 
+		RefreshHelmetState ();
+		RefreshLightState ();
+		RefreshNearFarState ();
+		RefreshTurnLight ();
 	}
 
 	void Update () {
@@ -79,8 +81,8 @@ public class BikeHandler : MonoBehaviour {
 	#region LIGHT Left-Right
 	private void LeftLight () {
 		leftRightLight--;
-		if (leftRightLight < -1) {
-			leftRightLight = -1;
+		if (leftRightLight < LEFT_LIGHT) {
+			leftRightLight = LEFT_LIGHT;
 		}
 		
 		RefreshTurnLight ();
@@ -88,21 +90,21 @@ public class BikeHandler : MonoBehaviour {
 
 	private void RightLight () {
 		leftRightLight++;
-		if (leftRightLight > 1) {
-			leftRightLight = 1;
+		if (leftRightLight > RIGHT_LIGHT) {
+			leftRightLight = RIGHT_LIGHT;
 		}
 
 		RefreshTurnLight ();
 	}
 
 	private void RefreshTurnLight () {
-		if (leftRightLight == -1) {
+		if (leftRightLight == LEFT_LIGHT) { //left
 			leftLight.gameObject.SetActive (true);
 			rightLight.gameObject.SetActive (false);
-		} else if (leftRightLight == 1) {
+		} else if (leftRightLight == RIGHT_LIGHT) { //right
 			leftLight.gameObject.SetActive (false);
 			rightLight.gameObject.SetActive (true);
-		} else {
+		} else { //none
 			leftLight.gameObject.SetActive (false);
 			rightLight.gameObject.SetActive (false);
 		}
@@ -111,25 +113,12 @@ public class BikeHandler : MonoBehaviour {
 
 	#region HORN
 	public void Beep () {
-		audio.PlayOneShot (sndHorn);
+		SoundManager.Instance.PlayHorn ();
 	}
 	#endregion
 
 	#region LIGHT
-	public bool IsLightOn {
-		get {
-			return objLight.activeInHierarchy;
-		}
-	}
-
-	public bool IsLightNear {
-		get {
-			return nearLight.gameObject.activeInHierarchy;
-		}
-	}
-
-	public void LightOnOff () {
-		isLightOn = ! isLightOn;
+	public void RefreshLightState () {
 		if (isLightOn) {
 			objLight.SetActive (true);
 		} else {
@@ -137,36 +126,50 @@ public class BikeHandler : MonoBehaviour {
 		}
 	}
 
-	public void LightOff () {
-		objLight.SetActive (false);
+	public void LightOnOff () {
+		isLightOn = ! isLightOn;
+		RefreshLightState ();
+	}
+
+	public void RefreshNearFarState () {
+		if (isNearLight) {
+			nearLight.gameObject.SetActive (true);
+			farLight.gameObject.SetActive (false);
+		} else {
+			nearLight.gameObject.SetActive (false);
+			farLight.gameObject.SetActive (true);
+		}
 	}
 
 	public void LightFar () {
-		nearLight.gameObject.SetActive (false);
-		farLight.gameObject.SetActive (true);
+		isNearLight = false;
+		RefreshNearFarState ();
 	}
 
 	public void LightNear () {
-		nearLight.gameObject.SetActive (true);
-		farLight.gameObject.SetActive (false);
+		isNearLight = true;
+		RefreshNearFarState ();
 	}
 	#endregion
 
 	#region HELMET
-	public bool IsHelmetOn {
-		get {
-			return helmet.gameObject.activeInHierarchy;
+	public void RefreshHelmetState () {
+		if (isHelmetOn) {
+			helmet.Wear ();
+			UI2DManager.Instance.ShowHelmet ();
+		} else {
+			helmet.UnWear ();
 		}
 	}
 
 	public void OnHelmetClick () {
-		helmet.Wear ();
-		btnTakeHelmetOff.gameObject.SetActive (true);
+		isHelmetOn = true;
+		RefreshHelmetState ();
 	}
 
 	public void OnTakeOffHelmet () {
-		helmet.UnWear ();
-		btnTakeHelmetOff.gameObject.SetActive (false);
+		isHelmetOn = false;
+		RefreshHelmetState ();
 	}
 	#endregion
 }
