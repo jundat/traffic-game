@@ -75,6 +75,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 			RoadHandler handler = ins.GetComponent<RoadHandler>();
 			handler.tile = tile;
+			handler.Init ();
 
 			//Texture
 			Texture tt = null;
@@ -149,6 +150,36 @@ public class ModelFactory : Singleton <ModelFactory> {
 				break;
 			}
 			ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
+
+			//TExt Sign
+			string text = "";
+			Color textColor = Color.black;
+
+			switch (tile.typeId) {
+			case 103: //Toc Do Toi Da
+				textColor = Color.black;
+				text = Ultil.GetString (TileKey.SIGN_MAX_TOCDO, ""+Global.DEF_MAX_TOCDO, tile.properties); 
+				break;
+
+			case 128: //Het Toc Do Toi Da
+				textColor = Color.black;
+				text = Ultil.GetString (TileKey.SIGN_MAX_TOCDO, ""+Global.DEF_MAX_TOCDO, tile.properties); 
+				break;
+
+			case 138: //Toc Do Toi Thieu
+				textColor = Color.white;
+				text = Ultil.GetString (TileKey.SIGN_MIN_TOCDO, ""+Global.DEF_MIN_TOCDO, tile.properties); 
+				break;
+
+			case 139: //Het Toc Do Toi Da
+				textColor = Color.white;
+				text = Ultil.GetString (TileKey.SIGN_MIN_TOCDO, ""+Global.DEF_MIN_TOCDO, tile.properties); 
+				break;
+			}
+
+			if (text.Length > 0) {
+				handler.SetText (text, textColor);
+			}
 
 		} else {
 			return null;

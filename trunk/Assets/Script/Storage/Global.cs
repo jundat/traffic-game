@@ -19,6 +19,9 @@ public class Global {
 	public const string LAYER_VIEW = "2";
 	public const string LAYER_SIGN = "3";
 	public const string LAYER_ROAD = "4";
+
+	public const int DEF_MAX_TOCDO = 40;
+	public const int DEF_MIN_TOCDO = 0;
 }
 
 
