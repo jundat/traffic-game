@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BikeHandler : MonoBehaviour {
 
-	private BikeMovement bikeMovement;
+	private BikeMovement2 bikeMovement;
 	public ScooterHandler scooterHandler;
 
 	//helmet
@@ -32,7 +32,7 @@ public class BikeHandler : MonoBehaviour {
 		farLight.gameObject.SetActive (false);
 		objLight.SetActive (false);
 
-		bikeMovement = this.gameObject.GetComponent <BikeMovement> ();
+		bikeMovement = this.gameObject.GetComponent <BikeMovement2> ();
 		
 		leftLight.gameObject.SetActive (false);
 		rightLight.gameObject.SetActive (false);
