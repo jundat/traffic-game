@@ -48,31 +48,14 @@ public class RoadHandler : TileHandler {
 	void Update () {}
 
 	public void Init () {
-		up.SetActive (false);
-		down.SetActive (false);
-		left.SetActive (false);
-		right.SetActive (false);
-		
-		switch (tile.typeId) {
-		case 1: //down
-			left.SetActive (true);
-			right.SetActive (true);
-			break;
-			
-		case 2://left
-			up.SetActive (true);
-			down.SetActive (true);
-			break;
-			
-		case 3://right
-			up.SetActive (true);
-			down.SetActive (true);
-			break;
-			
-		case 4://up
-			left.SetActive (true);
-			right.SetActive (true);
-			break;
-		}
+		bool isUp = bool.Parse ( Ultil.GetString (TileKey.LE_TREN, "false", tile.properties));
+		bool isDown = bool.Parse ( Ultil.GetString (TileKey.LE_DUOI, "false", tile.properties));
+  		bool isRight = bool.Parse ( Ultil.GetString (TileKey.LE_PHAI, "false", tile.properties));
+   		bool isLeft = bool.Parse ( Ultil.GetString (TileKey.LE_TRAI, "false", tile.properties));
+
+		up.SetActive (isUp);
+		down.SetActive (isDown);
+		left.SetActive (isLeft);
+		right.SetActive (isRight);
 	}
 }
