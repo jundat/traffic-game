@@ -12,8 +12,6 @@ public class PlayerState {
 
 	public float speed; //real 0->160 km/h
 
-
-
 	public PlayerState () {}
 
 	public PlayerState Copy () {
