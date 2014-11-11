@@ -34,8 +34,9 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	#endregion
 
 	#region PLAYER STATE
-	private void OnStateChange (PlayerState oldState, PlayerState newState) {
+	private void OnRoadChange (PlayerState oldState, PlayerState newState) {
 		Debug.Log ("Change: " + oldState.road.tile.objId + " -> " + newState.road.tile.objId);
+
 	}
 	
 	private PlayerState _currentState;
@@ -47,7 +48,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 		if (_lastState != null && _currentState != null) {
 			if (_lastState.road.tile.objId != _currentState.road.tile.objId) {
-				OnStateChange (_lastState, _currentState);
+				OnRoadChange (_lastState, _currentState);
 			}
 		}
 	}
