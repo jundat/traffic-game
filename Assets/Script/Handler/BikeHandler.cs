@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 public class BikeHandler : MonoBehaviour {
 
-	public const int LEFT_LIGHT = -1;
-	public const int NONE_TURN_LIGHT = 0;
-	public const int RIGHT_LIGHT = 1;
+//	public const int LEFT_LIGHT = -1;
+//	public const int NONE_TURN_LIGHT = 0;
+//	public const int RIGHT_LIGHT = 1;
 
 	private BikeMovement2 bikeMovement;
 	public ScooterHandler scooterHandler;
@@ -26,7 +26,7 @@ public class BikeHandler : MonoBehaviour {
 	public Light farLight;
 
 	//light-left-right
-	public int leftRightLight = NONE_TURN_LIGHT; //default = None
+	public TurnLight turnLight = TurnLight.NONE; //default = None
 	public Light leftLight;
 	public Light rightLight;
 
@@ -80,28 +80,30 @@ public class BikeHandler : MonoBehaviour {
 
 	#region LIGHT Left-Right
 	private void LeftLight () {
-		leftRightLight--;
-		if (leftRightLight < LEFT_LIGHT) {
-			leftRightLight = LEFT_LIGHT;
+		if (turnLight == TurnLight.RIGHT) {
+			turnLight = TurnLight.NONE;
+		} else if (turnLight == TurnLight.NONE) {
+			turnLight = TurnLight.LEFT;
 		}
 		
 		RefreshTurnLight ();
 	}
 
 	private void RightLight () {
-		leftRightLight++;
-		if (leftRightLight > RIGHT_LIGHT) {
-			leftRightLight = RIGHT_LIGHT;
+		if (turnLight == TurnLight.LEFT) {
+			turnLight = TurnLight.NONE;
+		} else if (turnLight == TurnLight.NONE) {
+			turnLight = TurnLight.RIGHT;
 		}
 
 		RefreshTurnLight ();
 	}
 
 	private void RefreshTurnLight () {
-		if (leftRightLight == LEFT_LIGHT) { //left
+		if (turnLight == TurnLight.LEFT) { //left
 			leftLight.gameObject.SetActive (true);
 			rightLight.gameObject.SetActive (false);
-		} else if (leftRightLight == RIGHT_LIGHT) { //right
+		} else if (turnLight == TurnLight.RIGHT) { //right
 			leftLight.gameObject.SetActive (false);
 			rightLight.gameObject.SetActive (true);
 		} else { //none

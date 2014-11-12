@@ -59,45 +59,6 @@ public class RoadHandler : TileHandler {
 		right.SetActive (isRight);
 	}
 
-	public InRoadPosition CheckPosition (Vector3 pos) {
-		float dx = pos.x - transform.position.x;
-		float dz = pos.z - transform.position.z;
-
-		if (tile.typeId == TileID.ROAD_UP) {
-			if (dx > 0) {
-				return InRoadPosition.OutLen;
-			} else {
-				return InRoadPosition.InLen;
-			}
-		}
-
-		if (tile.typeId == TileID.ROAD_DOWN) {
-			if (dx > 0) {
-				return InRoadPosition.InLen;
-			} else {
-				return InRoadPosition.OutLen;
-			}
-		}
-
-		if (tile.typeId == TileID.ROAD_LEFT) {
-			if (dz > 0) {
-				return InRoadPosition.OutLen;
-			} else {
-				return InRoadPosition.InLen;
-			}
-		}
-		
-		if (tile.typeId == TileID.ROAD_RIGHT) {
-			if (dz > 0) {
-				return InRoadPosition.InLen;
-			} else {
-				return InRoadPosition.OutLen;
-			}
-		}
-
-		return InRoadPosition.None; //out-of
-	}
-
 	#region Public Get Functions 
 	public MoveDirection Direction {
 		get {
@@ -133,6 +94,85 @@ public class RoadHandler : TileHandler {
 			return bool.Parse (s);
 		}
 	}
+
+	public int MinSpeed {
+		get {
+			string s = Ultil.GetString (TileKey.ROAD_MIN_VEL, "0", tile.properties);
+			return int.Parse (s);
+		}
+	}
+	
+	public int MaxSpeed {
+		get {
+			string s = Ultil.GetString (TileKey.ROAD_MAX_VEL, "40", tile.properties);
+			return int.Parse (s);
+		}
+	}
+	
+	public InRoadPosition CheckPosition (Vector3 pos) {
+		float dx = pos.x - transform.position.x;
+		float dz = pos.z - transform.position.z;
+		
+		if (tile.typeId == TileID.ROAD_UP) {
+			if (dx > 0) {
+				return InRoadPosition.OutLen;
+			} else {
+				return InRoadPosition.InLen;
+			}
+		}
+		
+		if (tile.typeId == TileID.ROAD_DOWN) {
+			if (dx > 0) {
+				return InRoadPosition.InLen;
+			} else {
+				return InRoadPosition.OutLen;
+			}
+		}
+		
+		if (tile.typeId == TileID.ROAD_LEFT) {
+			if (dz > 0) {
+				return InRoadPosition.OutLen;
+			} else {
+				return InRoadPosition.InLen;
+			}
+		}
+		
+		if (tile.typeId == TileID.ROAD_RIGHT) {
+			if (dz > 0) {
+				return InRoadPosition.InLen;
+			} else {
+				return InRoadPosition.OutLen;
+			}
+		}
+		
+		return InRoadPosition.None; //out-of
+	}
+
+	/// <summary>
+	/// Kiem tra pos da nam o trong le chua
+	/// </summary>
+	public bool IsInBorder (Vector3 pos) {
+		float dx = pos.x - transform.position.x;
+		float dz = pos.z - transform.position.z;
+		float w = transform.localScale.x * Global.SCALE_SIZE;
+		float h = transform.localScale.z * Global.SCALE_SIZE;
+
+		float dl = pos.x - (transform.position.x + w/2);
+		float dr = pos.x - (transform.position.x - w/2);
+		float dd = pos.z - (transform.position.z + h/2);
+		float du = pos.z - (transform.position.z - h/2);
+
+		if (dl >= 0 
+		    && dr <= 0 
+		    && du <= 0
+		    && dd >= 0) //Contain
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	#endregion
 }
 

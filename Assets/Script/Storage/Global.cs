@@ -22,6 +22,12 @@ public class Global {
 
 	public const int DEF_MAX_TOCDO = 40;
 	public const int DEF_MIN_TOCDO = 0;
+
+	public const int RUN_SPEED_POINT = 1;
+
+	public const float IN_BORDER_PERCENT = 0.15f;
+
+	public const float TIME_TO_LANGLACH = 3.0f;
 }
 
 public enum MoveDirection {
@@ -53,4 +59,10 @@ public enum VihicleType {
 	XeLam,
 	XichLo,
 	ThoSo,
+}
+
+public enum TurnLight {
+	LEFT = -1,
+	NONE = 0,
+	RIGHT = 1
 }

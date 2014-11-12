@@ -36,8 +36,13 @@ public class TileID {
 	public const int ROAD_LEFT = 2;
 	public const int ROAD_RIGHT = 3;
 	public const int ROAD_UP = 4;
+
 	public const int ROAD_NONE = 7;
 
+	public const int ROAD_BUS_UP = 8;
+	public const int ROAD_BUS_DOWN = 9;
+	public const int ROAD_BUS_RIGHT = 10;
+	public const int ROAD_BUS_LEFT = 11;
 }
 
 [System.Serializable]
