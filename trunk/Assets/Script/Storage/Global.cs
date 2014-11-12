@@ -24,13 +24,14 @@ public class Global {
 	public const int DEF_MIN_TOCDO = 0;
 }
 
-
-public struct MyDirection {
-	public const string UP = "UP";
-	public const string DOWN = "DOWN";
-	public const string LEFT = "LEFT";
-	public const string RIGHT = "RIGHT";
+public enum MoveDirection {
+	NONE,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
 }
+
 
 public class OBJ {
 	public const string START_POINT = "302(Clone)";
@@ -38,4 +39,18 @@ public class OBJ {
 	public const string CHECK_POINT = "304(Clone)";
 
 	public const string ROAD = "Road(Clone)";
+}
+
+public enum VihicleType {
+	MoToA1,
+	MoToA2,
+	MoToA3,
+	Oto,
+	XeDap,
+	XeKhach,
+	XeTai,
+	Romooc,
+	XeLam,
+	XichLo,
+	ThoSo,
 }

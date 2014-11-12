@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,6 +29,7 @@ public class Ultil {
 		dict.TryGetValue (key, out value);
 
 		if (string.IsNullOrEmpty (value)) {
+			Debug.Log ("default: " + key + " : " + defaul);
 			value = defaul;
 			dict[key] = value;
 		}
@@ -74,4 +76,36 @@ public class Ultil {
 		return "";
 	}
 
+	public static MoveDirection ToMoveDirection (string s) {
+		MoveDirection m = (MoveDirection) Enum.Parse (typeof (MoveDirection), s);
+		return m;
+	}
+
+	public static bool IsOpposite (MoveDirection d1, MoveDirection d2) {
+		if (d1 == MoveDirection.LEFT && d2 == MoveDirection.RIGHT) {
+			return true;
+		}
+
+		if (d1 == MoveDirection.RIGHT && d2 == MoveDirection.LEFT) {
+			return true;
+		}
+
+		if (d1 == MoveDirection.UP && d2 == MoveDirection.DOWN) {
+			return true;
+		}
+
+		if (d1 == MoveDirection.DOWN && d2 == MoveDirection.UP) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static bool IsRoad (int typeid) {
+		if (typeid == 1 || typeid == 2 ||typeid == 3 ||typeid == 4||typeid == 7) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

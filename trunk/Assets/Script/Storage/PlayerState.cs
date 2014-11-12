@@ -4,7 +4,8 @@ using System.Collections;
 public class PlayerState {
 
 	public RoadHandler road;
-
+	public MoveDirection direction;
+	public float time;
 	public bool isHelmetOn;
 	public bool isLightOn;
 	public bool isNearLight;

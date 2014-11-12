@@ -24,7 +24,7 @@ public class TrafficLightManager : Singleton <TrafficLightManager> {
 		TrafficLightStatus lr = GetStatus (time + RED_TIME);
 
 		for (int i = 0; i < listLight.Count; ++i) {
-			if (listLight[i].Direction == MyDirection.UP || listLight[i].Direction == MyDirection.DOWN) {
+			if (listLight[i].Direction == MoveDirection.UP.ToString().ToString() || listLight[i].Direction == MoveDirection.DOWN.ToString()) {
 				listLight[i].Status = ud;
 			} else {
 				listLight[i].Status = lr;

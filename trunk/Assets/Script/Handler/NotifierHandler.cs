@@ -6,13 +6,13 @@ public class NotifierHandler : SingletonMono<NotifierHandler> {
 	public UITextList uiTextList;
 
 	void Start () {
-		InvokeRepeating ("Sche", 2, 2);
+		InvokeRepeating ("ScheduleTime", 0, 2);
 	}
 	
 	void Update () {}
 
-	public void Sche () {
-		AddNotify ("Time: " + Time.realtimeSinceStartup);
+	public void ScheduleTime () {
+		AddNotify ("Time: " + (int)Time.realtimeSinceStartup + "s: [00ff00]OK[-]");
 	}
 
 	public void AddNotify (string s) {
