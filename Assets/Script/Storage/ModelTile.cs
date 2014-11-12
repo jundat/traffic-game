@@ -4,20 +4,18 @@ using System.Collections.Generic;
 
 
 public struct TileKey {
-	public static string COI = "COI";
-	public static string CHIEU = "CHIEU";
-	public static string MIN_VEL = "MIN_VEL";
-	public static string MAX_VEL = "MAX_VEL";
-	public static string RE_TRAI = "RE_TRAI";
-	public static string RE_PHAI = "RE_PHAI";
-	public static string RE_THANG = "RE_THANG";
-	public static string LOAI_XE = "LOAI_XE";
-	public static string DI = "DI_";
-	public static string DUNG = "DUNG_";
-	public static string LE_TRAI = "LE_TRAI";
-	public static string LE_PHAI = "LE_PHAI";
-	public static string LE_TREN = "LE_TREN";
-	public static string LE_DUOI = "LE_DUOI";
+	public static string ROAD_MIN_VEL = "MIN_VEL";
+	public static string ROAD_MAX_VEL = "MAX_VEL";
+	public static string ROAD_RE_TRAI = "RE_TRAI";
+	public static string ROAD_RE_PHAI = "RE_PHAI";
+	public static string ROAD_RE_THANG = "RE_THANG";
+	public static string ROAD_LOAI_XE = "LOAI_XE";
+	public static string ROAD_DI = "DI_";
+	public static string ROAD_DUNG = "DUNG_";
+	public static string ROAD_LE_TRAI = "LE_TRAI";
+	public static string ROAD_LE_PHAI = "LE_PHAI";
+	public static string ROAD_LE_TREN = "LE_TREN";
+	public static string ROAD_LE_DUOI = "LE_DUOI";
 	
 	//Light
 	
@@ -30,6 +28,16 @@ public struct TileKey {
 	public static string SIGN_DIR = "SIGN_DIR";
 	public static string SIGN_MAX_TOCDO = "SIGN_MAX_TOCDO";
 	public static string SIGN_MIN_TOCDO = "SIGN_MIN_TOCDO";
+}
+
+public class TileID {
+	
+	public const int ROAD_DOWN = 1;
+	public const int ROAD_LEFT = 2;
+	public const int ROAD_RIGHT = 3;
+	public const int ROAD_UP = 4;
+	public const int ROAD_NONE = 7;
+
 }
 
 [System.Serializable]

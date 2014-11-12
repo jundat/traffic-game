@@ -135,17 +135,19 @@ public class ModelFactory : Singleton <ModelFactory> {
 
 			//Rotation
 			int rot = 0;
-			switch (tile.properties[TileKey.SIGN_DIR]) {
-			case MyDirection.UP:
+			MoveDirection dir = Ultil.ToMoveDirection (tile.properties[TileKey.SIGN_DIR]);
+
+			switch (dir) {
+			case MoveDirection.UP:
 				rot = 0;
 				break;
-			case MyDirection.RIGHT:
+			case MoveDirection.RIGHT:
 				rot = 90;
 				break;
-			case MyDirection.DOWN:
+			case MoveDirection.DOWN:
 				rot = 180;
 				break;
-			case MyDirection.LEFT:
+			case MoveDirection.LEFT:
 				rot = 270;
 				break;
 			}
@@ -221,19 +223,19 @@ public class ModelFactory : Singleton <ModelFactory> {
 
 				//Rotation
 				int rot = 0;
-				string huong = tile.properties[TileKey.LIGHT_HUONG];
+				MoveDirection huong = Ultil.ToMoveDirection ( tile.properties[TileKey.LIGHT_HUONG]);
 				
 				switch (huong) {
-				case MyDirection.DOWN:
+				case MoveDirection.DOWN:
 					rot = 0;
 					break;
-				case MyDirection.LEFT:
+				case MoveDirection.LEFT:
 					rot = 90;
 					break;
-				case MyDirection.UP:
+				case MoveDirection.UP:
 					rot = 180;
 					break;
-				case MyDirection.RIGHT:
+				case MoveDirection.RIGHT:
 					rot = 270;
 					break;
 				}
