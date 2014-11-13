@@ -13,3 +13,7 @@ public class ModelMap {
 	public Dictionary<string, string> state;
 	public Dictionary<string, ModelLayer> layer;
 }
+
+public class MapKey {
+	public const string simulateTime = "simulateTime";
+}

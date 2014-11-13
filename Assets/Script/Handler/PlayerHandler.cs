@@ -39,7 +39,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	#region PLAYER STATE
 	private void OnRoadChange (PlayerState oldState, PlayerState newState) {
-		NotifierHandler.Instance.AddNotify (oldState.road.Direction + "=>" + newState.road.Direction);
+		//NotifierHandler.Instance.AddNotify (oldState.road.Direction + "=>" + newState.road.Direction);
 
 		#region Vuot Den Do
 		if (Ultil.IsRoad (newState.road.tile.typeId) 
@@ -187,28 +187,30 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	}
 
 	private void OnInRoadChange (PlayerState newState) {
-		PlayerState oldState = null;
-		object[] arr = queueState.ToArray ();
-
-		int index1 = -1;
-		//int index2 = -1;
-		for (int i = arr.Length-1; i >= 0; --i) {
-			PlayerState pl = arr[i] as PlayerState;
-			if (pl.road.tile.objId == newState.road.tile.objId) {
-				if (pl.inRoadPos != newState.inRoadPos) {
-					index1 = i;
-				} else {
-					if (index1 > -1) {
-						//index2 = i;
-						oldState = pl;
-						if (newState.time - oldState.time < Global.TIME_TO_LANGLACH) {
-							NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Lạng lách[-]");
-						}
-						break;
-					}
-				}
-			}
-		}
+		#region LANG LACH
+//		PlayerState oldState = null;
+//		object[] arr = queueState.ToArray ();
+//
+//		int index1 = -1;
+//		//int index2 = -1;
+//		for (int i = arr.Length-1; i >= 0; --i) {
+//			PlayerState pl = arr[i] as PlayerState;
+//			if (pl.road.tile.objId == newState.road.tile.objId) {
+//				if (pl.inRoadPos != newState.inRoadPos) {
+//					index1 = i;
+//				} else {
+//					if (index1 > -1) {
+//						//index2 = i;
+//						oldState = pl;
+//						if (newState.time - oldState.time < Global.TIME_TO_LANGLACH) {
+//							NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Lạng lách[-]");
+//						}
+//						break;
+//					}
+//				}
+//			}
+//		}
+		#endregion
 	}
 
 	private void CheckState (PlayerState state) {
@@ -238,6 +240,13 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		if (state.speed > state.road.MaxSpeed) {
 			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ[-]");
 		}
+
+		//Bat den chieu xa trong do thi
+		if (state.isLightOn == true && state.isNearLight == false) {
+			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Đèn chiếu xa trong đô thị[-]");
+		}
+
+
 	}
 
 	public void OnStop (PlayerState oldState, PlayerState newState) {

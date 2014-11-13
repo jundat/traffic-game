@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ public class MapLoader : Singleton <MapLoader> {
 	public ModelMap map;
 
 	public ModelMap Load (string path) {
-		Object obj = Resources.Load (path);
+		UnityEngine.Object obj = Resources.Load (path);
 		json = obj.ToString ();
 
 		map = JsonReader.Deserialize <ModelMap> (json);
@@ -24,6 +25,14 @@ public class MapLoader : Singleton <MapLoader> {
 					p2.Value.y *= -1;
 				}
 			}
+
+			//Simulate Time
+			DateTime d = DateTime.Now;
+			int h = int.Parse (Ultil.GetString (MapKey.simulateTime, "8", map.info));
+			d = d.AddHours (-d.Hour);
+			d = d.AddMinutes(-d.Minute);
+			d = d.AddHours(h);
+			Main.Instance.SetStartTime (d);
 		}
 
 		return map;
