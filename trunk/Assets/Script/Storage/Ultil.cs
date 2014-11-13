@@ -29,7 +29,7 @@ public class Ultil {
 		dict.TryGetValue (key, out value);
 
 		if (string.IsNullOrEmpty (value)) {
-			Debug.Log ("default: " + key + " : " + defaul);
+			Debug.LogWarning ("default: " + key + " : " + defaul);
 			value = defaul;
 			dict[key] = value;
 		}
@@ -108,4 +108,89 @@ public class Ultil {
 			return false;
 		}
 	}
+
+	public static PlayerState GetPreviousDiffState (PlayerState currentState, Queue queue) {
+		if (queue == null || currentState == null) {
+			return null;
+		}
+
+		Debug.LogError (currentState.time);
+
+		object[] arr = queue.ToArray ();
+		for (int i = arr.Length-1; i >= 0; --i) {
+
+			PlayerState pl = (PlayerState) arr[i];
+
+			Debug.Log (i + ": " + pl.road.Direction + " : " + pl.time);
+
+			if (currentState.time >= pl.time) {
+
+				if (i > 0) {
+					Debug.LogError ("There");
+					return (PlayerState) arr[i-1];
+				} else {
+					Debug.LogError ("This");
+					return null;
+				}
+			}
+		}
+		Debug.LogError ("Here");
+		return null;
+	}
+
+	public static MoveDirection LeftOf (MoveDirection dir) {
+		switch (dir) {
+		case MoveDirection.DOWN:
+			return MoveDirection.RIGHT;
+
+		case MoveDirection.LEFT:
+			return MoveDirection.DOWN;
+
+		case MoveDirection.RIGHT:
+			return MoveDirection.UP;
+
+		case MoveDirection.UP:
+			return MoveDirection.LEFT;
+		}
+
+		return MoveDirection.NONE;
+	}
+
+	public static MoveDirection RightOf (MoveDirection dir) {
+		switch (dir) {
+		case MoveDirection.DOWN:
+			return MoveDirection.LEFT;
+			
+		case MoveDirection.LEFT:
+			return MoveDirection.UP;
+			
+		case MoveDirection.RIGHT:
+			return MoveDirection.DOWN;
+			
+		case MoveDirection.UP:
+			return MoveDirection.RIGHT;
+		}
+		
+		return MoveDirection.NONE;
+	}
+
+	public static MoveDirection OppositeOf (MoveDirection dir) {
+		switch (dir) {
+		case MoveDirection.DOWN:
+			return MoveDirection.UP;
+			
+		case MoveDirection.UP:
+			return MoveDirection.DOWN;
+			
+		case MoveDirection.LEFT:
+			return MoveDirection.RIGHT;
+			
+		case MoveDirection.RIGHT:
+			return MoveDirection.LEFT;
+		}
+
+		return MoveDirection.NONE;
+	}
 }
+
+

@@ -6,7 +6,7 @@ public class NotifierHandler : SingletonMono<NotifierHandler> {
 	public UITextList uiTextList;
 
 	void Start () {
-		InvokeRepeating ("ScheduleTime", 0, 2);
+		//InvokeRepeating ("ScheduleTime", 0, 2);
 	}
 	
 	void Update () {}

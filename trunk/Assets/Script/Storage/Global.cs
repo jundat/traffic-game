@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Global {
+	public const float ZERO_POINT = 0.001f;
 
 	public const bool DEBUG_LIGHT = true;
 

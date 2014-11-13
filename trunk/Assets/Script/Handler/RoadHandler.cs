@@ -65,23 +65,18 @@ public class RoadHandler : TileHandler {
 			switch (tile.typeId) {
 			case 1:
 				return MoveDirection.DOWN;
-				break;
 
 			case 2:
 				return MoveDirection.LEFT;
-				break;
 
 			case 3:
 				return MoveDirection.RIGHT;
-				break;
 
 			case 4:
 				return MoveDirection.UP;
-				break;
 				
 			case 7:
 				return MoveDirection.NONE;
-				break;
 			}
 
 			return MoveDirection.NONE;
@@ -152,8 +147,8 @@ public class RoadHandler : TileHandler {
 	/// Kiem tra pos da nam o trong le chua
 	/// </summary>
 	public bool IsInBorder (Vector3 pos) {
-		float dx = pos.x - transform.position.x;
-		float dz = pos.z - transform.position.z;
+		//float dx = pos.x - transform.position.x;
+		//float dz = pos.z - transform.position.z;
 		float w = transform.localScale.x * Global.SCALE_SIZE;
 		float h = transform.localScale.z * Global.SCALE_SIZE;
 
@@ -173,6 +168,14 @@ public class RoadHandler : TileHandler {
 		return false;
 	}
 
+	public bool IsBus {
+		get {
+			return (tile.typeId == TileID.ROAD_BUS_UP 
+			        || tile.typeId == TileID.ROAD_BUS_DOWN 
+			        || tile.typeId == TileID.ROAD_BUS_LEFT
+			        || tile.typeId == TileID.ROAD_BUS_RIGHT);
+		}
+	}
 	#endregion
 }
 
