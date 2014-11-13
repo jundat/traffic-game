@@ -15,11 +15,11 @@ public class ScooterHandler : MonoBehaviour {
 	public const float minAngle = 0;
 	public const float maxAngle = 240.0f;
 	public float angle = 0.0f;
-	private float speed = 0;
+//	private float speed = 0;
 	public GameObject kim;
 
 	public void SetSpeed (float speed, float minSpeed, float maxSpeed) {
-		this.speed = speed;
+//		this.speed = speed;
 		float totalAngle = maxAngle - minAngle;
 		float totalVelo = maxSpeed - minSpeed;
 		float anglePerSpeed = totalAngle / totalVelo;

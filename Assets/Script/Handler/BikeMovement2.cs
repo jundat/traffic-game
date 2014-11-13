@@ -11,8 +11,8 @@ public class BikeMovement2 : MonoBehaviour {
 	public float MaxMoveSpeed = 280;
 	public float RotateSpeed = 70;
 
-	private float RotateAccelSpeed = 10;
-	private float RotateMinSpeed = 10;
+//	private float RotateAccelSpeed = 10;
+//	private float RotateMinSpeed = 10;
 
 	public float accelMoveFoward = 50;
 	public float accelMoveBackward = 100;
