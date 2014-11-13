@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 public class Ultil {
 
-	private static int layerId = 0;
-	private static int objId = 0;
+	private static int LAYER_ID_COUNTER = 0;
+	private static int OBJ_ID_COUNTER = 0;
 
 	public static void ResetLayerId () {
-		layerId = 0;
+		LAYER_ID_COUNTER = 0;
 	}
 	public static int GetNewLayerId () {
-		layerId++;
-		return layerId;
+		LAYER_ID_COUNTER++;
+		return LAYER_ID_COUNTER;
 	}
 
 	public static void ResetObjId (int defaultId = 0) {
-		objId = defaultId;
+		OBJ_ID_COUNTER = defaultId;
 	}
 	public static int GetNewObjId () {
-		objId++;
-		return objId;
+		OBJ_ID_COUNTER++;
+		return OBJ_ID_COUNTER;
 	}
 
 	public static string GetString (string key, string defaul, Dictionary<string,string> dict) {
@@ -76,6 +76,16 @@ public class Ultil {
 		return "";
 	}
 
+	public static int AddToQueue (object obj, Queue queue, int size) {
+		if (queue.Count >= size) {
+			queue.Dequeue ();
+		}
+
+		queue.Enqueue (obj);
+
+		return queue.Count;
+	}
+
 	public static MoveDirection ToMoveDirection (string s) {
 		MoveDirection m = (MoveDirection) Enum.Parse (typeof (MoveDirection), s);
 		return m;
@@ -114,27 +124,27 @@ public class Ultil {
 			return null;
 		}
 
-		Debug.LogError (currentState.time);
+//		Debug.LogError (currentState.time);
 
 		object[] arr = queue.ToArray ();
 		for (int i = arr.Length-1; i >= 0; --i) {
 
 			PlayerState pl = (PlayerState) arr[i];
 
-			Debug.Log (i + ": " + pl.road.Direction + " : " + pl.time);
+			Debug.Log (i + ": " + pl.road.Direction + " : " + pl.time + " : " + pl.turnLight);
 
-			if (currentState.time >= pl.time) {
+			if (currentState.road.tile.objId != pl.road.tile.objId && currentState.time >= pl.time) {
 
 				if (i > 0) {
-					Debug.LogError ("There");
-					return (PlayerState) arr[i-1];
+//					Debug.LogError ("There");
+					return pl;
 				} else {
-					Debug.LogError ("This");
+					Debug.LogError ("Error1");
 					return null;
 				}
 			}
 		}
-		Debug.LogError ("Here");
+		Debug.LogError ("Error2");
 		return null;
 	}
 
