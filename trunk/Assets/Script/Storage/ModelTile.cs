@@ -9,6 +9,7 @@ public struct TileKey {
 	public static string ROAD_RE_TRAI = "RE_TRAI";
 	public static string ROAD_RE_PHAI = "RE_PHAI";
 	public static string ROAD_RE_THANG = "RE_THANG";
+	public static string ROAD_QUAY_DAU = "ROAD_QUAY_DAU";
 	public static string ROAD_LOAI_XE = "LOAI_XE";
 	public static string ROAD_DI = "DI_";
 	public static string ROAD_DUNG = "DUNG_";

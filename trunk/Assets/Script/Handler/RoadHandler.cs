@@ -176,6 +176,35 @@ public class RoadHandler : TileHandler {
 			        || tile.typeId == TileID.ROAD_BUS_RIGHT);
 		}
 	}
+
+	public bool CanTurnLeft {
+		get {
+			string s = Ultil.GetString (TileKey.ROAD_RE_TRAI, "true", tile.properties);
+			return bool.Parse (s);
+		}
+	}
+
+	public bool CanTurnRight {
+		get {
+			string s = Ultil.GetString (TileKey.ROAD_RE_PHAI, "true", tile.properties);
+			return bool.Parse (s);
+		}
+	}
+
+	public bool CanGoAhead {
+		get {
+			string s = Ultil.GetString (TileKey.ROAD_RE_THANG, "true", tile.properties);
+			return bool.Parse (s);
+		}
+	}
+
+	public bool CanTurnBack {
+		get {
+			string s = Ultil.GetString (TileKey.ROAD_QUAY_DAU, "true", tile.properties);
+			return bool.Parse (s);
+		}
+	}
+
 	#endregion
 }
 

@@ -41,25 +41,29 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private void OnRoadChange (PlayerState oldState, PlayerState newState) {
 		NotifierHandler.Instance.AddNotify (oldState.road.Direction + "=>" + newState.road.Direction);
 
-		//Vuot Den Do
+		#region Vuot Den Do
 		if (Ultil.IsRoad (newState.road.tile.typeId) 
-		    && newState.road.Direction != oldState.road.Direction
-		    && newState.road.Direction != Ultil.OppositeOf (oldState.road.Direction)
-		    && oldState.road.LightStatus == TrafficLightStatus.red
-		    && oldState.direction == oldState.road.Direction) {
+		    && newState.road.Direction != oldState.road.Direction //Ko di cung chieu
+		    && newState.road.Direction != Ultil.OppositeOf (oldState.road.Direction) //Ko di nguoc chieu
+		    && oldState.road.LightStatus == TrafficLightStatus.red //Den dang do
+		    && oldState.direction == oldState.road.Direction) { //Di dung chieu
 
 			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Vượt đèn đỏ[-]");
 		}
+		#endregion
 
-		//Vuot Den Vang
+		#region Vuot Den Vang
 		if (Ultil.IsRoad (newState.road.tile.typeId) 
-		    && (newState.road.Direction == MoveDirection.NONE || newState.road.Direction == Ultil.RightOf (oldState.road.Direction))
-		    && oldState.road.LightStatus == TrafficLightStatus.yellow) {
-			
+		    && newState.road.Direction != oldState.road.Direction
+		    && newState.road.Direction != Ultil.OppositeOf (oldState.road.Direction)
+		    && oldState.road.LightStatus == TrafficLightStatus.yellow
+		    && oldState.direction == oldState.road.Direction) {
+
 			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Vượt đèn vàng[-]");
 		}
+		#endregion
 
-		#region Re ko xi nhanh
+		#region Re tai noi ko cho re
 		//1: re trai tai nga 3, 4
 		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
 			if (newState.road.Direction != MoveDirection.NONE) {
@@ -67,7 +71,69 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 						if (newState.road.Direction == Ultil.LeftOf (prev.road.Direction)) {
-							if (prev.turnLight != TurnLight.LEFT) {
+							if (prev.road.CanTurnLeft == false) {
+								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ trái[-]");
+							}
+						}
+					}
+				} else if (newState.road.Direction == Ultil.LeftOf (oldState.road.Direction)) { //Ko Co Giao Lo
+					PlayerState prev = oldState;
+					if (prev.road.CanTurnLeft == false) {
+						NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ trái[-]");
+					}
+				}
+			}
+		}
+		
+		//2: re phai tai nga 3, 4
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
+			if (newState.road.Direction != MoveDirection.NONE) {
+				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {
+						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {
+							if (prev.road.CanTurnRight == false) {
+								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ phai[-]");
+							}
+						}
+					}
+				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) { //Ko Co Giao Lo
+					PlayerState prev = oldState;
+					if (prev.road.CanTurnRight == false) {
+						NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ phai[-]");
+					}
+				}
+			}
+		}
+		
+		//3: quay dau xe
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
+			if (newState.road.Direction != MoveDirection.NONE) {
+				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {
+						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
+							if (prev.road.CanTurnBack == false || prev.road.CanTurnLeft == false) {
+								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được quay đầu xe[-]");
+							}
+						}
+					}
+				} else if (newState.road.Direction == Ultil.OppositeOf (oldState.road.Direction)) { //Ko Co Giao Lo
+					NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được quay đầu xe[-]");
+				}
+			}
+		}
+		#endregion
+
+		#region Re ko xi nhanh
+		//1: re trai tai nga 3, 4
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {//Debug.Log ("1");
+			if (newState.road.Direction != MoveDirection.NONE) {//Debug.Log ("2");
+				if (oldState.road.Direction == MoveDirection.NONE) {//Debug.Log ("3"); 							//Co Giao Lo
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {//Debug.Log ("4");
+						if (newState.road.Direction == Ultil.LeftOf (prev.road.Direction)) {//Debug.Log ("5");
+							if (prev.turnLight != TurnLight.LEFT) {//Debug.Log ("6");
 								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không xi nhanh[-]");
 							}
 						}
@@ -82,20 +148,28 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		}
 
 		//2: re phai tai nga 3, 4
-		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
-			if (newState.road.Direction != MoveDirection.NONE) {
-				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {Debug.Log ("1");
+			if (newState.road.Direction != MoveDirection.NONE) {Debug.Log ("2");
+				if (oldState.road.Direction == MoveDirection.NONE) {Debug.Log ("3");					//Co Giao Lo
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
-					if (prev != null) {
-						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {
-							if (prev.turnLight != TurnLight.RIGHT) {
+					if (prev != null) {Debug.Log ("4");
+						Debug.Log (newState.road.Direction);
+						Debug.Log (newState.time);
+						Debug.Log (newState.turnLight);
+						Debug.Log ("--");
+						Debug.Log (prev.road.Direction);
+						Debug.Log (prev.time);
+						Debug.Log (prev.turnLight);
+						Debug.Log ("---------");
+						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {Debug.Log ("5");
+							if (prev.turnLight != TurnLight.RIGHT) {Debug.Log ("6");
 								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không xi nhanh[-]");
 							}
 						}
 					}
-				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) { //Ko Co Giao Lo
+				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) { Debug.Log ("a");//Ko Co Giao Lo
 					PlayerState prev = oldState;
-					if (prev.turnLight != TurnLight.RIGHT) {
+					if (prev.turnLight != TurnLight.RIGHT) {Debug.Log ("b");
 						NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không xi nhanh[-]");
 					}
 				}
@@ -103,8 +177,20 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		}
 
 		//3: quay dau xe
-
-
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
+			if (newState.road.Direction != MoveDirection.NONE) {
+				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {
+						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
+							if (prev.turnLight != TurnLight.LEFT) {
+								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Quay đầu xe không xi nhanh[-]");
+							}
+						}
+					}
+				}
+			}
+		}
 		#endregion
 	}
 
@@ -183,20 +269,15 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		_lastState = _currentState;
 		_currentState = GetCurrentState ();
 
-		if (queueState.Count >= QUEUE_SIZE) {
-			queueState.Dequeue ();
-		}
-		queueState.Enqueue (_currentState);
-
+		Ultil.AddToQueue (_currentState, queueState, QUEUE_SIZE);
+		
 		CheckState (_currentState);
 
 		if (_lastState != null) {
 			//Change Road
 			if (_lastState.road.tile.objId != _currentState.road.tile.objId) {
-				if (queueStateDiff.Count >= QUEUE_SIZE) {
-					queueStateDiff.Dequeue ();
-				}
-				queueStateDiff.Enqueue (_currentState);
+				Ultil.AddToQueue (_lastState, queueStateDiff, QUEUE_SIZE);
+				Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
 
 				OnRoadChange (_lastState, _currentState);
 			}
@@ -208,10 +289,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 				OnInRoadChange (_currentState);
 			}
 		} else {
-			if (queueStateDiff.Count >= QUEUE_SIZE) {
-				queueStateDiff.Dequeue ();
-			}
-			queueStateDiff.Enqueue (_currentState);
+			Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
 		}
 
 		//Check Stop
