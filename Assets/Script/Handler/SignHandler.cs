@@ -7,8 +7,7 @@ public class SignHandler : TileHandler {
 	public MeshRenderer plane2;
 	public TextMesh lbText;
 
-	void Start () {
-	}
+	void Start () {}
 	void Update () {}
 
 	public void SetSign (Texture texture)
@@ -17,8 +16,12 @@ public class SignHandler : TileHandler {
 	}
 
 	public void SetText (string text, Color color) {
-		lbText.gameObject.SetActive (true);
-		lbText.text = text;
-		lbText.color = color;
+		if (text.Length > 0) {
+			lbText.gameObject.SetActive (true);
+			lbText.text = text;
+			lbText.color = color;
+		} else {
+			lbText.gameObject.SetActive (false);
+		}
 	}
 }
