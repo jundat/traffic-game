@@ -179,9 +179,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 				break;
 			}
 
-			if (text.Length > 0) {
-				handler.SetText (text, textColor);
-			}
+			handler.SetText (text, textColor);
 
 		} else {
 			return null;
