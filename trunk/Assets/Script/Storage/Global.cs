@@ -4,7 +4,7 @@ using System.Collections;
 public class Global {
 	public const float ZERO_POINT = 0.001f;
 
-	public const bool DEBUG_LIGHT = true;
+	public const bool DEBUG_LIGHT = false;
 
 	public const float DELTA_HEIGH = 0.001f;
 
@@ -29,6 +29,9 @@ public class Global {
 	public const float IN_BORDER_PERCENT = 0.15f;
 
 	public const float TIME_TO_LANGLACH = 3.0f;
+
+	public const int TIME_STOP_HORN = 22;
+	public const int TIME_START_HORN = 5;
 }
 
 public enum MoveDirection {

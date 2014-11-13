@@ -6,6 +6,7 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 
 	public UIButton btnTakeHelmetOff;
 	public Action onHideHelmet;
+	public UILabel lbTime;
 
 	void Start () {}
 
@@ -20,5 +21,10 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 		if (onHideHelmet != null) {
 			onHideHelmet ();
 		}
+	}
+
+	public void SetTime (DateTime d) {
+		string s = d.ToLongTimeString ();
+		lbTime.text = s;
 	}
 }

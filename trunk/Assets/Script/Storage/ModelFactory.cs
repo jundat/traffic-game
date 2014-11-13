@@ -193,6 +193,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 	private GameObject InitView (ModelTile tile) {
 		GameObject ins = null;
 		GameObject prefab = null;
+
 		dictModels.TryGetValue (""+tile.typeId, out prefab);
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
