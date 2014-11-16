@@ -13,6 +13,14 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private Queue queueState = new Queue (QUEUE_SIZE); 			//Danh sach sau moi SCHEDULE_TIME
 	private Queue queueStateDiff = new Queue (QUEUE_SIZE);		//Danh sach state khi co chuyen lan duong
 
+	//Bat xi nhanh
+	private const float TURN_TIME_LIMIT = 3;
+	private TurnLight turnLight;
+	private bool isTurnLightOn;
+	private float startTurnLightTime;
+	//
+
+
 	void Awake () {
 		bikeHandler = gameObject.GetComponent <BikeHandler> ();
 		bikeMovement = gameObject.GetComponent <BikeMovement2> ();
@@ -133,14 +141,14 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 						if (newState.road.Direction == Ultil.LeftOf (prev.road.Direction)) {
-							if (prev.turnLight != TurnLight.LEFT) {
+							if (prev.turnLight != TurnLight.LEFT && oldState.turnLight != TurnLight.LEFT && newState.turnLight != TurnLight.LEFT) {
 								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không xi nhanh[-]");
 							}
 						}
 					}
 				} else if (newState.road.Direction == Ultil.LeftOf (oldState.road.Direction)) { //Ko Co Giao Lo
 					PlayerState prev = oldState;
-					if (prev.turnLight != TurnLight.LEFT) {
+					if (prev.turnLight != TurnLight.LEFT  && newState.turnLight != TurnLight.LEFT) {
 						NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không xi nhanh[-]");
 					}
 				}
@@ -154,14 +162,14 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {
-							if (prev.turnLight != TurnLight.RIGHT) {
+							if (prev.turnLight != TurnLight.RIGHT  && oldState.turnLight != TurnLight.RIGHT && newState.turnLight != TurnLight.RIGHT) {
 								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không xi nhanh[-]");
 							}
 						}
 					}
 				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) {//Ko Co Giao Lo
 					PlayerState prev = oldState;
-					if (prev.turnLight != TurnLight.RIGHT) {
+					if (prev.turnLight != TurnLight.RIGHT && newState.turnLight != TurnLight.RIGHT) {
 						NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không xi nhanh[-]");
 					}
 				}
@@ -175,7 +183,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
-							if (prev.turnLight != TurnLight.LEFT) {
+							if (prev.turnLight != TurnLight.LEFT && oldState.turnLight != TurnLight.LEFT && newState.turnLight != TurnLight.LEFT) {
 								NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Quay đầu xe không xi nhanh[-]");
 							}
 						}
@@ -184,6 +192,23 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			}
 		}
 		#endregion
+
+		#region Xi nhanh nhung ko re
+
+		#endregion
+	}
+
+	public void OnTurnLightChange (PlayerState oldState, PlayerState newState) {
+
+		if (newState.turnLight != TurnLight.NONE) { 		//Turning On
+			turnLight = newState.turnLight;
+			startTurnLightTime = Time.realtimeSinceStartup;
+			isTurnLightOn = true;
+		} else {
+			isTurnLightOn = false;
+			turnLight = TurnLight.NONE;
+			startTurnLightTime = -1;
+		}
 	}
 
 	private void OnInRoadChange (PlayerState newState) {
@@ -282,6 +307,11 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 				Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
 
 				OnRoadChange (_lastState, _currentState);
+			}
+
+			//Turn Light Change
+			if (_lastState.turnLight != _currentState.turnLight) {
+				OnTurnLightChange (_lastState, _currentState);
 			}
 
 			//Change In Road
