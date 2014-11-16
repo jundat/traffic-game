@@ -4,7 +4,12 @@ using System.Collections;
 public class Global {
 	public const float ZERO_POINT = 0.001f;
 
+#if UNITY_EDITOR
 	public const bool DEBUG_BUIDING = false;
+#else
+	public const bool DEBUG_BUIDING = true;
+#endif
+
 	public const bool DEBUG_LIGHT = false;
 
 	public const float DELTA_HEIGH = 0.001f;
