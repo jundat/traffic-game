@@ -246,6 +246,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Đèn chiếu xa trong đô thị[-]");
 		}
 
+		//Bat den nhung ko re
 
 	}
 
