@@ -131,7 +131,7 @@ public class Ultil {
 
 			PlayerState pl = (PlayerState) arr[i];
 
-			Debug.Log (i + ": " + pl.road.Direction + " : " + pl.time + " : " + pl.turnLight);
+//			Debug.Log (i + ": " + pl.road.Direction + " : " + pl.time + " : " + pl.turnLight);
 
 			if (currentState.road.tile.objId != pl.road.tile.objId && currentState.time >= pl.time) {
 
@@ -139,12 +139,12 @@ public class Ultil {
 //					Debug.LogError ("There");
 					return pl;
 				} else {
-					Debug.LogError ("Error1");
+//					Debug.LogError ("Error1");
 					return null;
 				}
 			}
 		}
-		Debug.LogError ("Error2");
+//		Debug.LogError ("Error2");
 		return null;
 	}
 
