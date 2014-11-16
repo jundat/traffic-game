@@ -73,6 +73,12 @@ public class ModelFactory : Singleton <ModelFactory> {
 		dictModels.TryGetValue ("Road", out prefab);
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
+
+			if (tile.typeId == 7) {
+				BoxCollider box = ins.GetComponent<BoxCollider>();
+				box.size = new Vector3 (14, box.size.y, 14);
+			}
+
 			RoadHandler handler = ins.GetComponent<RoadHandler>();
 			handler.tile = tile;
 			handler.Init ();
@@ -98,6 +104,10 @@ public class ModelFactory : Singleton <ModelFactory> {
 				                                           y2, 
 				                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 			} else { //road
+				if (tile.typeId == 7) {
+					y1 = 0.005f;
+				}
+
 				ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 
 				                                           y1, 
 				                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);

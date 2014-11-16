@@ -45,7 +45,7 @@ public class BikeHandler : MonoBehaviour {
 
 		//Update Speed
 		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 160);
-		audio.pitch = 1 + 2.0f * bikeMovement.Speed / 160;
+		audio.pitch = 1 + 3.0f * bikeMovement.Speed / 160;
 
 		//Light Near/Far--------------------------
 
