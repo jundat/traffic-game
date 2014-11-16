@@ -11,11 +11,17 @@ public class RoadHandler : TileHandler {
 	public GameObject borderUp;
 	public GameObject borderDown;
 
-	//Viahe
+	//Via he
 	public GameObject viaheRight;
 	public GameObject viaheLeft;
 	public GameObject viaheUp;
 	public GameObject viaheDown;
+
+	//Vach duong
+	public GameObject vachRight;
+	public GameObject vachLeft;
+	public GameObject vachUp;
+	public GameObject vachDown;
 
 	public TrafficLightStatus LightStatus {
 		get {
@@ -69,6 +75,18 @@ public class RoadHandler : TileHandler {
 		viaheLeft.SetActive (isLeft);
 		viaheUp.SetActive (isUp);
 		viaheDown.SetActive (isDown);
+
+		vachRight.SetActive (false);
+		vachLeft.SetActive (false);
+		vachUp.SetActive (false);
+		vachDown.SetActive (false);
+
+		if (tile.typeId == 7) { //Giao lo
+			vachRight.SetActive (!isRight);
+			vachLeft.SetActive (!isLeft);
+			vachUp.SetActive (!isUp);
+			vachDown.SetActive (!isDown);
+		}
 	}
 
 	#region Public Get Functions 

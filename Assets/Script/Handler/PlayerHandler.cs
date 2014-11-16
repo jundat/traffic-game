@@ -47,7 +47,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	#region PLAYER STATE
 	private void OnRoadChange (PlayerState oldState, PlayerState newState) {
-		//NotifierHandler.Instance.AddNotify (oldState.road.Direction + "=>" + newState.road.Direction);
+		NotifierHandler.Instance.AddNotify (oldState.road.Direction + "=>" + newState.road.Direction);
 
 		#region Vuot Den Do
 		if (Ultil.IsRoad (newState.road.tile.typeId) 

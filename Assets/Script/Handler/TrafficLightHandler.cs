@@ -22,6 +22,11 @@ public class TrafficLightHandler : TileHandler {
 	public MeshRenderer yellowLight;
 	public MeshRenderer greenLight;
 
+	public MeshRenderer redLight2;
+	public MeshRenderer yellowLight2;
+	public MeshRenderer greenLight2;
+
+
 	private TrafficLightStatus status = TrafficLightStatus.none;
 
 	public void Init (ModelTile tile) {
@@ -42,18 +47,30 @@ public class TrafficLightHandler : TileHandler {
 					redLight.material = black;
 					yellowLight.material = black;
 					greenLight.material = green;
+					//
+					redLight2.material = black;
+					yellowLight2.material = black;
+					greenLight2.material = green;
 					break;
 
 				case TrafficLightStatus.red:
 					redLight.material = red;
 					yellowLight.material = black;
 					greenLight.material = black;
+					//
+					redLight2.material = red;
+					yellowLight2.material = black;
+					greenLight2.material = black;
 					break;
 
 				case TrafficLightStatus.yellow:
 					redLight.material = black;
 					yellowLight.material = yellow;
 					greenLight.material = black;
+					//
+					redLight2.material = black;
+					yellowLight2.material = yellow;
+					greenLight2.material = black;
 					break;
 				}
 			}
