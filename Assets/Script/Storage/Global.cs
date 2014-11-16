@@ -4,6 +4,7 @@ using System.Collections;
 public class Global {
 	public const float ZERO_POINT = 0.001f;
 
+	public const bool DEBUG_BUIDING = false;
 	public const bool DEBUG_LIGHT = false;
 
 	public const float DELTA_HEIGH = 0.001f;

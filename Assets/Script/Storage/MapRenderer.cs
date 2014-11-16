@@ -25,6 +25,12 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 			foreach (KeyValuePair<string, ModelTile> p2 in p.Value.tile) {
 				ModelTile tile = p2.Value;
 
+				if (Global.DEBUG_BUIDING == false) {
+					if (tile.layerType == LayerType.View && tile.typeId != 203) {
+						continue;
+					}
+				}
+
 				GameObject go = ModelFactory.Instance.GetNewModel (tile);
 				if (go == null) {
 					continue;

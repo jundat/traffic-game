@@ -5,10 +5,17 @@ public class RoadHandler : TileHandler {
 
 	private TrafficLightStatus lightStatus = TrafficLightStatus.none;
 
-	public GameObject up;
-	public GameObject down;
-	public GameObject left;
-	public GameObject right;
+	//Border Collider
+	public GameObject borderRight;
+	public GameObject borderLeft;
+	public GameObject borderUp;
+	public GameObject borderDown;
+
+	//Viahe
+	public GameObject viaheRight;
+	public GameObject viaheLeft;
+	public GameObject viaheUp;
+	public GameObject viaheDown;
 
 	public TrafficLightStatus LightStatus {
 		get {
@@ -48,15 +55,20 @@ public class RoadHandler : TileHandler {
 	void Update () {}
 
 	public void Init () {
+		bool isRight = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_PHAI, "false", tile.properties));
+		bool isLeft = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TRAI, "false", tile.properties));
 		bool isUp = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TREN, "false", tile.properties));
 		bool isDown = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_DUOI, "false", tile.properties));
-  		bool isRight = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_PHAI, "false", tile.properties));
-   		bool isLeft = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TRAI, "false", tile.properties));
+		
+		borderRight.SetActive (isRight);
+		borderLeft.SetActive (isLeft);
+		borderUp.SetActive (isUp);
+		borderDown.SetActive (isDown);
 
-		up.SetActive (isUp);
-		down.SetActive (isDown);
-		left.SetActive (isLeft);
-		right.SetActive (isRight);
+		viaheRight.SetActive (isRight);
+		viaheLeft.SetActive (isLeft);
+		viaheUp.SetActive (isUp);
+		viaheDown.SetActive (isDown);
 	}
 
 	#region Public Get Functions 
