@@ -81,4 +81,5 @@ public class BikeMovement2 : MonoBehaviour {
 
 		controller.Move (transform.up * Gravity);
 	}
+
 }

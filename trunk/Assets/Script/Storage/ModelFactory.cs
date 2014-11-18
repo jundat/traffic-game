@@ -87,7 +87,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			Texture tt = null;
 			dictTextures.TryGetValue (tile.typeId+"", out tt);
 			if (tt != null) {
-				MeshRenderer render = ins.GetComponent<MeshRenderer> ();
+				MeshRenderer render = handler.roadMeshRender;
 				render.material.mainTexture = tt;
 			} else {
 				Debug.LogError ("Null texture at tile: " + tile.objId);

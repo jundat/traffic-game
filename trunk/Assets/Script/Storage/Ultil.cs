@@ -201,6 +201,22 @@ public class Ultil {
 
 		return MoveDirection.NONE;
 	}
+
+	public static bool IsVerticalRoad (ModelTile tile) {
+		if (tile.typeId == 1 || tile.typeId == 4) {
+			return true;
+		}
+		
+		return false;
+	}
+
+	public static bool IsHorizontalRoad (ModelTile tile) {
+		if (tile.typeId == 2 || tile.typeId == 3) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 

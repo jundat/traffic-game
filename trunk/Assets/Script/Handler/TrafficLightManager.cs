@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TrafficLightManager : Singleton <TrafficLightManager> {
 
-	public const float RED_TIME = 10;
+	public const float RED_TIME = 20;
 	public const float YELLOW_TIME = 3;
 	public const float GREEN_TIME = RED_TIME - YELLOW_TIME;
 	public const float TOTAL_TIME = RED_TIME + YELLOW_TIME + GREEN_TIME;
