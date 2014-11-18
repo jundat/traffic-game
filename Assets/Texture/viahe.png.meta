@@ -1,8 +1,8 @@
 fileFormatVersion: 2
-guid: a3a0ce5058ff14861bf38d1fa1c6ce25
+guid: 47a45fd83b1bc4b7e936cbc1118c4474
 TextureImporter:
   fileIDToRecycleName:
-    21300000: 7
+    21300000: viahe
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -39,7 +39,7 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 0
   buildTargetSettings: []
   spriteSheet:

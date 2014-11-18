@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class PlayerHandler : SingletonMono <PlayerHandler> {
@@ -31,8 +32,16 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	}
 
 	void Update () {
-	}
+		//Sound ----------------------------------
+		if (Input.GetKeyUp (KeyCode.B)) {
+			SoundManager.Instance.PlayHorn ();
 
+			if (Main.Instance.time >= Global.TIME_STOP_HORN || Main.Instance.time <= Global.TIME_START_HORN) {
+				NotifierHandler.Instance.AddNotify ("[ff0000]Bam coi tu 22h-5h[-]");
+			}
+		}
+	}
+	
 	#region COLLISION, CHECK POINT
 	void OnTriggerEnter(Collider other) {
 		Debug.Log ("Collide: " + other.name);
@@ -40,6 +49,14 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		switch (other.name) {
 		case OBJ.FINISH_POINT:
 			Debug.LogError ("End Game!!!");
+			break;
+
+		case OBJ.RoadBorderRight:
+		case OBJ.RoadBorderLeft:
+		case OBJ.RoadBorderUp:
+		case OBJ.RoadBorderDown:
+			NotifierHandler.Instance.AddNotify ("[ff00ff]Va cham giao thong@@[-]");
+			SoundManager.Instance.PlayCrash ();
 			break;
 		}
 	}

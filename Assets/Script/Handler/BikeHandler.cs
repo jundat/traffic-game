@@ -61,12 +61,6 @@ public class BikeHandler : MonoBehaviour {
 			LightNear ();
 		}
 
-		//Sound ----------------------------------
-
-		if (Input.GetKeyUp (KeyCode.B)) {
-			Beep ();
-		}
-
 		//Light Left/Right -----------------------
 
 		if (Input.GetKeyUp (KeyCode.Q) || Input.GetKeyUp (KeyCode.Less)) {
@@ -112,13 +106,7 @@ public class BikeHandler : MonoBehaviour {
 		}
 	}
 	#endregion
-
-	#region HORN
-	public void Beep () {
-		SoundManager.Instance.PlayHorn ();
-	}
-	#endregion
-
+	
 	#region LIGHT
 	public void RefreshLightState () {
 		if (isLightOn) {

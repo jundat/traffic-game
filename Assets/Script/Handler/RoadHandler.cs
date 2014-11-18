@@ -5,6 +5,13 @@ public class RoadHandler : TileHandler {
 
 	private TrafficLightStatus lightStatus = TrafficLightStatus.none;
 
+	public MeshRenderer roadMeshRender;
+	public MeshRenderer roadMeshRenderRepeat;
+
+	public Material prefabRoadMat;
+	public Material prefabRoadMatRepeat;
+	public Material prefabViaHeMat;
+
 	//Border Collider
 	public GameObject borderRight;
 	public GameObject borderLeft;
@@ -55,7 +62,6 @@ public class RoadHandler : TileHandler {
 	}
 
 	void Start () {
-
 	}
 	
 	void Update () {}
@@ -87,6 +93,47 @@ public class RoadHandler : TileHandler {
 			vachUp.SetActive (!isUp);
 			vachDown.SetActive (!isDown);
 		}
+
+		//Material
+		//Road
+		Material matRoad = (Material) GameObject.Instantiate (prefabRoadMat);
+		roadMeshRender.material = matRoad;
+
+		if (Ultil.IsVerticalRoad (tile)) {
+			if (tile.h > 512) {
+				matRoad.mainTextureScale = new Vector2 (1, tile.h / 512);
+			} else {
+				matRoad.mainTextureScale = new Vector2 (1, 1);
+			}
+		} else if (Ultil.IsHorizontalRoad (tile)) {
+			if (tile.w > 512) {
+				matRoad.mainTextureScale = new Vector2 (tile.w / 512, 1);
+			} else {
+				matRoad.mainTextureScale = new Vector2 (1, 1);
+			}
+		}
+
+		//Road Repeat
+		Material matRoadRepeat = (Material) GameObject.Instantiate (prefabRoadMatRepeat);
+		roadMeshRenderRepeat.material = matRoadRepeat;
+		matRoadRepeat.mainTextureScale = new Vector2 (tile.w / 32, tile.h / 32);
+
+		//Via he
+		Material matViaheLeftRight = (Material) GameObject.Instantiate (prefabViaHeMat);
+		Material matViaheUpDown = (Material) GameObject.Instantiate (prefabViaHeMat);
+
+		MeshRenderer viaheLeftRender = viaheLeft.GetComponent <MeshRenderer> ();
+		MeshRenderer viaheRightRender = viaheRight.GetComponent <MeshRenderer> ();
+		MeshRenderer viaheUpRender = viaheUp.GetComponent <MeshRenderer> ();
+		MeshRenderer viaheDownRender = viaheDown.GetComponent <MeshRenderer> ();
+
+		viaheLeftRender.material = matViaheLeftRight;
+		viaheRightRender.material = matViaheLeftRight;
+		viaheUpRender.material = matViaheUpDown;
+		viaheDownRender.material = matViaheUpDown;
+
+		matViaheLeftRight.mainTextureScale = new Vector2 (tile.w / 16 / 5, tile.h / 12);
+		matViaheUpDown.mainTextureScale = new Vector2 (tile.w / 12, tile.h / 16 / 5);
 	}
 
 	#region Public Get Functions 

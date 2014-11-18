@@ -1,14 +1,15 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 public class Global {
 	public const float ZERO_POINT = 0.001f;
 
-#if UNITY_EDITOR
-	public const bool DEBUG_BUIDING = false;
-#else
+//#if UNITY_EDITOR
 	public const bool DEBUG_BUIDING = true;
-#endif
+//#else
+//	public const bool DEBUG_BUIDING = true;
+//#endif
 
 	public const bool DEBUG_LIGHT = false;
 
@@ -36,8 +37,8 @@ public class Global {
 
 	public const float TIME_TO_LANGLACH = 3.0f;
 
-	public const int TIME_STOP_HORN = 22;
-	public const int TIME_START_HORN = 5;
+	public static DateTime TIME_STOP_HORN = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 22, 0, 0);
+	public static DateTime TIME_START_HORN = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 5, 0, 0);
 }
 
 public enum MoveDirection {
@@ -55,6 +56,13 @@ public class OBJ {
 	public const string CHECK_POINT = "304(Clone)";
 
 	public const string ROAD = "Road(Clone)";
+
+	public const string RoadBorderRight 	= "RoadBorderRight";
+	public const string RoadBorderLeft 		= "RoadBorderLeft";
+	public const string RoadBorderUp 		= "RoadBorderUp";
+	public const string RoadBorderDown 		= "RoadBorderDown";
+
+
 }
 
 public enum VihicleType {

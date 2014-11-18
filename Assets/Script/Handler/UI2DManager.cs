@@ -7,10 +7,13 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 	public UIButton btnTakeHelmetOff;
 	public Action onHideHelmet;
 	public UILabel lbTime;
+	public UILabel lbFPS;
 
 	void Start () {}
 
-	void Update () {}
+	void Update () {
+		//lbFPS.text = ""+2.0f / Time.deltaTime;
+	}
 
 	public void ShowHelmet () {
 		btnTakeHelmetOff.gameObject.SetActive (true);
