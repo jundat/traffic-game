@@ -39,6 +39,9 @@ public class Global {
 
 	public static DateTime TIME_STOP_HORN = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 22, 0, 0);
 	public static DateTime TIME_START_HORN = new DateTime (DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 5, 0, 0);
+
+	public const int TIME_START_LIGHT = 18;
+	public const int TIME_STOP_LIGHT = 6;
 }
 
 public enum MoveDirection {
