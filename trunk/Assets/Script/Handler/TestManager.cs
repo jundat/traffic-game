@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TestManager : MonoBehaviour {
@@ -17,7 +17,7 @@ public class TestManager : MonoBehaviour {
 	}
 
 	public void OnTest () {
-		InRoadPosition pos = road.CheckPosition (objTest.transform.position);
+		InRoadPosition pos = road.CheckInOutLen (objTest.transform.position);
 
 		Debug.Log (pos);
 	}

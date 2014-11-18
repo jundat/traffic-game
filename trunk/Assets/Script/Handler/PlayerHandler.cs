@@ -280,7 +280,23 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 		//Chay qua toc do
 		if (state.speed > state.road.MaxSpeed) {
-			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ[-]");
+			//0-5
+			//5-10
+			//10-20
+			//20-35
+			//35
+			float deltaSpeed = state.speed - state.road.MaxSpeed;
+			if (deltaSpeed < 5) {
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 0-5 km/h[-]");
+			} else if (deltaSpeed < 10) {
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 5-10 km/h[-]");
+			} else if (deltaSpeed < 20) {
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 10-20 km/h[-]");
+			} else if (deltaSpeed < 35) {
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 20-35 km/h[-]");
+			} else {
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: >35 km/h[-]");
+			}
 		}
 
 		//Bat den chieu xa trong do thi
@@ -305,8 +321,22 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe tại trạm xe bus[-]");
 		}
 
-		//Dung xe ko co tin hieu, hoac tin hieu sai
+		//Dung xe giua nga 3,4
+		//Dam vach
+		if (newState.road.tile.typeId == 7) {
+			switch (newState.vachKeDuong) {
+			case MoveDirection.LEFT:
+			case MoveDirection.RIGHT:
+			case MoveDirection.UP:
+			case MoveDirection.DOWN:
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dậm vạch[-]");
+				break;
 
+			default:
+				NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe tại giao lộ[-]");
+				break;
+			}
+		}
 	}
 
 	private PlayerState _currentState;
@@ -316,37 +346,39 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		_lastState = _currentState;
 		_currentState = GetCurrentState ();
 
-		Ultil.AddToQueue (_currentState, queueState, QUEUE_SIZE);
-		
-		CheckState (_currentState);
-
-		if (_lastState != null) {
-			//Change Road
-			if (_lastState.road.tile.objId != _currentState.road.tile.objId) {
-				Ultil.AddToQueue (_lastState, queueStateDiff, QUEUE_SIZE);
-				Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
-
-				OnRoadChange (_lastState, _currentState);
-			}
-
-			//Turn Light Change
-			if (_lastState.turnLight != _currentState.turnLight) {
-				OnTurnLightChange (_lastState, _currentState);
-			}
-
-			//Change In Road
-			if (_lastState.inRoadPos != _currentState.inRoadPos
-			    && _lastState.road.tile.objId == _currentState.road.tile.objId) 
-			{
-				OnInRoadChange (_currentState);
-			}
+		if (_currentState.road == null) {
+			Debug.Log ("null");
 		} else {
-			Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
-		}
+			Ultil.AddToQueue (_currentState, queueState, QUEUE_SIZE);
+			CheckState (_currentState);
 
-		//Check Stop
-		if (_currentState.speed < Global.RUN_SPEED_POINT) {
-			OnStop (_lastState, _currentState);
+			if (_lastState != null) {
+				//Change Road
+				if (_lastState.road.tile.objId != _currentState.road.tile.objId) {
+					Ultil.AddToQueue (_lastState, queueStateDiff, QUEUE_SIZE);
+					Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
+					OnRoadChange (_lastState, _currentState);
+				}
+
+				//Turn Light Change
+				if (_lastState.turnLight != _currentState.turnLight) {
+					OnTurnLightChange (_lastState, _currentState);
+				}
+
+				//Change In Road
+				if (_lastState.inRoadPos != _currentState.inRoadPos
+				    && _lastState.road.tile.objId == _currentState.road.tile.objId) 
+				{
+					OnInRoadChange (_currentState);
+				}
+			} else {
+				Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
+			}
+
+			//Check Stop
+			if (_currentState.speed < Global.RUN_SPEED_POINT) {
+				OnStop (_lastState, _currentState);
+			}
 		}
 	}
 
@@ -360,6 +392,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		p.turnLight = bikeHandler.turnLight;
 		p.speed = bikeMovement.Speed;
 		p.road = null;
+		p.vachKeDuong = MoveDirection.NONE;
 
 		//direction
 		float x = transform.forward.x;
@@ -386,12 +419,52 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		if (Physics.Raycast (rayDown, out hit)) {
 			if (hit.transform.gameObject.name.Equals (OBJ.ROAD)) {
 				p.road = hit.transform.gameObject.GetComponent <RoadHandler>();
-				
+
 				//InRoadPosition
-				p.inRoadPos = p.road.CheckPosition (transform.position);
+				p.inRoadPos = p.road.CheckInOutLen (transform.position);
+			} else {
+				string name = hit.transform.gameObject.name;
+				bool damVach = false;
+
+				switch (name) {
+				case OBJ.VachLeft:
+					damVach = true;
+					p.vachKeDuong = MoveDirection.LEFT;
+					break;
+
+				case OBJ.VachRight:
+					damVach = true;
+					p.vachKeDuong = MoveDirection.RIGHT;
+					break;
+
+				case OBJ.VachUp:
+					damVach = true;
+					p.vachKeDuong = MoveDirection.UP;
+					break;
+
+				case OBJ.VachDown:
+					damVach = true;
+					p.vachKeDuong = MoveDirection.DOWN;
+					break;
+				}
+
+				if (damVach == true) {
+					if (hit.transform.parent != null) {
+						Transform parent2 = hit.transform.parent.parent;
+						if (parent2 != null) {
+
+							if (parent2.gameObject.name.Equals (OBJ.ROAD)) {
+								p.road = parent2.gameObject.GetComponent <RoadHandler>();
+
+								//InRoadPosition
+								p.inRoadPos = p.road.CheckInOutLen (transform.position);
+							}
+						}
+					}
+				}
 			}
 		}
-
+		
 		return p;
 	}
 	#endregion

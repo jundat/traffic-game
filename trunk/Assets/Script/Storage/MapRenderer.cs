@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class MapRenderer : SingletonMono <MapRenderer> {
 	
+	public Terrain terrain;
+
 	public ModelMap map;
 	
 	public Dictionary<int, TileHandler> layerOther = new Dictionary<int, TileHandler> ();
@@ -18,6 +20,11 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 
 	public void Init (ModelMap map) {
 		this.map = map;
+
+		int width = int.Parse (Ultil.GetString ("width", "1", map.info));
+		int height = int.Parse (Ultil.GetString ("height", "1", map.info));
+		terrain.terrainData.size = new Vector3 (width * 16, 1, height * 16);
+		terrain.transform.localPosition = new Vector3(-width * 8, -0.1f, -height * 8);
 
 		foreach (KeyValuePair<string, ModelLayer> p in map.layer) {
 			LayerType layerType = p.Value.type;

@@ -181,7 +181,7 @@ public class RoadHandler : TileHandler {
 		}
 	}
 	
-	public InRoadPosition CheckPosition (Vector3 pos) {
+	public InRoadPosition CheckInOutLen (Vector3 pos) {
 		float dx = pos.x - transform.position.x;
 		float dz = pos.z - transform.position.z;
 		
