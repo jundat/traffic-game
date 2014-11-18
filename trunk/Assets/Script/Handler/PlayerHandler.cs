@@ -288,7 +288,10 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Đèn chiếu xa trong đô thị[-]");
 		}
 
-		//Bat den nhung ko re
+		//Khong bat den khi troi toi
+		if (state.isLightOn == false && Main.Instance.needTheLight == true) {
+			NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không bật đèn khi trời tối[-]");
+		}
 
 	}
 
