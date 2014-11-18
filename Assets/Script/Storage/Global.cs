@@ -65,7 +65,10 @@ public class OBJ {
 	public const string RoadBorderUp 		= "RoadBorderUp";
 	public const string RoadBorderDown 		= "RoadBorderDown";
 
-
+	public const string VachRight = "VachRight";
+	public const string VachLeft = "VachLeft";
+	public const string VachUp = "VachUp";
+	public const string VachDown = "VachDown";
 }
 
 public enum VihicleType {

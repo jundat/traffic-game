@@ -6,6 +6,7 @@ public class PlayerState {
 	public RoadHandler road;
 	public InRoadPosition inRoadPos;
 	public MoveDirection direction;
+	public MoveDirection vachKeDuong;
 	public float time;
 	public bool isHelmetOn;
 	public bool isLightOn;

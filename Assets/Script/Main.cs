@@ -10,6 +10,7 @@ public class Main : SingletonMono<Main> {
 	public Material daySkybox;
 	public Material nightSkybox;
 
+
 	private DateTime _startTime;
 	public DateTime time;
 	public bool needTheLight = false;
