@@ -8,6 +8,8 @@ public class Ultil {
 	private static int LAYER_ID_COUNTER = 0;
 	private static int OBJ_ID_COUNTER = 0;
 
+	public static System.Random random = new System.Random ();
+
 	public static void ResetLayerId () {
 		LAYER_ID_COUNTER = 0;
 	}
@@ -216,6 +218,49 @@ public class Ultil {
 		}
 
 		return false;
+	}
+
+	public static MoveDirection GetTurnDirection (Vector3 oldDir, Vector3 newDir) { //x, z
+		return MoveDirection.NONE;
+	}
+
+	public static RoadHandler RayCastRoad (Vector3 pos) {
+		RoadHandler road = null;
+
+		RaycastHit hit;
+		Ray rayDown = new Ray (pos, Vector3.down);
+		if (Physics.Raycast (rayDown, out hit)) {
+			if (hit.transform.gameObject.name.Equals (OBJ.ROAD)) {
+				road = hit.transform.gameObject.GetComponent <RoadHandler>();
+			}
+		}
+
+		return road;
+	}
+
+	public static MoveDirection GetMoveDirection (Vector3 dir) {
+
+		//direction
+		float x = dir.x;
+		float z = dir.z;
+
+		if (Mathf.Abs (x) > Mathf.Abs (z)) {
+			//left-right
+			if (x > 0) {
+				return MoveDirection.LEFT;
+			} else {
+				return MoveDirection.RIGHT;
+			}
+		} else {
+			//up-down
+			if (z > 0) {
+				return MoveDirection.DOWN;
+			} else {
+				return MoveDirection.UP;
+			}
+		}
+
+		return MoveDirection.NONE;
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class NotifierHandler : SingletonMono<NotifierHandler> {
@@ -12,10 +12,10 @@ public class NotifierHandler : SingletonMono<NotifierHandler> {
 	void Update () {}
 
 	public void ScheduleTime () {
-		AddNotify ("Time: " + (int)Time.realtimeSinceStartup + "s: [00ff00]OK[-]");
+		PushNotify ("Time: " + (int)Time.realtimeSinceStartup + "s: [00ff00]OK[-]");
 	}
 
-	public void AddNotify (string s) {
+	public void PushNotify (string s) {
 		uiTextList.Add (s);
 	}
 }

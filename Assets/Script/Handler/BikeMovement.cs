@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BikeMovement2 : MonoBehaviour {
+public class BikeMovement : MonoBehaviour {
 
 	public const float TO_REAL_SPEED = 0.5f;
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class MapRenderer : SingletonMono <MapRenderer> {
 	
 	public Terrain terrain;
+	public float terrainY = -0.2f;
 
 	public ModelMap map;
 	
@@ -24,7 +25,7 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 		int width = int.Parse (Ultil.GetString ("width", "1", map.info));
 		int height = int.Parse (Ultil.GetString ("height", "1", map.info));
 		terrain.terrainData.size = new Vector3 (width * 16, 1, height * 16);
-		terrain.transform.localPosition = new Vector3(-width * 8, -0.1f, -height * 8);
+		terrain.transform.localPosition = new Vector3(-width * 8, terrainY, -height * 8);
 
 		foreach (KeyValuePair<string, ModelLayer> p in map.layer) {
 			LayerType layerType = p.Value.type;
@@ -32,7 +33,7 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 			foreach (KeyValuePair<string, ModelTile> p2 in p.Value.tile) {
 				ModelTile tile = p2.Value;
 
-				if (Global.DEBUG_BUIDING == false) {
+				if (Global.BUILD_BUIDING == false) {
 					if (tile.layerType == LayerType.View && tile.typeId != 203) {
 						continue;
 					}

@@ -9,7 +9,9 @@ public class Main : SingletonMono<Main> {
 	public Light mainLight;
 	public Material daySkybox;
 	public Material nightSkybox;
-
+	
+	public AudioClip dayMusic;
+	public AudioClip nightMusic;
 
 	private DateTime _startTime;
 	public DateTime time;
@@ -19,28 +21,35 @@ public class Main : SingletonMono<Main> {
 	void Start () {
 		MapManager.Instance.Init ();
 	}
-
+	
 	void Update () {
 		TrafficLightManager.Instance.Update ();
 
 		time = _startTime.AddSeconds (Time.realtimeSinceStartup);
 		UI2DManager.Instance.SetTime (time);
-
-		if (time.Hour > Global.TIME_START_LIGHT || time.Hour < Global.TIME_STOP_LIGHT) {
-			needTheLight = true;
-			mainLight.intensity = 0.1f;
-			RenderSettings.skybox = nightSkybox;
-
-		} else {
-			needTheLight = false;
-			mainLight.intensity = 0.5f;
-			RenderSettings.skybox = daySkybox;
-
-		}
 	}
 
 	public void SetStartTime (DateTime d) {
 		_startTime = d;
 		time = _startTime;
+
+		//Update state
+		if (time.Hour > Global.TIME_START_LIGHT || time.Hour < Global.TIME_STOP_LIGHT) {
+			needTheLight = true;
+			mainLight.intensity = 0.1f;
+			RenderSettings.skybox = nightSkybox;
+
+			audio.clip = nightMusic;
+			audio.Play ();
+
+		} else {
+			needTheLight = false;
+			mainLight.intensity = 0.5f;
+			RenderSettings.skybox = daySkybox;
+			
+			audio.clip = dayMusic;
+			audio.Play ();
+
+		}
 	}
 }

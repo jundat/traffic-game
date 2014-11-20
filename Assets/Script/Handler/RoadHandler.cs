@@ -30,6 +30,13 @@ public class RoadHandler : TileHandler {
 	public GameObject vachUp;
 	public GameObject vachDown;
 
+	//Le Duong
+	public GameObject objLeDuong;
+	public GameObject leRight;
+	public GameObject leLeft;
+	public GameObject leUp;
+	public GameObject leDown;
+
 	public TrafficLightStatus LightStatus {
 		get {
 			return lightStatus;
@@ -39,22 +46,22 @@ public class RoadHandler : TileHandler {
 
 			//-------- debug --------
 			if (Global.DEBUG_LIGHT) { 
-				MeshRenderer render = gameObject.GetComponent <MeshRenderer> ();
+				RoadHandler handler = gameObject.GetComponent <RoadHandler> ();
 				switch (lightStatus) {
 				case TrafficLightStatus.none:
-					render.material.color = Color.white;
+					handler.roadMeshRender.material.color = Color.white;
 					break;
 
 				case TrafficLightStatus.green:
-					render.material.color = Color.green;
+					handler.roadMeshRender.material.color = Color.green;
 					break;
 
 				case TrafficLightStatus.red:
-					render.material.color = Color.red;
+					handler.roadMeshRender.material.color = Color.red;
 					break;
 					
 				case TrafficLightStatus.yellow:
-					render.material.color = Color.yellow;
+					handler.roadMeshRender.material.color = Color.yellow;
 					break;
 				}
 			}
@@ -76,6 +83,11 @@ public class RoadHandler : TileHandler {
 		borderLeft.SetActive (isLeft);
 		borderUp.SetActive (isUp);
 		borderDown.SetActive (isDown);
+
+		leRight.SetActive (false);
+		leLeft.SetActive (false);
+		leUp.SetActive (false);
+		leDown.SetActive (false);
 
 		viaheRight.SetActive (isRight);
 		viaheLeft.SetActive (isLeft);
@@ -179,6 +191,63 @@ public class RoadHandler : TileHandler {
 			string s = Ultil.GetString (TileKey.ROAD_MAX_VEL, "40", tile.properties);
 			return int.Parse (s);
 		}
+	}
+
+	public MoveDirection CheckInLeDuong (Vector3 pos) {
+		pos.y = this.transform.position.y + 1;
+
+		bool isRight = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_PHAI, "false", tile.properties));
+		bool isLeft = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TRAI, "false", tile.properties));
+		bool isUp = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TREN, "false", tile.properties));
+		bool isDown = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_DUOI, "false", tile.properties));
+		leRight.SetActive (isRight);
+		leLeft.SetActive (isLeft);
+		leUp.SetActive (isUp);
+		leDown.SetActive (isDown);
+
+		BoxCollider box = this.GetComponent<BoxCollider>();
+		box.enabled = false;
+		MoveDirection result = MoveDirection.NONE;
+
+		RaycastHit hit;
+		Ray rayDown = new Ray (pos, Vector3.down);
+		Debug.DrawRay (pos, Vector3.down);
+		if (Physics.Raycast (rayDown, out hit)) {
+			string name = hit.transform.gameObject.name;
+
+			Debug.Log (hit.transform.gameObject.name);
+
+			switch (name) {
+			case OBJ.LeLeft:
+				result = MoveDirection.LEFT;
+				break;
+				
+			case OBJ.LeRight:
+				result = MoveDirection.RIGHT;
+				break;
+				
+			case OBJ.LeUp:
+				result = MoveDirection.UP;
+				break;
+				
+			case OBJ.LeDown:
+				result = MoveDirection.DOWN;
+				break;
+				
+			default:
+				result = MoveDirection.NONE;
+				break;
+			}
+		}
+
+		box.enabled = true;
+
+		leRight.SetActive (false);
+		leLeft.SetActive (false);
+		leUp.SetActive (false);
+		leDown.SetActive (false);
+
+		return result;
 	}
 	
 	public InRoadPosition CheckInOutLen (Vector3 pos) {
