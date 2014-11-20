@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ public class BikeHandler : MonoBehaviour {
 //	public const int NONE_TURN_LIGHT = 0;
 //	public const int RIGHT_LIGHT = 1;
 
-	private BikeMovement2 bikeMovement;
+	private BikeMovement bikeMovement;
 	public ScooterHandler scooterHandler;
 
 	//helmet
@@ -32,7 +32,7 @@ public class BikeHandler : MonoBehaviour {
 
 
 	void Start () {
-		bikeMovement = this.gameObject.GetComponent <BikeMovement2> ();
+		bikeMovement = this.gameObject.GetComponent <BikeMovement> ();
 		UI2DManager.Instance.onHideHelmet = this.OnTakeOffHelmet;
 
 		RefreshHelmetState ();

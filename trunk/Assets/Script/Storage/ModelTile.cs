@@ -30,6 +30,9 @@ public struct TileKey {
 	public static string SIGN_DIR = "SIGN_DIR";
 	public static string SIGN_MAX_TOCDO = "SIGN_MAX_TOCDO";
 	public static string SIGN_MIN_TOCDO = "SIGN_MIN_TOCDO";
+
+	//Auto Car
+	public static string AUTOCAR_DIR = "AUTOCAR_DIR";
 }
 
 public class TileID {

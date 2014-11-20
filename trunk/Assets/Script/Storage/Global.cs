@@ -6,12 +6,12 @@ public class Global {
 	public const float ZERO_POINT = 0.001f;
 
 //#if UNITY_EDITOR
-	public const bool DEBUG_BUIDING = true;
+	public const bool BUILD_BUIDING = true;
 //#else
-//	public const bool DEBUG_BUIDING = true;
+//	public const bool BUILD_BUIDING = true;
 //#endif
 
-	public const bool DEBUG_LIGHT = false;
+	public const bool DEBUG_LIGHT = true;
 
 	public const float DELTA_HEIGH = 0.001f;
 
@@ -42,6 +42,8 @@ public class Global {
 
 	public const int TIME_START_LIGHT = 18;
 	public const int TIME_STOP_LIGHT = 6;
+
+	public const int MAX_TURNING_SPEED = 30;
 }
 
 public enum MoveDirection {
@@ -65,10 +67,17 @@ public class OBJ {
 	public const string RoadBorderUp 		= "RoadBorderUp";
 	public const string RoadBorderDown 		= "RoadBorderDown";
 
+	//Vach Ke Duong
 	public const string VachRight = "VachRight";
 	public const string VachLeft = "VachLeft";
 	public const string VachUp = "VachUp";
 	public const string VachDown = "VachDown";
+
+	//Le Duong
+	public const string LeRight = "LeRight";
+	public const string LeLeft = "LeLeft";
+	public const string LeUp = "LeUp";
+	public const string LeDown = "LeDown";
 }
 
 public enum VihicleType {

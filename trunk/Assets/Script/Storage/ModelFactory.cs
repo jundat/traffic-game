@@ -39,6 +39,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 
 	public GameObject GetNewModel (ModelTile tile) {
 		GameObject ins = null;
+
 		switch (tile.layerType) {
 		case LayerType.Road:
 			ins = InitRoad (tile);
@@ -249,6 +250,13 @@ public class ModelFactory : Singleton <ModelFactory> {
 					break;
 				}
 				ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
+			}
+
+			//Auto Car
+			if (tile.typeId == 310) {
+				AutoCarHandler handler = ins.GetComponent<AutoCarHandler> ();
+				handler.tile = tile;
+				handler.Init ();
 			}
 		} else {
 			return null;

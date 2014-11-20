@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerState {
 
+	public PlayerState lastState;
+	public PlayerState nextState;
+
 	public RoadHandler road;
 	public InRoadPosition inRoadPos;
 	public MoveDirection direction;
