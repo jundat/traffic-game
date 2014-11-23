@@ -61,12 +61,18 @@ public class AutoCarHandler : TileHandler {
 					if (!isDown) {
 						listDirection.Add (MoveDirection.DOWN);
 					}
+					Debug.Log ("Type: " + road.tile.typeId + ", Id: " + road.tile.objId);
+					Debug.Log (">----------------");
+					for (int i = 0; i < listDirection.Count; ++i) {
+						Debug.Log (listDirection[i]);
+					}
 
 					//current direction
 					MoveDirection currentDirection = Ultil.GetMoveDirection (this.transform.forward);
 					MoveDirection removedDirection = Ultil.OppositeOf (currentDirection);
 					listDirection.Remove (removedDirection);
-
+					Debug.Log ("Currnet: " + currentDirection);
+					Debug.Log ("Opposite: " + removedDirection);
 					Debug.Log ("<<<<");
 					for (int i = 0; i < listDirection.Count; ++i) {
 						Debug.Log (listDirection[i]);
@@ -77,11 +83,14 @@ public class AutoCarHandler : TileHandler {
 					int count = listDirection.Count;
 					int idx = Ultil.random.Next (0, count-1);
 					MoveDirection nextDirection = listDirection[idx];
-
+					Debug.Log ("Next: " + nextDirection);
 					direction = nextDirection;
 					RotateToDirection ();
+
+					Debug.Log ("-----------------<");
 				}
 			} else {
+				Debug.Log ("ExitConjunction: " + road.tile.objId);
 				isInJunction = false;
 			}
 		}
