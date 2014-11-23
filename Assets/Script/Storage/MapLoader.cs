@@ -10,7 +10,7 @@ public class MapLoader : Singleton <MapLoader> {
 	public string json;
 	public ModelMap map;
 
-	public ModelMap Load (string path) {
+	public ModelMap LoadFile (string path) {
 		UnityEngine.Object obj = Resources.Load (path);
 		json = obj.ToString ();
 
@@ -34,6 +34,14 @@ public class MapLoader : Singleton <MapLoader> {
 			d = d.AddHours(h);
 			Main.Instance.SetStartTime (d);
 		}
+
+		return map;
+	}
+
+	public ModelMap LoadJSON (string str) {
+		json = str;
+		
+		map = JsonReader.Deserialize <ModelMap> (json);
 
 		return map;
 	}

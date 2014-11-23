@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour {
 	public UILabel lbError;
 
 	public GameObject objWait;
+	public LoadingHandler loadingHandler;
 
 	public HistoryHandler historyHandler;
 
@@ -27,7 +28,45 @@ public class Menu : MonoBehaviour {
 	void Update () {}
 
 	public void OnPlay () {
-		Application.LoadLevel ("Main");
+		loadingHandler.gameObject.SetActive (true);
+		StartCoroutine (StartGame ());
+	}
+
+	
+	public IEnumerator StartGame () {
+		WWWForm form = new WWWForm();
+		WWW w = new WWW(Global.URL_GETMAP, form);
+		
+		yield return w;
+		
+		if (!string.IsNullOrEmpty(w.error))
+		{
+			loadingHandler.gameObject.SetActive (false);
+			lbError.text = "Can not connect to server!";
+		}
+		else
+		{
+			lbError.text = "";
+
+			if (! string.IsNullOrEmpty (w.text)) {
+				MapManager.Instance.LoadJSON (w.text);
+				StartCoroutine (LoadMainGame ());
+			} else {
+				loadingHandler.gameObject.SetActive (false);
+				lbError.text = "Something wrong!";
+			}
+		}
+	}
+
+	public IEnumerator LoadMainGame () {
+		AsyncOperation asyn = Application.LoadLevelAsync ("Main");
+		while (asyn.isDone == false) {
+			loadingHandler.SetValue (asyn.progress);
+			Debug.Log (asyn.progress);
+			yield return null;
+		}
+		
+		loadingHandler.gameObject.SetActive (false);
 	}
 
 	public void OnLogout () {
