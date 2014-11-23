@@ -211,7 +211,7 @@ public class RoadHandler : TileHandler {
 
 		RaycastHit hit;
 		Ray rayDown = new Ray (pos, Vector3.down);
-		Debug.DrawRay (pos, Vector3.down);
+		//Debug.DrawRay (pos, Vector3.down);
 		if (Physics.Raycast (rayDown, out hit)) {
 			string name = hit.transform.gameObject.name;
 
@@ -247,6 +247,59 @@ public class RoadHandler : TileHandler {
 		leUp.SetActive (false);
 		leDown.SetActive (false);
 
+		return result;
+	}
+
+	public MoveDirection CheckInAllLeDuong (Vector3 pos) {
+		pos.y = this.transform.position.y + 1;
+
+		leRight.SetActive (true);
+		leLeft.SetActive (true);
+		leUp.SetActive (true);
+		leDown.SetActive (true);
+		
+		BoxCollider box = this.GetComponent<BoxCollider>();
+		box.enabled = false;
+		MoveDirection result = MoveDirection.NONE;
+		
+		RaycastHit hit;
+		Ray rayDown = new Ray (pos, Vector3.down);
+		//Debug.DrawRay (pos, Vector3.down);
+		if (Physics.Raycast (rayDown, out hit)) {
+			string name = hit.transform.gameObject.name;
+			
+			Debug.Log (hit.transform.gameObject.name);
+			
+			switch (name) {
+			case OBJ.LeLeft:
+				result = MoveDirection.LEFT;
+				break;
+				
+			case OBJ.LeRight:
+				result = MoveDirection.RIGHT;
+				break;
+				
+			case OBJ.LeUp:
+				result = MoveDirection.UP;
+				break;
+				
+			case OBJ.LeDown:
+				result = MoveDirection.DOWN;
+				break;
+				
+			default:
+				result = MoveDirection.NONE;
+				break;
+			}
+		}
+		
+		box.enabled = true;
+		
+		leRight.SetActive (false);
+		leLeft.SetActive (false);
+		leUp.SetActive (false);
+		leDown.SetActive (false);
+		
 		return result;
 	}
 	

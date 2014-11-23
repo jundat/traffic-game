@@ -3,6 +3,11 @@ using System;
 using System.Collections;
 
 public class Global {
+
+	public const string URL_LOGIN = "http://localhost/TrafficGame/login.php";
+	public const string URL_HISTORY = "http://localhost/TrafficGame/history.php";
+
+
 	public const float ZERO_POINT = 0.001f;
 
 //#if UNITY_EDITOR

@@ -35,6 +35,7 @@ public class AutoCarHandler : TileHandler {
 		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0));
 		if (road != null) {
 			if (road.tile.typeId == 7) {
+
 				if (isInJunction == false) {
 					isInJunction = true;
 
