@@ -232,6 +232,8 @@ public class Ultil {
 		if (Physics.Raycast (rayDown, out hit)) {
 			if (hit.transform.gameObject.name.Equals (OBJ.ROAD)) {
 				road = hit.transform.gameObject.GetComponent <RoadHandler>();
+			} else {
+				//Debug.Log ("Null: " + hit.transform.gameObject.name);
 			}
 		}
 

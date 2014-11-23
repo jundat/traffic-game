@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class TileManager : Singleton <TileManager> {
 
+	public const string MINIMAP_FOLDER = "MiniMap";
+
 	public Dictionary<string, Dictionary<string, Texture>> dictTexture = new Dictionary<string, Dictionary<string, Texture>> (); //folder, list_texture
 
 	public Dictionary<string, Texture> GetFolder (string folder) {
@@ -27,7 +29,7 @@ public class TileManager : Singleton <TileManager> {
 	}
 
 	public Texture GetTexture (string name) {
-		string folder = Ultil.GetFolderTile (name);
+		string folder = MINIMAP_FOLDER + "/" + Ultil.GetFolderTile (name);
 		Dictionary<string, Texture> dict = GetFolder (folder);
 		Texture t = null;
 

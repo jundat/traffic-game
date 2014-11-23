@@ -13,29 +13,40 @@ public class RoadHandler : TileHandler {
 	public Material prefabViaHeMat;
 
 	//Border Collider
+	public string _________________1;
 	public GameObject borderRight;
 	public GameObject borderLeft;
 	public GameObject borderUp;
 	public GameObject borderDown;
 
 	//Via he
+	public string _________________2;
 	public GameObject viaheRight;
 	public GameObject viaheLeft;
 	public GameObject viaheUp;
 	public GameObject viaheDown;
 
 	//Vach duong
+	public string _________________3;
 	public GameObject vachRight;
 	public GameObject vachLeft;
 	public GameObject vachUp;
 	public GameObject vachDown;
 
 	//Le Duong
-	public GameObject objLeDuong;
+	public string _________________4;
 	public GameObject leRight;
 	public GameObject leLeft;
 	public GameObject leUp;
 	public GameObject leDown;
+
+	//Vach Phan Cach
+	public string _________________5;
+	public GameObject pcachRight;
+	public GameObject pcachLeft;
+	public GameObject pcachUp;
+	public GameObject pcachDown;
+
 
 	public TrafficLightStatus LightStatus {
 		get {
@@ -106,29 +117,63 @@ public class RoadHandler : TileHandler {
 			vachDown.SetActive (!isDown);
 		}
 
-		//Material
-		//Road
-		Material matRoad = (Material) GameObject.Instantiate (prefabRoadMat);
-		roadMeshRender.material = matRoad;
+		
+		pcachRight.SetActive (false);
+		pcachLeft.SetActive (false);
+		pcachUp.SetActive (false);
+		pcachDown.SetActive (false);
 
-		if (Ultil.IsVerticalRoad (tile)) {
-			if (tile.h > 512) {
-				matRoad.mainTextureScale = new Vector2 (1, tile.h / 512);
-			} else {
-				matRoad.mainTextureScale = new Vector2 (1, 1);
+		roadMeshRender.gameObject.SetActive (false);
+		roadMeshRenderRepeat.gameObject.SetActive (false);
+
+		//Material
+		if (IsBus) {
+			roadMeshRender.gameObject.SetActive (true);
+
+			//Road
+			Material matRoad = (Material) GameObject.Instantiate (prefabRoadMat);
+			roadMeshRender.material = matRoad;
+
+			if (Ultil.IsVerticalRoad (tile)) {
+				if (tile.h > 512) {
+					matRoad.mainTextureScale = new Vector2 (1, tile.h / 512);
+				} else {
+					matRoad.mainTextureScale = new Vector2 (1, 1);
+				}
+			} else if (Ultil.IsHorizontalRoad (tile)) {
+				if (tile.w > 512) {
+					matRoad.mainTextureScale = new Vector2 (tile.w / 512, 1);
+				} else {
+					matRoad.mainTextureScale = new Vector2 (1, 1);
+				}
 			}
-		} else if (Ultil.IsHorizontalRoad (tile)) {
-			if (tile.w > 512) {
-				matRoad.mainTextureScale = new Vector2 (tile.w / 512, 1);
-			} else {
-				matRoad.mainTextureScale = new Vector2 (1, 1);
+		} else {
+			roadMeshRenderRepeat.gameObject.SetActive (true);
+
+			//Road Repeat
+			Material matRoadRepeat = (Material) GameObject.Instantiate (prefabRoadMatRepeat);
+			roadMeshRenderRepeat.material = matRoadRepeat;
+			matRoadRepeat.mainTextureScale = new Vector2 (tile.w / 16, tile.h / 16);
+
+			//Vach Phan Cach
+			switch (tile.typeId) {
+			case 1:
+				pcachRight.SetActive (true);
+				break;
+				
+			case 2:
+				pcachDown.SetActive (true);
+				break;
+				
+			case 3:
+				pcachUp.SetActive (true);
+				break;
+				
+			case 4:
+				pcachLeft.SetActive (true);
+				break;
 			}
 		}
-
-		//Road Repeat
-		Material matRoadRepeat = (Material) GameObject.Instantiate (prefabRoadMatRepeat);
-		roadMeshRenderRepeat.material = matRoadRepeat;
-		matRoadRepeat.mainTextureScale = new Vector2 (tile.w / 32, tile.h / 32);
 
 		//Via he
 		Material matViaheLeftRight = (Material) GameObject.Instantiate (prefabViaHeMat);
