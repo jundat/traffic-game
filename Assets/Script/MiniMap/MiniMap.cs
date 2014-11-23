@@ -56,8 +56,6 @@ public class MiniMap : SingletonMono<MiniMap> {
 				//p = 1 layer
 				Dictionary<string, object> layer = p.Value as Dictionary<string, object>;
 				int layerId = int.Parse (layer["id"].ToString ());
-				//string name = layer["name"].ToString ();
-				//LayerType layerType = (LayerType) Enum.Parse (typeof (LayerType), layer["type"].ToString ());
 
 				//Tiles
 				Dictionary<string, object> tiles = layer["tile"] as Dictionary<string, object>;
@@ -67,7 +65,6 @@ public class MiniMap : SingletonMono<MiniMap> {
 					ModelTile t = JsonReader.Deserialize<ModelTile> (JsonWriter.Serialize (p2.Value));
 
 					if (t.layerType != LayerType.View) {
-						//GridTileHandler gt = 
 						AddNewObject (t, layerId);
 					}
 

@@ -6,6 +6,7 @@ public class SignHandler : TileHandler {
 	public MeshRenderer plane1;
 	public MeshRenderer plane2;
 	public TextMesh lbText;
+	public TypogenicText lbText2;
 
 	void Start () {}
 	void Update () {}
@@ -17,11 +18,15 @@ public class SignHandler : TileHandler {
 
 	public void SetText (string text, Color color) {
 		if (text.Length > 0) {
-			lbText.gameObject.SetActive (true);
-			lbText.text = text;
-			lbText.color = color;
+			lbText2.gameObject.SetActive (true);
+			//lbText.text = text;
+			//lbText.color = color;
+
+			//
+			lbText2.Text = text;
+			lbText2.ColorTopLeft = lbText2.ColorTopRight = lbText2.ColorBottomLeft = lbText2.ColorBottomRight = color;
 		} else {
-			lbText.gameObject.SetActive (false);
+			lbText2.gameObject.SetActive (false);
 		}
 	}
 }
