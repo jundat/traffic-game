@@ -3,9 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ModelHistoryResponse {
-	public bool is_success;
-	public string message;
+public class ModelHistoryResponse : ModelResponse {
 	public List<ModelHistoryItem> highscore;
 }
 

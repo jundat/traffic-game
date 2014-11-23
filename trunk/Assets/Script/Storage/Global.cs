@@ -6,6 +6,7 @@ public class Global {
 
 	public const string URL_LOGIN = "http://localhost/TrafficGame/login.php";
 	public const string URL_HISTORY = "http://localhost/TrafficGame/history.php";
+	public const string URL_GETMAP = "http://localhost/TrafficGame/getmap.php";
 
 
 	public const float ZERO_POINT = 0.001f;

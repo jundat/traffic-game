@@ -6,6 +6,9 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 
 	public List<ModelError> listError = new List<ModelError> ();
 
+	void Start () {}
+	void Update () {}
+
 	public ModelError GetModelError (ErrorCode errorCode) {
 		return new ModelError ();
 	}
