@@ -11,6 +11,7 @@ public class RoadHandler : TileHandler {
 	public Material prefabRoadMat;
 	public Material prefabRoadMatRepeat;
 	public Material prefabViaHeMat;
+	public Material prefabDaiPCachMat; //Dai phan cach
 
 	//Border Collider
 	public string _________________1;
@@ -46,6 +47,13 @@ public class RoadHandler : TileHandler {
 	public GameObject pcachLeft;
 	public GameObject pcachUp;
 	public GameObject pcachDown;
+
+	//Dai Phan Cach
+	public string _________________6;
+	public GameObject daiPCachRight;
+	public GameObject daiPCachLeft;
+	public GameObject daiPCachUp;
+	public GameObject daiPCachDown;
 
 
 	public TrafficLightStatus LightStatus {
@@ -85,6 +93,35 @@ public class RoadHandler : TileHandler {
 	void Update () {}
 
 	public void Init () {
+		//Dai Phan Cach
+		bool isDaiPCRight = bool.Parse ( Ultil.GetString (TileKey.PCACH_PHAI, "false", tile.properties));
+		bool isDaiPCLeft = bool.Parse ( Ultil.GetString (TileKey.PCACH_TRAI, "false", tile.properties));
+		bool isDaiPCUp = bool.Parse ( Ultil.GetString (TileKey.PCACH_TREN, "false", tile.properties));
+		bool isDaiPCDown = bool.Parse ( Ultil.GetString (TileKey.PCACH_DUOI, "false", tile.properties));
+
+		daiPCachRight.SetActive (isDaiPCRight);
+		daiPCachLeft.SetActive (isDaiPCLeft);
+		daiPCachUp.SetActive (isDaiPCUp);
+		daiPCachDown.SetActive (isDaiPCDown);
+
+		Material matDaiPCLeftRight = (Material) GameObject.Instantiate (prefabDaiPCachMat);
+		Material matDaiPCUpDown = (Material) GameObject.Instantiate (prefabDaiPCachMat);
+		
+		MeshRenderer daiPCLeftRender = daiPCachLeft.GetComponent <MeshRenderer> ();
+		MeshRenderer daiPCRightRender = daiPCachRight.GetComponent <MeshRenderer> ();
+		MeshRenderer daiPCUpRender = daiPCachUp.GetComponent <MeshRenderer> ();
+		MeshRenderer daiPCDownRender = daiPCachDown.GetComponent <MeshRenderer> ();
+		
+		daiPCLeftRender.material = matDaiPCLeftRight;
+		daiPCRightRender.material = matDaiPCLeftRight;
+		daiPCUpRender.material = matDaiPCUpDown;
+		daiPCDownRender.material = matDaiPCUpDown;
+		
+		matDaiPCLeftRight.mainTextureScale = new Vector2 (tile.w / 16 / 5, tile.h / 12);
+		matDaiPCUpDown.mainTextureScale = new Vector2 (tile.w / 12, tile.h / 16 / 5);
+
+		//-----------------------
+
 		bool isRight = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_PHAI, "false", tile.properties));
 		bool isLeft = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TRAI, "false", tile.properties));
 		bool isUp = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TREN, "false", tile.properties));
