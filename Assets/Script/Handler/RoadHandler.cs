@@ -64,6 +64,14 @@ public class RoadHandler : TileHandler {
 	public GameObject daiPCachUp;
 	public GameObject daiPCachDown;
 
+	//Anchor Point
+	public string _________________7;
+	public GameObject anchorRight;
+	public GameObject anchorLeft;
+	public GameObject anchorUp;
+	public GameObject anchorDown;
+
+
 
 	public TrafficLightStatus LightStatus {
 		get {

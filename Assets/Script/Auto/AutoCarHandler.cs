@@ -39,62 +39,54 @@ public class AutoCarHandler : TileHandler {
 				if (isInJunction == false) {
 					isInJunction = true;
 
-					//Cac huong co the di
-					bool isRight = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_PHAI, "false", road.tile.properties));
-					bool isLeft = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TRAI, "false", road.tile.properties));
-					bool isUp = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_TREN, "false", road.tile.properties));
-					bool isDown = bool.Parse ( Ultil.GetString (TileKey.ROAD_LE_DUOI, "false", road.tile.properties));
-					
-					List<MoveDirection> listDirection = new List<MoveDirection> ();
-					if (!isRight) {
-						listDirection.Add (MoveDirection.RIGHT);
+					Debug.Log (">>>>>>>>>>>>>>>>>>");
+					List<RoadHandler> listAvai = new List<RoadHandler> ();
+					for (int i = 0; i < road.listCollisionRoads.Count; ++i) {
+						RoadHandler.CollisionRoad c = road.listCollisionRoads[i];
+						RoadHandler r = c.road;
+						if (r.Direction == c.dir) {
+							listAvai.Add (r);
+						
+							Debug.Log ("Avai: " + r.Direction);
+						}
 					}
 
-					if (!isLeft) {
-						listDirection.Add (MoveDirection.LEFT);
+					int count = listAvai.Count;
+					if (count > 0) {
+						int randomIndex = Ultil.random.Next (0, count-1);
+						RoadHandler nextRoad = listAvai[randomIndex];
+
+						Debug.Log ("Next: " + nextRoad.Direction);
+
+						this.direction = nextRoad.Direction;
+						RotateToDirection ();
+
+						switch (nextRoad.Direction) {
+						case MoveDirection.UP:
+							this.transform.position = nextRoad.anchorDown.transform.position;
+							break;
+
+						case MoveDirection.DOWN:
+							this.transform.position = nextRoad.anchorUp.transform.position;
+							break;
+							
+						case MoveDirection.LEFT:
+							this.transform.position = nextRoad.anchorRight.transform.position;
+							break;
+							
+						case MoveDirection.RIGHT:
+							this.transform.position = nextRoad.anchorLeft.transform.position;
+							break;
+						}
+
+					} else {
+						Debug.Log ("STOP HERE");
+						SPEED = 0;
 					}
-
-					if (!isUp) {
-						listDirection.Add (MoveDirection.UP);
-					}
-
-					if (!isDown) {
-						listDirection.Add (MoveDirection.DOWN);
-					}
-					//Debug.Log ("Type: " + road.tile.typeId + ", Id: " + road.tile.objId);
-					//Debug.Log (">----------------");
-					//for (int i = 0; i < listDirection.Count; ++i) {
-					//	Debug.Log (listDirection[i]);
-					//}
-
-					//current direction
-					MoveDirection currentDirection = Ultil.GetMoveDirection (this.transform.forward);
-					MoveDirection removedDirection = Ultil.OppositeOf (currentDirection);
-					listDirection.Remove (removedDirection);
-					//Debug.Log ("Currnet: " + currentDirection);
-					//Debug.Log ("Opposite: " + removedDirection);
-					//Debug.Log ("<<<<");
-					//for (int i = 0; i < listDirection.Count; ++i) {
-					//	Debug.Log (listDirection[i]);
-					//}
-					//Debug.Log (">>>>");
-
-					//Random
-					int count = listDirection.Count;
-					int idx = Ultil.random.Next (0, count-1);
-					MoveDirection nextDirection = listDirection[idx];
-					//Debug.Log ("Next: " + nextDirection);
-					direction = nextDirection;
-					RotateToDirection ();
-
-					//Debug.Log ("-----------------<");
 				}
 			} else {
-				//Debug.Log ("ExitConjunction: " + road.tile.objId);
 				isInJunction = false;
 			}
-		} else {
-			//Debug.Log ("NULL");
 		}
 	}
 
