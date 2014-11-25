@@ -19,16 +19,8 @@ public class Main : SingletonMono<Main> {
 
 
 	void Start () {
-		//StartCoroutine (InitScene ());
-
-		//Debug.Log ("Begin: " + Time.realtimeSinceStartup);
 		MapManager.Instance.Init ();
-		//Debug.Log ("Finish: " + Time.realtimeSinceStartup);
 	}
-
-//	public IEnumerator InitScene () {
-//
-//	}
 	
 	void Update () {
 		TrafficLightManager.Instance.Update ();

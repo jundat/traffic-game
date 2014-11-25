@@ -1,7 +1,16 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class RoadHandler : TileHandler {
+
+	[System.Serializable]
+	public class CollisionRoad {
+		public RoadHandler road;
+		public MoveDirection dir;
+	}
+
+	public List<CollisionRoad> listCollisionRoads = new List<CollisionRoad> ();
 
 	private TrafficLightStatus lightStatus = TrafficLightStatus.none;
 
@@ -228,7 +237,40 @@ public class RoadHandler : TileHandler {
 
 		matViaheLeftRight.mainTextureScale = new Vector2 (tile.w / 16 / 5, tile.h / 12);
 		matViaheUpDown.mainTextureScale = new Vector2 (tile.w / 12, tile.h / 16 / 5);
+
+		//-------------- Tim cac duong giao --------------
+
 	}
+
+	#region Collision Road
+	public void FetchCollisionRoad () {
+		if (tile.typeId == 7) {
+			Dictionary<int, TileHandler> dict = MapRenderer.Instance.layerRoad;
+
+			BoxCollider box = this.GetComponent<BoxCollider>();
+			
+			foreach (KeyValuePair<int, TileHandler> p in dict) {
+				RoadHandler road = (RoadHandler) p.Value;
+				if (road.tile.typeId >= 1 && road.tile.typeId <= 4) {
+					BoxCollider box1 = road.GetComponent<BoxCollider>();
+
+					//box vs box1
+					if (box.bounds.Intersects (box1.bounds)) {
+
+						CollisionRoad c = new CollisionRoad ();
+						c.road = road;
+
+						Vector3 v = road.transform.localPosition - this.transform.localPosition;
+						MoveDirection dir = Ultil.GetMoveDirection (v);
+						c.dir = dir;
+
+						listCollisionRoads.Add (c);
+					}
+				}
+			}
+		}
+	}
+	#endregion
 
 	#region Public Get Functions 
 	public MoveDirection Direction {

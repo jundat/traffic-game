@@ -38,9 +38,15 @@ public class MapManager : Singleton <MapManager> {
 			d = d.AddMinutes(-d.Minute);
 			d = d.AddHours(h);
 			Main.Instance.SetStartTime (d);
-
 			MapRenderer.Instance.Init (mapFix);
 			MiniMap.Instance.Import (mapOgirgin);
+
+			//Get Collision Road
+			foreach (KeyValuePair <int, TileHandler> p in MapRenderer.Instance.layerRoad) {
+				RoadHandler r = (RoadHandler) p.Value;
+				r.FetchCollisionRoad ();
+			}
+
 		} else {
 			Debug.Log ("Load map file before start game");
 		}
