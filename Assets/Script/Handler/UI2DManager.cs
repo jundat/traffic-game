@@ -6,8 +6,9 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 
 	public UIButton btnTakeHelmetOff;
 	public Action onHideHelmet;
-	public UILabel lbTime;
+	public UILabel lbWorldTime;
 	public UILabel lbFPS;
+	public UILabel lbRunTime;
 
 	void Start () {}
 
@@ -26,8 +27,13 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 		}
 	}
 
-	public void SetTime (DateTime d) {
+	public void SetWorldTime (DateTime d) {
 		string s = d.ToLongTimeString ();
-		lbTime.text = s;
+		lbWorldTime.text = s;
+	}
+
+	public void SetRunTime (TimeSpan d) {
+		string s = string.Format("{0:00}:{1:00}", d.Minutes, d.Seconds);
+		lbRunTime.text = s;
 	}
 }

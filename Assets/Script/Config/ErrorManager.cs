@@ -5,39 +5,27 @@ using System.Collections.Generic;
 
 public class ErrorManager : SingletonMono<ErrorManager> {
 
-	public List<ModelError> listError = new List<ModelError> ();
+	public List<ModelErrorItem> listError = new List<ModelErrorItem> ();
 
 	void Start () {
 		ConfigError.Instance.Load ("Config/ConfigError");
-		//ConfigError.Instance.DebugShow ();
 	}
 
 	void Update () {}
 
-	public ModelError GetModelError (ErrorCode errorCode) {
-		return new ModelError ();
-	}
+	public void PushError (int errorId, DateTime time) {
+		ModelErrorItem item = new ModelErrorItem ();
+		item.errorId = errorId;
+		item.time = time;
+		listError.Add (item);
 
-	public void PushError (ModelError error) {
-		listError.Add (error);
+		ConfigErrorItem configItem = ConfigError.Instance.GetError (item.errorId);
 
 		//show
-		int priority = GetPriority (error);
-		string message = "";
-		switch (priority) {
-		case 1:
-			message = error.time.ToShortTimeString() + ": [ff0000]" + error.code.ToString () + ": " + error.description +"[-]";
-			break;
-
-		default:
-			message = error.time.ToShortTimeString() + ": [ff0000]" + error.code.ToString () + ": " + error.description +"[-]";
-			break;
-		}
+		string message = item.time.ToShortTimeString() 
+			+ ": [ff0000]" + configItem.id
+			+ ": " + configItem.name +"[-]";
 
 		NotifierHandler.Instance.PushNotify (message);
-	}
-
-	public int GetPriority (ModelError error) {
-		return 1;
 	}
 }

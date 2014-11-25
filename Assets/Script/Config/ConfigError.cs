@@ -15,7 +15,7 @@ public class ConfigErrorItem {
 
 public class ConfigError : Singleton <ConfigError>
 {
-	Dictionary<int, ConfigErrorItem> dict = new Dictionary<int, ConfigErrorItem> ();
+	public Dictionary<int, ConfigErrorItem> dict = new Dictionary<int, ConfigErrorItem> ();
 
 	public void Load (string filepath) {
 		FileHelperEngine<ConfigErrorItem> engine = new FileHelperEngine<ConfigErrorItem>(); 
@@ -33,5 +33,11 @@ public class ConfigError : Singleton <ConfigError>
 		foreach (KeyValuePair<int, ConfigErrorItem> p in dict) {
 			Debug.Log (p.Value.name);
 		}
+	}
+
+	public ConfigErrorItem GetError (int errorId) {
+		ConfigErrorItem item = null;
+		dict.TryGetValue (errorId, out item);
+		return item;
 	}
 }

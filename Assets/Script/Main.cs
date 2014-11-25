@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.IO;
 using System.Collections;
@@ -34,7 +34,7 @@ public class Main : SingletonMono<Main> {
 		TrafficLightManager.Instance.Update ();
 
 		time = _startTime.AddSeconds (Time.realtimeSinceStartup);
-		UI2DManager.Instance.SetTime (time);
+		UI2DManager.Instance.SetWorldTime (time);
 	}
 
 	public void SetStartTime (DateTime d) {
