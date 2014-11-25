@@ -85,14 +85,14 @@ public class ModelFactory : Singleton <ModelFactory> {
 			handler.Init ();
 
 			//Texture
-			//Texture tt = null;
-			//dictTextures.TryGetValue (tile.typeId+"", out tt);
-			//if (tt != null) {
-			//	MeshRenderer render = handler.roadMeshRender;
-			//	render.material.mainTexture = tt;
-			//} else {
-			//	Debug.LogError ("Null texture at tile: " + tile.objId);
-			//}
+			Texture tt = null;
+			dictTextures.TryGetValue (tile.typeId+"", out tt);
+			if (tt != null) {
+				MeshRenderer render = handler.roadMeshRender;
+				render.material.mainTexture = tt;
+			} else {
+				//Debug.LogError ("Null texture at tile: " + tile.objId);
+			}
 
 			//Size + Position
 			ins.transform.localScale = new Vector3 (tile.w * Global.SCALE_TILE, 1, tile.h * Global.SCALE_TILE);
