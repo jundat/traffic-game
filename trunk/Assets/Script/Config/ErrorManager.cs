@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,7 +7,11 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 
 	public List<ModelError> listError = new List<ModelError> ();
 
-	void Start () {}
+	void Start () {
+		ConfigError.Instance.Load ("Config/ConfigError");
+		ConfigError.Instance.DebugShow ();
+	}
+
 	void Update () {}
 
 	public ModelError GetModelError (ErrorCode errorCode) {
