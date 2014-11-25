@@ -9,7 +9,7 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 
 	void Start () {
 		ConfigError.Instance.Load ("Config/ConfigError");
-		ConfigError.Instance.DebugShow ();
+		//ConfigError.Instance.DebugShow ();
 	}
 
 	void Update () {}

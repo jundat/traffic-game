@@ -62,7 +62,7 @@ public class Menu : MonoBehaviour {
 		AsyncOperation asyn = Application.LoadLevelAsync ("Main");
 		while (asyn.isDone == false) {
 			loadingHandler.SetValue (asyn.progress);
-			Debug.Log (asyn.progress);
+			//Debug.Log (asyn.progress);
 			yield return null;
 		}
 		
