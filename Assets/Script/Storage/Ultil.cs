@@ -31,7 +31,7 @@ public class Ultil {
 		dict.TryGetValue (key, out value);
 
 		if (string.IsNullOrEmpty (value)) {
-			Debug.LogWarning ("default: " + key + " : " + defaul);
+			//Debug.LogWarning ("default: " + key + " : " + defaul);
 			value = defaul;
 			dict[key] = value;
 		}

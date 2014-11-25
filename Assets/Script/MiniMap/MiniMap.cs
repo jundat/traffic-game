@@ -14,7 +14,6 @@ public class MiniMap : SingletonMono<MiniMap> {
 	public GameObject layerOther;
 	public UITexture ttMiniMap;
 
-	string json;
 	private bool isBigMap = false;
 	private const int SMALL_WIDTH = 160;
 	private const int SMALL_HEIGHT = 160;
@@ -45,35 +44,16 @@ public class MiniMap : SingletonMono<MiniMap> {
 		cameraMiniMap.transform.localEulerAngles = newrot;
 	}
 
-	public void Import (string s) {
-		Dictionary<string, object>  total = JsonReader.Deserialize <Dictionary<string, object>> (s);
-
-		//Layers
-		Dictionary<string, object> layers = total["layer"] as Dictionary<string, object>;
-		if (layers != null) {
-
-			foreach (KeyValuePair<string, object> p in layers) {
-				//p = 1 layer
-				Dictionary<string, object> layer = p.Value as Dictionary<string, object>;
-				int layerId = int.Parse (layer["id"].ToString ());
-
-				//Tiles
-				Dictionary<string, object> tiles = layer["tile"] as Dictionary<string, object>;
-
-				//Tile
-				foreach (KeyValuePair<string, object> p2 in tiles) {
-					ModelTile t = JsonReader.Deserialize<ModelTile> (JsonWriter.Serialize (p2.Value));
-
-					if (t.layerType != LayerType.View) {
-						AddNewObject (t, layerId);
-					}
-
-					//Increase Unique Tile Id
-					Ultil.ResetObjId (t.objId);
+	public void Import (ModelMap map) {
+		foreach (KeyValuePair<string, ModelLayer> p in map.layer) {
+			ModelLayer layer = p.Value;
+			foreach (KeyValuePair<string, ModelTile> p2 in layer.tile) {
+				ModelTile tile = p2.Value;
+				if (tile.layerType != LayerType.View) {
+					AddNewObject (tile, layer.id);
 				}
+				Ultil.ResetObjId (tile.objId);
 			}
-		} else {
-			Debug.Log ("Null layer dictionary");
 		}
 	}
 

@@ -13,10 +13,7 @@ public class GridTileHandler : MonoBehaviour {
 	void Start () {}
 	void Update () {}
 
-//	bool isSelected = false;
-
 	public void Select (bool select) {
-//		isSelected = select;
 		if (select) {
 			GetComponent<UITexture>().color = new Color (1.0f,0.5f,0.5f,1);
 		} else {
