@@ -4,11 +4,13 @@ using System.Collections;
 
 public class Global {
 
-	public const string URL_LOGIN = "http://localhost/TrafficGame/login.php";
-	public const string URL_HISTORY = "http://localhost/TrafficGame/history.php";
-	public const string URL_GETMAP = "http://localhost/TrafficGame/getmap.php";
+	public const string URL_SERVER = "http://localhost/trafficgame/";
+	public const string URL_LOGIN = "gamelogin";
+	public const string URL_HISTORY = "getscore";
+	public const string URL_GETMAP = "file:///Volumes/Data/XAMPP/trafficgame/protected/app/storage/map/map1.json";
 
 
+	public const string CONFIG_ERROR_FILE = "Config/ConfigError";
 	public const float ZERO_POINT = 0.001f;
 
 //#if UNITY_EDITOR

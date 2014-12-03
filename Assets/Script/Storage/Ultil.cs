@@ -261,8 +261,6 @@ public class Ultil {
 				return MoveDirection.UP;
 			}
 		}
-
-		return MoveDirection.NONE;
 	}
 
 	public  string Md5Sum(string strToEncrypt)

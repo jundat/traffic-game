@@ -32,15 +32,14 @@ public class Login : MonoBehaviour {
 		form.AddField("username", username);
 		form.AddField("password", password);
 		
-		WWW w = new WWW(Global.URL_LOGIN, form);
+		WWW w = new WWW(Global.URL_SERVER + Global.URL_LOGIN, form);
 		
 		yield return w;
-		
+
 		if (!string.IsNullOrEmpty(w.error))
 		{
 			objWait.SetActive (false);
-			lbError.text = "Can not connect to server!";
-
+			lbError.text = w.error;
 		}
 		else
 		{

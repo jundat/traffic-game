@@ -42,14 +42,16 @@ public class Menu : MonoBehaviour {
 		if (!string.IsNullOrEmpty(w.error))
 		{
 			loadingHandler.gameObject.SetActive (false);
-			lbError.text = "Can not connect to server!";
+			lbError.text = w.error;
 		}
 		else
 		{
 			lbError.text = "";
 
 			if (! string.IsNullOrEmpty (w.text)) {
+
 				MapManager.Instance.LoadJSON (w.text);
+
 				StartCoroutine (LoadMainGame ());
 			} else {
 				loadingHandler.gameObject.SetActive (false);
@@ -83,7 +85,7 @@ public class Menu : MonoBehaviour {
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);
 		
-		WWW w = new WWW(Global.URL_HISTORY, form);
+		WWW w = new WWW(Global.URL_SERVER + Global.URL_HISTORY, form);
 		
 		yield return w;
 		
