@@ -21,9 +21,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	//Bat xi nhanh
 	private const float TURN_TIME_LIMIT = 3;
-	private TurnLight turnLight;
-	private bool isTurnLightOn;
-	private float startTurnLightTime;
 	//
 
 
@@ -300,19 +297,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		#endregion
 	}
 
-	public void OnTurnLightChange (PlayerState oldState, PlayerState newState) {
-
-		if (newState.turnLight != TurnLight.NONE) { 		//Turning On
-			turnLight = newState.turnLight;
-			startTurnLightTime = Time.realtimeSinceStartup;
-			isTurnLightOn = true;
-		} else {
-			isTurnLightOn = false;
-			turnLight = TurnLight.NONE;
-			startTurnLightTime = -1;
-		}
-	}
-
 	private void OnInRoadChange (PlayerState newState) {
 		#region LANG LACH
 //		PlayerState oldState = null;
@@ -491,11 +475,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					Ultil.AddToQueue (_lastState, queueStateDiff, QUEUE_SIZE);
 					Ultil.AddToQueue (_currentState, queueStateDiff, QUEUE_SIZE);
 					OnRoadChange (_lastState, _currentState);
-				}
-
-				//Turn Light Change
-				if (_lastState.turnLight != _currentState.turnLight) {
-					OnTurnLightChange (_lastState, _currentState);
 				}
 
 				//Change In Road

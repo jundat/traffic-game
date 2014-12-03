@@ -3,22 +3,16 @@ using System.Collections;
 
 public class BikeMovement : MonoBehaviour {
 
-	public const float TO_REAL_SPEED = 0.5f;
+	public const float TO_REAL_SPEED = 27.0f / 40;
 
-	//Moto
-	public float Gravity = -0.5f;
+	public float Gravity;
+	public float MaxMoveSpeed;
+	public float RotateSpeed;
+	public float accelMoveFoward;
+	public float accelMoveBackward;
+	public float accelAutoStop;
 
-	public float MaxMoveSpeed = 280;
-	public float RotateSpeed = 70;
-
-//	private float RotateAccelSpeed = 10;
-//	private float RotateMinSpeed = 10;
-
-	public float accelMoveFoward = 50;
-	public float accelMoveBackward = 100;
-	public float accelAutoStop = 100;
 	private float moveSpeed = 0.0f;
-
 	private CharacterController controller;
 
 	public float Speed {
@@ -38,23 +32,11 @@ public class BikeMovement : MonoBehaviour {
 
 			transform.localEulerAngles = 
 				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y - RotateSpeed * Time.deltaTime, 0);
-
-			//Reduce velocity on rotate
-//			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
-//			if (moveSpeed < 0.2) {
-//				moveSpeed = 0;
-//			}
 		} else if (Input.GetKey (KeyCode.D) == true 
 		           || Input.GetKey (KeyCode.RightArrow) == true) { //right
 
 			transform.localEulerAngles = 
 				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * Time.deltaTime, 0);
-
-			//Reduce velocity on rotate
-//			moveSpeed -= RotateAccelSpeed * Time.deltaTime;
-//			if (moveSpeed < 0.2) {
-//				moveSpeed = 0;
-//			}
 		}
 		
 		//Foward
@@ -74,8 +56,7 @@ public class BikeMovement : MonoBehaviour {
 				moveSpeed = 0;
 			}
 		}
-		
-		//transform.localPosition += transform.forward * moveSpeed * Time.deltaTime;
+
 		Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
 		controller.Move (v);
 

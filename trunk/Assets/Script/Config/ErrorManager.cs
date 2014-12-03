@@ -8,7 +8,6 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 	public List<ModelErrorItem> listError = new List<ModelErrorItem> ();
 
 	void Start () {
-		ConfigError.Instance.Load ("Config/ConfigError");
 	}
 
 	void Update () {}

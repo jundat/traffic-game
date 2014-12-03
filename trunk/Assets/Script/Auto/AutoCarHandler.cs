@@ -39,15 +39,12 @@ public class AutoCarHandler : TileHandler {
 				if (isInJunction == false) {
 					isInJunction = true;
 
-					Debug.Log (">>>>>>>>>>>>>>>>>>");
 					List<RoadHandler> listAvai = new List<RoadHandler> ();
 					for (int i = 0; i < road.listCollisionRoads.Count; ++i) {
 						RoadHandler.CollisionRoad c = road.listCollisionRoads[i];
 						RoadHandler r = c.road;
 						if (r.Direction == c.dir) {
 							listAvai.Add (r);
-						
-							Debug.Log ("Avai: " + r.Direction);
 						}
 					}
 
@@ -55,8 +52,6 @@ public class AutoCarHandler : TileHandler {
 					if (count > 0) {
 						int randomIndex = Ultil.random.Next (0, count-1);
 						RoadHandler nextRoad = listAvai[randomIndex];
-
-						Debug.Log ("Next: " + nextRoad.Direction);
 
 						this.direction = nextRoad.Direction;
 						RotateToDirection ();
@@ -80,7 +75,6 @@ public class AutoCarHandler : TileHandler {
 						}
 
 					} else {
-						Debug.Log ("STOP HERE");
 						SPEED = 0;
 					}
 				}

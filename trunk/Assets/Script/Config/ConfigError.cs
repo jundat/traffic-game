@@ -15,27 +15,36 @@ public class ConfigErrorItem {
 
 public class ConfigError : Singleton <ConfigError>
 {
+	private static bool isInited = false;
 	public Dictionary<int, ConfigErrorItem> dict = new Dictionary<int, ConfigErrorItem> ();
 
-	public void Load (string filepath) {
-		FileHelperEngine<ConfigErrorItem> engine = new FileHelperEngine<ConfigErrorItem>(); 
+	public void Load () {
+		if (isInited == false) {
+			//--------
 
-		UnityEngine.Object obj = Resources.Load (filepath);
-		string data = obj.ToString ();
+			FileHelperEngine<ConfigErrorItem> engine = new FileHelperEngine<ConfigErrorItem>(); 
+			UnityEngine.Object obj = Resources.Load (Global.CONFIG_ERROR_FILE);
+			string data = obj.ToString ();
 
-		ConfigErrorItem[] res = engine.ReadString (data);
-		for (int i = 0; i < res.Length; ++i) {
-			dict[res[i].id] = res[i];
+			ConfigErrorItem[] res = engine.ReadString (data);
+			for (int i = 0; i < res.Length; ++i) {
+				dict[res[i].id] = res[i];
+			}
+
+			//--------
+			isInited = true;
 		}
 	}
 
 	public void DebugShow () {
+		Load ();
 		foreach (KeyValuePair<int, ConfigErrorItem> p in dict) {
-			Debug.Log (p.Value.name);
+			Debug.Log (p.Key + " : " + p.Value.name);
 		}
 	}
 
 	public ConfigErrorItem GetError (int errorId) {
+		Load ();
 		ConfigErrorItem item = null;
 		dict.TryGetValue (errorId, out item);
 		return item;
