@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using Pathfinding.Serialization.JsonFx;
 
 public class HistoryItemHandler : MonoBehaviour {
-	
+
+	public ModelHistoryItem historyItem;
+
 	public UILabel lbContent;
 	public UILabel lbTitle;
 	public UILabel lbScore;
@@ -24,24 +27,36 @@ public class HistoryItemHandler : MonoBehaviour {
 		lbTime.text = dt.ToLongTimeString () + " " + dt.ToLongDateString();
 	
 		string content = "";
-		string[] ss = p.detail.Split (',');
-		for (int i = 0; i < ss.Length; ++i) {
-			int errorId = -1;
-			int.TryParse (ss[i], out errorId);
+		int errorNumber = 0;
 
-			if (errorId != -1) {
-				ConfigErrorItem item = ConfigError.Instance.GetError (errorId);
-				if (item != null) {
-					content += errorId + ": " + item.name + "\n";
+		if (p.detail.Length > 0) {
+			string[] ss = p.detail.Split (',');
+			errorNumber = ss.Length;
+
+			for (int i = 0; i < ss.Length; ++i) {
+				int errorId = -1;
+				int.TryParse (ss[i], out errorId);
+
+				if (errorId != -1) {
+					ConfigErrorItem item = ConfigError.Instance.GetError (errorId);
+					if (item != null) {
+						content += "[b][ff0000]" + errorId + "[-][/b]. [000000]" + item.name + "[-]\n";
+					} else {
+						Debug.LogError ("Item==null: " + errorId);
+						Debug.Log (JsonWriter.Serialize (p));
+					}
 				} else {
-					Debug.LogError ("Item==null: " + errorId);
+					Debug.LogError ("ErrorId == -1: " + ss[i]);
 				}
-			} else {
-				Debug.LogError ("ErrorId == -1: " + ss[i]);
 			}
 		}
-		
-		lbError.text = ""+ss.Length;
+
+		if (errorNumber > 0) {
+			lbError.text = ""+errorNumber;
+		} else {
+			lbError.text = "";
+		}
+
 		lbContent.text = content;
 	}
 }

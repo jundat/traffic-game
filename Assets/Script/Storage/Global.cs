@@ -7,7 +7,7 @@ public class Global {
 	public const string URL_SERVER = "http://localhost/trafficgame/";
 	public const string URL_LOGIN = "gamelogin";
 	public const string URL_HISTORY = "getscore";
-	public const string URL_GETMAP = "file:///Volumes/Data/XAMPP/trafficgame/protected/app/storage/map/map1.json";
+	public const string URL_GETMAP = "getmap";
 
 
 	public const string CONFIG_ERROR_FILE = "Config/ConfigError";

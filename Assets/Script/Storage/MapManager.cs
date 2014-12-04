@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class MapManager : Singleton <MapManager> {
 
+	public ModelMapNetwork mapNetwork;
 	public ModelMap mapFix;
 	public ModelMap mapOgirgin;
 	public Vector3 startPoint;

@@ -347,7 +347,7 @@ public class RoadHandler : TileHandler {
 		if (Physics.Raycast (rayDown, out hit)) {
 			string name = hit.transform.gameObject.name;
 
-			Debug.Log (hit.transform.gameObject.name);
+			//Debug.Log (hit.transform.gameObject.name);
 
 			switch (name) {
 			case OBJ.LeLeft:
