@@ -4,6 +4,7 @@
 //----------------------------------------------
 
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Ever wanted to be able to auto-center on an object within a draggable panel?
@@ -32,13 +33,15 @@ public class UICenterOnChild : MonoBehaviour
 	public SpringPanel.OnFinished onFinished;
 
 	UIScrollView mScrollView;
-	GameObject mCenteredObject;
+	public GameObject mCenteredObject;
 
 	/// <summary>
 	/// Game object that the draggable panel is currently centered on.
 	/// </summary>
 
 	public GameObject centeredObject { get { return mCenteredObject; } }
+
+	public List<EventDelegate> onCenterObjectChange;
 
 	void OnEnable () { Recenter(); }
 	void OnDragFinished () { if (enabled) Recenter(); }
@@ -183,6 +186,11 @@ public class UICenterOnChild : MonoBehaviour
 				panelTrans.localPosition - localOffset, springStrength).onFinished = onFinished;
 		}
 		else mCenteredObject = null;
+
+		for (int i = 0; i < this.onCenterObjectChange.Count; ++i) {
+			this.onCenterObjectChange[i].Execute ();
+		}
+		
 	}
 
 	/// <summary>

@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour {
 
 	public UILabel lbUsername;
 	public UILabel lbName;
+	public UILabel lbLevel;
 	public UILabel lbError;
 
 	public GameObject objWait;
@@ -23,13 +24,15 @@ public class Menu : MonoBehaviour {
 
 		lbUsername.text = UserManager.Instance.user.username;
 		lbName.text = UserManager.Instance.user.name;
+		lbLevel.text = "Level " + UserManager.Instance.user.level;
 	}
 
 	void Update () {}
 
 	public void OnPlay () {
-		loadingHandler.gameObject.SetActive (true);
-		StartCoroutine (StartGame ());
+//		loadingHandler.gameObject.SetActive (true);
+//		StartCoroutine (StartGame ());
+		Application.LoadLevel ("SelectMap");
 	}
 
 	
