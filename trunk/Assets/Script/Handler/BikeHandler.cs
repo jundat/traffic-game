@@ -33,7 +33,7 @@ public class BikeHandler : MonoBehaviour {
 
 	void Start () {
 		bikeMovement = this.gameObject.GetComponent <BikeMovement> ();
-		UI2DManager.Instance.onHideHelmet = this.OnTakeOffHelmet;
+		//UI2DManager.Instance.onHideHelmet = this.OnTakeOffHelmet;
 
 		RefreshHelmetState ();
 		RefreshLightState ();
@@ -149,6 +149,7 @@ public class BikeHandler : MonoBehaviour {
 			UI2DManager.Instance.ShowHelmet ();
 		} else {
 			helmet.UnWear ();
+			UI2DManager.Instance.HideHelmet ();
 		}
 	}
 

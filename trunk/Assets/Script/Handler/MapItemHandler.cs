@@ -31,11 +31,6 @@ public class MapItemHandler : MonoBehaviour {
 		WWWForm form = new WWWForm();
 		string s = map.thumnail;
 
-		if (s.Contains ("XAMPP")) {
-			Debug.LogWarning ("URL XAMPP...");
-			s = s.Replace ("/Volumes/Data/XAMPP", "http://localhost");
-		}
-
 		WWW w = new WWW(s, form);
 		
 		yield return w;

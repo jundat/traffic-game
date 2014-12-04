@@ -24,9 +24,6 @@ public class SelectMap : MonoBehaviour {
 		btnPlay.SetState (UIButtonColor.State.Disabled, true);
 		btnPlay.isEnabled = false;
 		objWait.SetActive (true);
-		
-//		Debug.LogError ("Debug Username = 10520110");
-//		UserManager.Instance.user.username = "10520110";
 
 		if (UserManager.Instance.user != null) {
 			StartCoroutine( LoadListMap (UserManager.Instance.user.username));
@@ -97,11 +94,6 @@ public class SelectMap : MonoBehaviour {
 	public IEnumerator LoadSelectedMap (string url) {
 		WWWForm form = new WWWForm();
 		string s = url;
-		
-		if (s.Contains ("XAMPP")) {
-			Debug.LogWarning ("URL XAMPP...");
-			s = s.Replace ("/Volumes/Data/XAMPP", "http://localhost");
-		}
 
 		WWW w = new WWW(s, form);
 		
@@ -143,6 +135,7 @@ public class SelectMap : MonoBehaviour {
 		if (currentMapHandler != null && currentMapHandler.map != null) {
 			MapManager.Instance.mapNetwork = currentMapHandler.map;
 
+			loadingHandler.gameObject.SetActive (true);
 			StartCoroutine (LoadSelectedMap (currentMapHandler.map.url));
 
 		} else {

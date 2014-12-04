@@ -5,15 +5,18 @@ using System.Collections;
 public class UI2DManager : SingletonMono<UI2DManager> {
 
 	public UIButton btnTakeHelmetOff;
-	public Action onHideHelmet;
 	public UILabel lbWorldTime;
 	public UILabel lbFPS;
 	public UILabel lbRunTime;
 
+	public GameObject objTutorial;
+
 	void Start () {}
 
-	void Update () {
-		//lbFPS.text = ""+2.0f / Time.deltaTime;
+	void Update () {}
+
+	public void ShowHideTutorial (bool isShow) {
+		objTutorial.gameObject.SetActive (isShow);
 	}
 
 	public void ShowHelmet () {
@@ -22,9 +25,6 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 
 	public void HideHelmet () {
 		btnTakeHelmetOff.gameObject.SetActive (false);
-		if (onHideHelmet != null) {
-			onHideHelmet ();
-		}
 	}
 
 	public void SetWorldTime (DateTime d) {
@@ -35,5 +35,11 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 	public void SetRunTime (TimeSpan d) {
 		string s = string.Format("{0:00}:{1:00}", d.Minutes, d.Seconds);
 		lbRunTime.text = s;
+	}
+
+	//Event
+
+	public void OnClickCloseTutorial () {
+		objTutorial.SetActive (false);
 	}
 }
