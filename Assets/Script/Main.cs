@@ -17,8 +17,11 @@ public class Main : SingletonMono<Main> {
 	public DateTime time;
 	public bool needTheLight = false;
 
+	public Camera tempCamera;
+	public GameObject prefabPlayer;
 
 	void Start () {
+		UI2DManager.Instance.ShowHideTutorial (true);
 		MapManager.Instance.Init ();
 	}
 	
