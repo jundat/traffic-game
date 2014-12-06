@@ -59,6 +59,8 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	
 	#region COLLISION, CHECK POINT
 	void OnTriggerEnter(Collider other) {
+		if (Main.Instance.isEndGame == true) {return;}
+
 		//Debug.Log ("Collide: " + other.name);
 
 		switch (other.name) {

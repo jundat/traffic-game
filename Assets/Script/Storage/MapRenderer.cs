@@ -38,29 +38,36 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 					continue;
 				}
 
-				if (go != null) {
-					TileHandler handler = go.GetComponent <TileHandler> ();
-					go.transform.parent = this.transform;
+				TileHandler handler = go.GetComponent <TileHandler> ();
+				go.transform.parent = this.transform;
+				
+				
+				//Check Points
+				if (p2.Value.typeId == TileID.CHECK_POINT) { 		// Check point
+					GameManager.Instance.AddCheckpoint (handler);
+				} else if (p2.Value.typeId == TileID.START_POINT) { // Start Point
+					GameManager.Instance.startPoint = handler;
+				} else if (p2.Value.typeId == TileID.END_POINT) { 	// End Point
+					GameManager.Instance.endPoint = handler;
+				}
 
-					switch (layerType) {
-					case LayerType.Other:
-						layerOther[tile.objId] = handler;
-						break;
-					case LayerType.View:
-						layerView[tile.objId] = handler;
-						break;
-					case LayerType.Sign:
-						layerSign[tile.objId] = handler;
-						break;
-					case LayerType.Road:
-						layerRoad[tile.objId] = handler;
-						break;
-					default:
-						Debug.LogError ("Wrong: " + tile.typeId);
-						break;
-					}
-				} else {
-					Debug.Log ("Null prefab: " + tile.typeId + "," + tile.objId);
+
+				switch (layerType) {
+				case LayerType.Other:
+					layerOther[tile.objId] = handler;
+					break;
+				case LayerType.View:
+					layerView[tile.objId] = handler;
+					break;
+				case LayerType.Sign:
+					layerSign[tile.objId] = handler;
+					break;
+				case LayerType.Road:
+					layerRoad[tile.objId] = handler;
+					break;
+				default:
+					Debug.LogError ("Wrong: " + tile.typeId);
+					break;
 				}
 			}
 		}

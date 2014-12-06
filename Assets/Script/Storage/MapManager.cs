@@ -29,15 +29,6 @@ public class MapManager : Singleton <MapManager> {
 				foreach (KeyValuePair<string, ModelTile> p2 in p1.Value.tile) {
 					p2.Value.x *= -1;
 					p2.Value.y *= -1;
-
-					//Check Points
-					if (p2.Value.typeId == TileID.CHECK_POINT) { 		// Check point
-						GameManager.Instance.AddCheckpoint (p2.Value);
-					} else if (p2.Value.typeId == TileID.START_POINT) { // Start Point
-						GameManager.Instance.startPoint = p2.Value;
-					} else if (p2.Value.typeId == TileID.END_POINT) { 	// End Point
-						GameManager.Instance.endPoint = p2.Value;
-					}
 				}
 			}
 			
