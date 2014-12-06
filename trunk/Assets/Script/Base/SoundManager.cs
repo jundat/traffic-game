@@ -6,6 +6,7 @@ public class SoundManager : SingletonMono <SoundManager> {
 	public AudioClip sndHorn;
 	public AudioClip sndCrash;
 	public AudioClip sndOutOfTime;
+	public AudioClip sndCheckpoint;
 
 	void Start () {}
 	void Update () {}
@@ -20,5 +21,9 @@ public class SoundManager : SingletonMono <SoundManager> {
 
 	public void PlayOutOfTime () {
 		audio.PlayOneShot (sndOutOfTime);
+	}
+	
+	public void PlayCheckpoint () {
+		audio.PlayOneShot (sndCheckpoint);
 	}
 }

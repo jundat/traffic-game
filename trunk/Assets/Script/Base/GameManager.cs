@@ -5,22 +5,28 @@ using System.Collections.Generic;
 
 public class GameManager : SingletonMono<GameManager> {
 
-	public ModelTile startPoint;
-	public ModelTile endPoint;
+	public TileHandler startPoint;
+	public TileHandler endPoint;
 	public Dictionary<int, bool> listCheckpoint = new Dictionary<int, bool> (); //objId, isCompleted
+	public Dictionary<int, TileHandler> listTileHandler = new Dictionary<int, TileHandler> (); //objId, TileHandler
 
 	void Start () {}
 
 	void Update () {}
 
-	public void AddCheckpoint (ModelTile t) {
-		listCheckpoint[t.objId] = false;
+	public void AddCheckpoint (TileHandler t) {
+		listCheckpoint[t.tile.objId] = false;
+		listTileHandler[t.tile.objId] = t;
 	}
 
 	public void CompleteCheckpoint (int objId) {
 		try {
 		if (listCheckpoint[objId] == false) {
+				SoundManager.Instance.PlayCheckpoint ();
+
 				listCheckpoint[objId] = true;
+				listTileHandler[objId].gameObject.SetActive (false);
+
 				NotifierHandler.Instance.PushNotify ("[00ff00]Checkpoint completed![-]");
 				int r = RemainCheckpoint;
 				if (r > 0) {
