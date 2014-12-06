@@ -42,4 +42,8 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 	public void OnClickCloseTutorial () {
 		objTutorial.SetActive (false);
 	}
+
+	public void OnClickOpenTutorial () {
+		objTutorial.SetActive (true);
+	}
 }
