@@ -8,6 +8,7 @@ public class Global {
 	public const string URL_LOGIN = "gamelogin";
 	public const string URL_HISTORY = "getscore";
 	public const string URL_GETMAP = "getmap";
+	public const string URL_POSTSCORE = "postscore";
 
 
 	public const string CONFIG_ERROR_FILE = "Config/ConfigError";
@@ -19,7 +20,7 @@ public class Global {
 //	public const bool BUILD_BUIDING = true;
 //#endif
 
-	public const bool DEBUG_LIGHT = true;
+	public const bool DEBUG_LIGHT = false;
 
 	public const float DELTA_HEIGH = 0.001f;
 

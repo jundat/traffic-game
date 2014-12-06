@@ -13,12 +13,15 @@ public class Main : SingletonMono<Main> {
 	public AudioClip dayMusic;
 	public AudioClip nightMusic;
 
+	public bool isStarted = false;
+	public bool isEndGame = false;
+	public DateTime startTime;
+
 	private DateTime _startTime;
 	public DateTime time;
 	public bool needTheLight = false;
 
-	public Camera tempCamera;
-	public GameObject prefabPlayer;
+	public PlayerHandler player;
 
 	void Start () {
 		UI2DManager.Instance.ShowHideTutorial (true);
@@ -26,10 +29,38 @@ public class Main : SingletonMono<Main> {
 	}
 	
 	void Update () {
-		TrafficLightManager.Instance.Update ();
-
+		//World Time
 		time = _startTime.AddSeconds (Time.realtimeSinceStartup);
 		UI2DManager.Instance.SetWorldTime (time);
+
+		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
+
+		TrafficLightManager.Instance.Update ();
+
+		//Run Time 
+		if (Main.Instance.isStarted) {
+			int pastSeconds = (int)((Main.Instance.time - startTime).TotalSeconds);
+			int totalSecond = (int)(60.0f * MapManager.Instance.mapNetwork.time);
+			int remainSeconds = totalSecond - pastSeconds;
+			
+			TimeSpan span = new TimeSpan (0, 0, remainSeconds);
+			
+			if (span.TotalSeconds >= 0) {
+				UI2DManager.Instance.SetRemainTime (span);
+			} else {
+				Main.Instance.isEndGame = true;
+				OnEndGame ();
+			}
+		}
+	}
+
+	public void OnEndGame () {
+		SoundManager.Instance.PlayOutOfTime ();
+		player.StopRunning ();
+
+
+		UI2DManager.Instance.ShowHideTutorial (false);
+		UI2DManager.Instance.ShowScore ();
 	}
 
 	public void SetStartTime (DateTime d) {

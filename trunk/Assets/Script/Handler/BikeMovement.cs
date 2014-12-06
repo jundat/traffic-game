@@ -26,6 +26,7 @@ public class BikeMovement : MonoBehaviour {
 	}
 
 	void Update () {
+		if (Main.Instance.isEndGame == true) {return;}
 
 		if (Input.GetKey (KeyCode.A) == true 
 		    || Input.GetKey (KeyCode.LeftArrow) == true) { //left
@@ -63,4 +64,22 @@ public class BikeMovement : MonoBehaviour {
 		controller.Move (transform.up * Gravity);
 	}
 
+	public void StopRunning () {
+		StartCoroutine (Stopping ());
+	}
+
+	private IEnumerator Stopping () {
+		while (moveSpeed > 0) {
+			
+			moveSpeed -= accelMoveBackward/2.0f * Time.deltaTime;
+			if (moveSpeed < 0.1) {
+				moveSpeed = 0;
+			}
+
+			Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
+			controller.Move (v);
+
+			yield return new WaitForSeconds (0.1f);
+		}
+	}
 }

@@ -64,7 +64,8 @@ public class TrafficLightHandler : TileHandler {
 					break;
 
 				case TrafficLightStatus.yellow:
-					redLight.material = black;
+					redLight.material = black; 	//MissingReferenceException: The object of type 'MeshRenderer' has been destroyed but you are still trying to access it.
+												//Your script should either check if it is null or you should not destroy the object.
 					yellowLight.material = yellow;
 					greenLight.material = black;
 					//

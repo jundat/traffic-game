@@ -16,7 +16,24 @@ public class ModelMapNetwork {
 	public string url;
 	public int level;
 	public string info;
-	public int time; //in minute
+
+	/// <summary>
+	/// The time in minute
+	/// </summary>
+	public float time;
 	public string thumnail;
 
+	public ModelMapNetwork Copy () {
+		ModelMapNetwork m = new ModelMapNetwork ();
+		m.uid = this.uid;
+		m.name = this.name;
+		m.url = this.url;
+		m.level = this.level;
+		m.info = this.info;
+
+		m.time = this.time;
+		m.thumnail = this.thumnail;
+
+		return m;
+	}
 }

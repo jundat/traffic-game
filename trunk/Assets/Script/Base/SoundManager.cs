@@ -4,9 +4,8 @@ using System.Collections;
 public class SoundManager : SingletonMono <SoundManager> {
 
 	public AudioClip sndHorn;
-	public AudioClip sndIdle;
-	public AudioClip sndStartAndIdle;
 	public AudioClip sndCrash;
+	public AudioClip sndOutOfTime;
 
 	void Start () {}
 	void Update () {}
@@ -15,15 +14,11 @@ public class SoundManager : SingletonMono <SoundManager> {
 		audio.PlayOneShot (sndHorn);
 	}
 
-	public void PlayStart () {
-		audio.PlayOneShot (sndStartAndIdle);
-	}
-
-	public void PlayIdle () {
-		audio.PlayOneShot (sndIdle);
-	}
-
 	public void PlayCrash () {
 		audio.PlayOneShot (sndCrash);
+	}
+
+	public void PlayOutOfTime () {
+		audio.PlayOneShot (sndOutOfTime);
 	}
 }

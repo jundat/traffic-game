@@ -18,7 +18,11 @@ public class MapItemHandler : MonoBehaviour {
 		this.map = m;
 
 		lbName.text = map.name;
-		lbTime.text = map.time + " minutes";
+		if (map.time >= 1) {
+			lbTime.text = map.time + " minutes";
+		} else {
+			lbTime.text = (int)(60 * map.time) + " seconds";
+		}
 
 		if (map.thumnail != null) {
 			if (map.thumnail.Length > 0) {

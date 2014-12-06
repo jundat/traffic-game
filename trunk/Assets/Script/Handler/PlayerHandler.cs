@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,8 +16,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private Queue queueState = new Queue (QUEUE_SIZE); 			//Danh sach sau moi SCHEDULE_TIME
 	private Queue queueStateDiff = new Queue (QUEUE_SIZE);		//Danh sach state khi co chuyen lan duong
 
-	private bool isStarted = false;
-	private DateTime startTime;
 
 	//Bat xi nhanh
 	private const float TURN_TIME_LIMIT = 3;
@@ -34,6 +32,16 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	}
 
 	void Update () {
+		//Started
+		if (Main.Instance.isStarted == false) {
+			if (bikeMovement.Speed > 0) {
+				Main.Instance.isStarted = true;
+				Main.Instance.startTime = Main.Instance.time;
+			}
+		}
+
+		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
+
 		//Sound ----------------------------------
 		if (Input.GetKeyUp (KeyCode.B)) {
 			SoundManager.Instance.PlayHorn ();
@@ -43,21 +51,10 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 				ErrorManager.Instance.PushError (12, Main.Instance.time);
 			}
 		}
-
-		//Started
-		if (isStarted == false) {
-			if (bikeMovement.Speed > 0) {
-				isStarted = true;
-				OnStart ();
-			}
-		} else {
-			TimeSpan span = Main.Instance.time - startTime;
-			UI2DManager.Instance.SetRunTime (span);
-		}
 	}
 
-	private void OnStart () {
-		startTime = Main.Instance.time;
+	public void StopRunning () {
+		bikeMovement.StopRunning ();
 	}
 	
 	#region COLLISION, CHECK POINT
@@ -453,6 +450,8 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private PlayerState _lastState;
 
 	private void UpdateState () {
+		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
+
 		PlayerState state = GetCurrentState ();
 
 		if (state.road == null) {
@@ -488,7 +487,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			}
 
 			//Check Stop
-			if (isStarted == true) {
+			if (Main.Instance.isStarted == true) {
 				if (_currentState.speed < Global.RUN_SPEED_POINT) {
 					if (_lastState != null && _lastState.speed > Global.RUN_SPEED_POINT) {
 						OnStop (_lastState, _currentState);
@@ -496,18 +495,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 				}
 			}
 		}
-	}
-
-	public List<MoveDirection> CheckCollider4Direction () {
-		List<MoveDirection> list = new List<MoveDirection>();
-
-		//up
-//		RaycastHit hit;
-//		Ray ray = new Ray (transform.position + new Vector3(0, 0.5f, 0), new Vector3 ());
-//		if (Physics.Raycast (ray, out hit)) {
-//		}
-
-		return list;
 	}
 
 	public PlayerState GetCurrentState () {
