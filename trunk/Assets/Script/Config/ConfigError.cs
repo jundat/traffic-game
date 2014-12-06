@@ -10,6 +10,8 @@ public class ConfigErrorItem {
 	public string name;
 	public string phase1;
 	public string phase2;
+	public int moneyFrom;
+	public int moneyTo;
 }
 
 
