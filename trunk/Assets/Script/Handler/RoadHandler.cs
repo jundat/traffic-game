@@ -164,7 +164,7 @@ public class RoadHandler : TileHandler {
 		vachUp.SetActive (false);
 		vachDown.SetActive (false);
 
-		if (tile.typeId == 7) { //Giao lo
+		if (tile.typeId == TileID.ROAD_NONE) { //Giao lo
 			vachRight.SetActive (!isRight);
 			vachLeft.SetActive (!isLeft);
 			vachUp.SetActive (!isUp);
@@ -252,14 +252,14 @@ public class RoadHandler : TileHandler {
 
 	#region Collision Road
 	public void FetchCollisionRoad () {
-		if (tile.typeId == 7) {
+		if (tile.typeId == TileID.ROAD_NONE) {
 			Dictionary<int, TileHandler> dict = MapRenderer.Instance.layerRoad;
 
 			BoxCollider box = this.GetComponent<BoxCollider>();
 			
 			foreach (KeyValuePair<int, TileHandler> p in dict) {
 				RoadHandler road = (RoadHandler) p.Value;
-				if (road.tile.typeId >= 1 && road.tile.typeId <= 4) {
+				if (road.tile.typeId >= TileID.ROAD_MIN && road.tile.typeId <= TileID.ROAD_MAX) {
 					BoxCollider box1 = road.GetComponent<BoxCollider>();
 
 					//box vs box1

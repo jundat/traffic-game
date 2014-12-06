@@ -75,7 +75,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 		if (prefab != null) {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 
-			if (tile.typeId == 7) {
+			if (tile.typeId == TileID.ROAD_NONE) {
 				BoxCollider box = ins.GetComponent<BoxCollider>();
 				box.size = new Vector3 (14, box.size.y, 14);
 			}
@@ -100,12 +100,12 @@ public class ModelFactory : Singleton <ModelFactory> {
 			float y1 = ins.transform.localPosition.y;
 			float y2 = ins.transform.localPosition.y + Global.DELTA_HEIGH;
 
-			if (tile.typeId >= 8 && tile.typeId <= 11) { //bus
+			if (tile.typeId >= TileID.ROAD_BUS_MIN && tile.typeId <= TileID.ROAD_BUS_MAX) { //bus
 				ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, 
 				                                           y2, 
 				                                           tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 			} else { //road
-				if (tile.typeId == 7) {
+				if (tile.typeId == TileID.ROAD_NONE) {
 					y1 = 0.005f;
 				}
 
@@ -227,7 +227,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			ins = GameObject.Instantiate (prefab) as GameObject;
 			ins.transform.localPosition = new Vector3 (tile.x * Global.SCALE_TILE * Global.SCALE_SIZE, ins.transform.localPosition.y, tile.y * Global.SCALE_TILE * Global.SCALE_SIZE);
 
-			if (tile.typeId == 301) { //Light
+			if (tile.typeId == TileID.LIGHT) { //Light
 				TrafficLightHandler handler = ins.GetComponent<TrafficLightHandler>();
 				handler.tile = tile;
 
@@ -253,7 +253,7 @@ public class ModelFactory : Singleton <ModelFactory> {
 			}
 
 			//Auto Car
-			if (tile.typeId == 310) {
+			if (tile.typeId == TileID.AUTO_CAR) {
 				AutoCarHandler handler = ins.GetComponent<AutoCarHandler> ();
 				handler.tile = tile;
 				handler.Init ();

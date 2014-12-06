@@ -205,7 +205,7 @@ public class Ultil {
 	}
 
 	public static bool IsVerticalRoad (ModelTile tile) {
-		if (tile.typeId == 1 || tile.typeId == 4) {
+		if (tile.typeId == TileID.ROAD_DOWN || tile.typeId == TileID.ROAD_UP) {
 			return true;
 		}
 		
@@ -213,7 +213,7 @@ public class Ultil {
 	}
 
 	public static bool IsHorizontalRoad (ModelTile tile) {
-		if (tile.typeId == 2 || tile.typeId == 3) {
+		if (tile.typeId == TileID.ROAD_LEFT || tile.typeId == TileID.ROAD_RIGHT) {
 			return true;
 		}
 

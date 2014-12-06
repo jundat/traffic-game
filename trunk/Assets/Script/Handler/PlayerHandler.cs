@@ -397,7 +397,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 		//Dung xe giua nga 3,4
 		//Dam vach
-		if (newState.road.tile.typeId == 7) {
+		if (newState.road.tile.typeId == TileID.ROAD_NONE) {
 			switch (newState.vachKeDuong) {
 			case MoveDirection.LEFT:
 			case MoveDirection.RIGHT:

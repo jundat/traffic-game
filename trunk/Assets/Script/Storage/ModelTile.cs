@@ -47,11 +47,13 @@ public struct TileKey {
 }
 
 public class TileID {
-	
+
 	public const int ROAD_DOWN = 1;
 	public const int ROAD_LEFT = 2;
 	public const int ROAD_RIGHT = 3;
 	public const int ROAD_UP = 4;
+	public const int ROAD_MIN = ROAD_DOWN;
+	public const int ROAD_MAX = ROAD_UP;
 
 	public const int ROAD_NONE = 7;
 
@@ -59,6 +61,16 @@ public class TileID {
 	public const int ROAD_BUS_DOWN = 9;
 	public const int ROAD_BUS_RIGHT = 10;
 	public const int ROAD_BUS_LEFT = 11;
+	public const int ROAD_BUS_MIN = ROAD_BUS_UP;
+	public const int ROAD_BUS_MAX = ROAD_BUS_LEFT;
+
+	public const int START_POINT = 302;
+	public const int END_POINT = 303;
+	public const int CHECK_POINT = 304;
+
+	public const int LIGHT = 301;
+
+	public const int AUTO_CAR = 310;
 }
 
 [System.Serializable]
@@ -72,4 +84,19 @@ public class ModelTile {
 	public float w;
 	public float h;
 	public Dictionary<string, string> properties = new Dictionary<string, string> ();
+
+	public ModelTile Copy () {
+		ModelTile t = new ModelTile ();
+
+		t.objId = this.objId;
+		t.typeId = this.typeId;
+		t.layerType = this.layerType;
+		t.w = this.x;
+		t.y = this.y;
+		t.w = this.w;
+		t.h = this.h;
+		this.properties = new Dictionary<string, string> (this.properties);
+
+		return t;
+	}
 }
