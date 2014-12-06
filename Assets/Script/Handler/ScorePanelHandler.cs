@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Pathfinding.Serialization.JsonFx;
 
 public class ScorePanelHandler : MonoBehaviour {
@@ -15,6 +16,35 @@ public class ScorePanelHandler : MonoBehaviour {
 	void Update () {}
 
 	public void Show () {
+		string s = "";
+		List<ModelErrorItem> l = ErrorManager.Instance.listError;
+
+		int totalFrom = 0;
+		int totalTo = 0;
+		int count = 0;
+
+		for (int i = 0; i < l.Count; ++i) {
+			ConfigErrorItem it = ConfigError.Instance.GetError (l[i].errorId);
+
+			if (it != null) {
+				count++;
+				totalFrom += it.moneyFrom;
+				totalTo += it.moneyTo;
+
+				s += "[ff0000]" + (i+1) + ". [-]"
+						+ "[0000ff]" + l[i].time.ToLongTimeString() + "[-]"
+						+ "[000000]\n" + it.name + "[-]"
+						+ "\n=> [FF2F00]" + it.moneyFrom.ToString("C0") + "[-] - [FF2F00]" + it.moneyTo.ToString("C0") + "[-] vnd\n\n";
+			}
+		}
+		s += "[-]";
+
+		s = "[000000]TOTAL ERROR[-]: [ff0000]" + count + "[-]"
+			+ "\n[000000]TOTAL MONEY[-]: [FF2F00]" + totalFrom.ToString("C0") + "[-] - [FF2F00]" + totalTo.ToString("C0") + "[-] vnd\n\n" + s;
+
+		lbContent.text = s;
+
+		//
 		this.transform.localScale = new Vector3 (0.01f, 0.01f, 0.01f);
 		this.GetComponent<UIWidget>().alpha = 0.01f;
 

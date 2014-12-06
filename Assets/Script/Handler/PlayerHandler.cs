@@ -357,7 +357,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			//35
 			float deltaSpeed = state.speed - state.road.MaxSpeed;
 			if (deltaSpeed < 5) {
-				NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Chạy quá tốc độ: 0-5 km/h[-]");
+				NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Warning: over speed limit![-]");
 			} else if (deltaSpeed < 10) {
 				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 5-10 km/h[-]");
 				ErrorManager.Instance.PushError (8, Main.Instance.time);
