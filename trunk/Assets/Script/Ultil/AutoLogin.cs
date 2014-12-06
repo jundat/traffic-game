@@ -8,12 +8,4 @@ public class AutoLogin : MonoBehaviour {
 			Application.LoadLevel ("Login");
 		}
 	}
-
-	void Start () {
-	
-	}
-	
-	void Update () {
-	
-	}
 }

@@ -48,17 +48,22 @@ public class Main : SingletonMono<Main> {
 			if (span.TotalSeconds >= 0) {
 				UI2DManager.Instance.SetRemainTime (span);
 			} else {
+				Debug.LogError ("Out of time :(");
 				Main.Instance.isEndGame = true;
-				OnEndGame ();
+				SoundManager.Instance.PlayOutOfTime ();
+				ShowEndGame ();
 			}
 		}
 	}
 
-	public void OnEndGame () {
-		SoundManager.Instance.PlayOutOfTime ();
+	public void OnCompleteGame () {
+		Debug.LogError ("Complete game! :D");
+		Main.Instance.isEndGame = true;
+		ShowEndGame ();
+	}
+
+	public void ShowEndGame () {
 		player.StopRunning ();
-
-
 		UI2DManager.Instance.ShowHideTutorial (false);
 		UI2DManager.Instance.ShowScore ();
 	}
