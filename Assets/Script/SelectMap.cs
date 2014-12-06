@@ -133,7 +133,7 @@ public class SelectMap : MonoBehaviour {
 
 	public void OnButtonPlayClicked () {
 		if (currentMapHandler != null && currentMapHandler.map != null) {
-			MapManager.Instance.mapNetwork = currentMapHandler.map;
+			MapManager.Instance.mapNetwork = currentMapHandler.map.Copy ();
 
 			loadingHandler.gameObject.SetActive (true);
 			StartCoroutine (LoadSelectedMap (currentMapHandler.map.url));

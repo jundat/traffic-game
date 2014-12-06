@@ -7,12 +7,13 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 
 	public List<ModelErrorItem> listError = new List<ModelErrorItem> ();
 
-	void Start () {
-	}
+	void Start () {}
 
 	void Update () {}
 
 	public void PushError (int errorId, DateTime time) {
+		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
+
 		ModelErrorItem item = new ModelErrorItem ();
 		item.errorId = errorId;
 		item.time = time;
@@ -26,5 +27,18 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 			+ ": " + configItem.name +"[-]";
 
 		NotifierHandler.Instance.PushNotify (message);
+	}
+
+	public string StringError {
+		get {
+			string s = "";
+			for (int i = 0; i < listError.Count; ++i) {
+				s += listError[i].errorId + " ";
+			}
+
+			s = s.Trim ();
+			s = s.Replace (" ", ",");
+			return s;
+		}
 	}
 }

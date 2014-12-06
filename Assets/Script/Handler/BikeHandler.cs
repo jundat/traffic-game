@@ -42,7 +42,6 @@ public class BikeHandler : MonoBehaviour {
 	}
 
 	void Update () {
-
 		//Update Speed
 		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 160);
 		audio.pitch = 1 + 3.0f * bikeMovement.Speed / 160;
