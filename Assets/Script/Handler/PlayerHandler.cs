@@ -59,21 +59,30 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	
 	#region COLLISION, CHECK POINT
 	void OnTriggerEnter(Collider other) {
-		Debug.Log ("Collide: " + other.name);
+		//Debug.Log ("Collide: " + other.name);
 
 		switch (other.name) {
 		case OBJ.FINISH_POINT:
-			Debug.LogError ("End Game!!!");
+			if (GameManager.Instance.IsCompleted) {
+				Main.Instance.OnCompleteGame ();
+			}
 			break;
 
-		case OBJ.RoadBorderRight:
-		case OBJ.RoadBorderLeft:
-		case OBJ.RoadBorderUp:
-		case OBJ.RoadBorderDown:
-			//NotifierHandler.Instance.PushNotify ("[ff00ff]Va cham giao thong@@[-]");
-			ErrorManager.Instance.PushError (4, Main.Instance.time);
-			SoundManager.Instance.PlayCrash ();
+		case OBJ.CHECK_POINT:
+			TileHandler th2 = other.gameObject.GetComponent<TileHandler> ();
+			if (th2 != null) {
+				GameManager.Instance.CompleteCheckpoint (th2.tile.objId);
+			}
 			break;
+
+//		case OBJ.RoadBorderRight:
+//		case OBJ.RoadBorderLeft:
+//		case OBJ.RoadBorderUp:
+//		case OBJ.RoadBorderDown:
+//			//NotifierHandler.Instance.PushNotify ("[ff00ff]Va cham giao thong@@[-]");
+//			ErrorManager.Instance.PushError (4, Main.Instance.time);
+//			SoundManager.Instance.PlayCrash ();
+//			break;
 		}
 	}
 	#endregion
