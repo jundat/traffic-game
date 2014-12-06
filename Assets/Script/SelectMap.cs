@@ -142,6 +142,10 @@ public class SelectMap : MonoBehaviour {
 			Debug.LogError ("Plz choose 1 map");
 		}
 	}
+
+	public void OnButtonBackClicked () {
+		Application.LoadLevel ("Menu");
+	}
 	
 	public void OnCenterObjectChange () {
 		UICenterOnChild c = grid.gameObject.GetComponent<UICenterOnChild> ();
