@@ -155,6 +155,7 @@ public class BikeHandler : MonoBehaviour {
 	public void OnHelmetClick () {
 		isHelmetOn = true;
 		RefreshHelmetState ();
+		SoundManager.Instance.PlayClick ();
 	}
 
 	public void OnTakeOffHelmet () {

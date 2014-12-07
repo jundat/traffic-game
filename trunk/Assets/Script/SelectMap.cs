@@ -8,6 +8,8 @@ public class SelectMap : MonoBehaviour {
 	private MapItemHandler currentMapHandler;
 
 	public UILabel lbMapInfo;
+	public UIScrollView scrollViewInfo;
+	public UIScrollBar scrollBarInfo;
 	public GameObject grid;
 	public GameObject prefabMapItem;
 	public UIButton btnPlay;
@@ -160,6 +162,8 @@ public class SelectMap : MonoBehaviour {
 				currentMapHandler = item;
 				item.Selected = true;
 				lbMapInfo.text = item.map.info;
+				scrollViewInfo.ResetPosition ();
+				//scrollBarInfo.value = 0;
 			}
 		}
 	}

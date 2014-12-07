@@ -35,8 +35,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		//Started
 		if (Main.Instance.isStarted == false) {
 			if (bikeMovement.Speed > 0) {
-				Main.Instance.isStarted = true;
-				Main.Instance.startTime = Main.Instance.time;
+				Main.Instance.OnStartGame ();
 			}
 		}
 
@@ -466,7 +465,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		PlayerState state = GetCurrentState ();
 
 		if (state.road == null) {
-			Debug.Log ("Null");
+			//Debug.Log ("Null");
 		} else {
 			_lastState = _currentState;
 			_currentState = state;

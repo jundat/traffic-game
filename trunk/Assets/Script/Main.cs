@@ -56,9 +56,16 @@ public class Main : SingletonMono<Main> {
 		}
 	}
 
+	public void OnStartGame () {
+		Main.Instance.isStarted = true;
+		Main.Instance.startTime = Main.Instance.time;
+		SoundManager.Instance.PlayStart ();
+	}
+
 	public void OnCompleteGame () {
 		Debug.LogError ("Complete game! :D");
 		Main.Instance.isEndGame = true;
+		SoundManager.Instance.PlayCompleteGame ();
 		ShowEndGame ();
 	}
 
