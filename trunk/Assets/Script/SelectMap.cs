@@ -163,7 +163,7 @@ public class SelectMap : MonoBehaviour {
 				item.Selected = true;
 				lbMapInfo.text = item.map.info;
 				scrollViewInfo.ResetPosition ();
-				//scrollBarInfo.value = 0;
+				scrollBarInfo.value = 0;
 			}
 		}
 	}
