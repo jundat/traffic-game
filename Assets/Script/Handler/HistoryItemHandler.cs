@@ -16,7 +16,12 @@ public class HistoryItemHandler : MonoBehaviour {
 	void Start () {
 	}
 
-	void Update () {}
+	void Update () {
+		//box collider
+		BoxCollider box = lbContent.GetComponent<BoxCollider>();
+		box.size = new Vector3 (lbContent.width, lbContent.height, 0);
+		box.center = new Vector3 (0, -lbContent.height/2, 0);
+	}
 
 	public void Init (ModelHistoryItem p) {
 
