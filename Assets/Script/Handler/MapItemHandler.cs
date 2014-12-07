@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class MapItemHandler : MonoBehaviour {
@@ -7,6 +8,7 @@ public class MapItemHandler : MonoBehaviour {
 
 	public UILabel lbName;
 	public UILabel lbTime;
+	public UILabel lbLevel;
 	public UITexture ttThumnail;
 	public UISprite sprSelected;
 
@@ -18,11 +20,10 @@ public class MapItemHandler : MonoBehaviour {
 		this.map = m;
 
 		lbName.text = map.name;
-		if (map.time >= 1) {
-			lbTime.text = map.time + " minutes";
-		} else {
-			lbTime.text = (int)(60 * map.time) + " seconds";
-		}
+		lbLevel.text = "Level " + map.level;
+
+		TimeSpan span = new TimeSpan (0, 0, (int)(60.0f * map.time));
+		lbTime.text = string.Format("{0:00}min {1:00}sec", span.Minutes, span.Seconds);
 
 		if (map.thumnail != null) {
 			if (map.thumnail.Length > 0) {
