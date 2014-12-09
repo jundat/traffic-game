@@ -23,7 +23,7 @@ public class MapItemHandler : MonoBehaviour {
 		lbLevel.text = "Level " + map.level;
 
 		TimeSpan span = new TimeSpan (0, 0, (int)(60.0f * map.time));
-		lbTime.text = string.Format("{0:00}min {1:00}sec", span.Minutes, span.Seconds);
+		lbTime.text = string.Format("{0:0} min {1:00} sec", span.Minutes, span.Seconds);
 
 		if (map.thumnail != null) {
 			if (map.thumnail.Length > 0) {

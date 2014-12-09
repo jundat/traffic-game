@@ -17,7 +17,7 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 		ModelErrorItem item = new ModelErrorItem ();
 		item.errorId = errorId;
 		item.time = time;
-		listError.Add (item);
+		AddNewError (item);
 
 		ConfigErrorItem configItem = ConfigError.Instance.GetError (item.errorId);
 
@@ -27,6 +27,12 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 			+ ": " + configItem.name +"[-]";
 
 		NotifierHandler.Instance.PushNotify (message);
+	}
+
+	private void AddNewError (ModelErrorItem item) {
+		listError.Add (item);
+
+
 	}
 
 	public string StringError {

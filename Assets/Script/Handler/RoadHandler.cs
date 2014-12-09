@@ -111,15 +111,20 @@ public class RoadHandler : TileHandler {
 
 	public void Init () {
 		//Dai Phan Cach
-		bool isDaiPCRight = bool.Parse ( Ultil.GetString (TileKey.PCACH_PHAI, "false", tile.properties));
-		bool isDaiPCLeft = bool.Parse ( Ultil.GetString (TileKey.PCACH_TRAI, "false", tile.properties));
-		bool isDaiPCUp = bool.Parse ( Ultil.GetString (TileKey.PCACH_TREN, "false", tile.properties));
-		bool isDaiPCDown = bool.Parse ( Ultil.GetString (TileKey.PCACH_DUOI, "false", tile.properties));
+//		bool isDaiPCRight = bool.Parse ( Ultil.GetString (TileKey.PCACH_PHAI, "false", tile.properties));
+//		bool isDaiPCLeft = bool.Parse ( Ultil.GetString (TileKey.PCACH_TRAI, "false", tile.properties));
+//		bool isDaiPCUp = bool.Parse ( Ultil.GetString (TileKey.PCACH_TREN, "false", tile.properties));
+//		bool isDaiPCDown = bool.Parse ( Ultil.GetString (TileKey.PCACH_DUOI, "false", tile.properties));
+//
+//		daiPCachRight.SetActive (isDaiPCRight);
+//		daiPCachLeft.SetActive (isDaiPCLeft);
+//		daiPCachUp.SetActive (isDaiPCUp);
+//		daiPCachDown.SetActive (isDaiPCDown);
 
-		daiPCachRight.SetActive (isDaiPCRight);
-		daiPCachLeft.SetActive (isDaiPCLeft);
-		daiPCachUp.SetActive (isDaiPCUp);
-		daiPCachDown.SetActive (isDaiPCDown);
+		daiPCachRight.SetActive (false);
+		daiPCachLeft.SetActive (false);
+		daiPCachUp.SetActive (false);
+		daiPCachDown.SetActive (false);
 
 		Material matDaiPCLeftRight = (Material) GameObject.Instantiate (prefabDaiPCachMat);
 		Material matDaiPCUpDown = (Material) GameObject.Instantiate (prefabDaiPCachMat);

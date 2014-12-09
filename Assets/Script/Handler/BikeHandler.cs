@@ -46,33 +46,10 @@ public class BikeHandler : MonoBehaviour {
 		scooterHandler.SetSpeed (bikeMovement.Speed, 0, 160);
 		audio.pitch = 1 + 3.0f * bikeMovement.Speed / 160;
 
-		//Light Near/Far--------------------------
-
-		if (Input.GetKeyUp (KeyCode.L)) {
-			LightOnOff ();
-		}
-
-		if (Input.GetKeyUp (KeyCode.F)) {
-			LightFar ();
-		}
-
-		if (Input.GetKeyUp (KeyCode.N)) {
-			LightNear ();
-		}
-
-		//Light Left/Right -----------------------
-
-		if (Input.GetKeyUp (KeyCode.Q) || Input.GetKeyUp (KeyCode.Less)) {
-			LeftLight ();
-		}
-
-		if (Input.GetKeyUp (KeyCode.E) || Input.GetKeyUp (KeyCode.Greater)) {
-			RightLight ();
-		}
 	}
 
 	#region LIGHT Left-Right
-	private void LeftLight () {
+	public void LeftLight () {
 		if (turnLight == TurnLight.RIGHT) {
 			turnLight = TurnLight.NONE;
 		} else if (turnLight == TurnLight.NONE) {
@@ -82,7 +59,7 @@ public class BikeHandler : MonoBehaviour {
 		RefreshTurnLight ();
 	}
 
-	private void RightLight () {
+	public void RightLight () {
 		if (turnLight == TurnLight.LEFT) {
 			turnLight = TurnLight.NONE;
 		} else if (turnLight == TurnLight.NONE) {
