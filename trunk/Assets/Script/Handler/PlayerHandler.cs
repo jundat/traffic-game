@@ -12,14 +12,32 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private BikeHandler bikeHandler;
 	private BikeMovement bikeMovement;
 
+	#region Kiem tra loi
+
 	public const int QUEUE_SIZE = 50;
 	private Queue queueState = new Queue (QUEUE_SIZE); 			//Danh sach sau moi SCHEDULE_TIME
 	private Queue queueStateDiff = new Queue (QUEUE_SIZE);		//Danh sach state khi co chuyen lan duong
 
+	private bool viphamTocDo = false;
+	private bool viphamTocDo1 = false;
+	private bool viphamTocDo2 = false;
+	private bool viphamTocDo3 = false;
 
-	//Bat xi nhanh
-	private const float TURN_TIME_LIMIT = 3;
-	//
+	private bool viphamNguocChieu = false;
+
+	private bool viphamLanTuyen = false;
+
+	private bool viphamMuBaoHiem = false;
+
+	private bool viphamBatDen = false;
+
+	private bool viphamDungGiuaDuong = false;
+
+	private bool viphamDuongCam = false;
+
+	private bool viphamTocDoDuoi = false;
+
+	#endregion
 
 
 	void Awake () {
@@ -38,6 +56,15 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 				Main.Instance.OnStartGame ();
 			}
 		}
+		
+		if (Input.GetKeyUp (KeyCode.L)) {
+			bikeHandler.LightOnOff ();
+			
+			//Bat den chieu xa trong do thi
+			if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false) {
+				ErrorManager.Instance.PushError (13, Main.Instance.time);
+			}
+		}
 
 		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
 
@@ -46,9 +73,33 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			SoundManager.Instance.PlayHorn ();
 
 			if (Main.Instance.time >= Global.TIME_STOP_HORN || Main.Instance.time <= Global.TIME_START_HORN) {
-				//NotifierHandler.Instance.PushNotify ("[ff0000]Bam coi tu 22h-5h[-]");
 				ErrorManager.Instance.PushError (12, Main.Instance.time);
 			}
+		}
+		
+		//Light Near/Far--------------------------
+
+		if (Input.GetKeyUp (KeyCode.F)) {
+			bikeHandler.LightFar ();
+
+			//Bat den chieu xa trong do thi
+			if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false) {
+				ErrorManager.Instance.PushError (13, Main.Instance.time);
+			}
+		}
+		
+		if (Input.GetKeyUp (KeyCode.N)) {
+			bikeHandler.LightNear ();
+		}
+		
+		//Light Left/Right -----------------------
+		
+		if (Input.GetKeyUp (KeyCode.Q) || Input.GetKeyUp (KeyCode.Less)) {
+			bikeHandler.LeftLight ();
+		}
+		
+		if (Input.GetKeyUp (KeyCode.E) || Input.GetKeyUp (KeyCode.Greater)) {
+			bikeHandler.RightLight ();
 		}
 	}
 
@@ -59,8 +110,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	#region COLLISION, CHECK POINT
 	void OnTriggerEnter(Collider other) {
 		if (Main.Instance.isEndGame == true) {return;}
-
-		//Debug.Log ("Collide: " + other.name);
 
 		switch (other.name) {
 		case OBJ.FINISH_POINT:
@@ -76,21 +125,35 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			}
 			break;
 
-//		case OBJ.RoadBorderRight:
-//		case OBJ.RoadBorderLeft:
-//		case OBJ.RoadBorderUp:
-//		case OBJ.RoadBorderDown:
-//			//NotifierHandler.Instance.PushNotify ("[ff00ff]Va cham giao thong@@[-]");
-//			ErrorManager.Instance.PushError (4, Main.Instance.time);
-//			SoundManager.Instance.PlayCrash ();
-//			break;
+		case OBJ.RoadBorderRight:
+		case OBJ.RoadBorderLeft:
+		case OBJ.RoadBorderUp:
+		case OBJ.RoadBorderDown:
+			ErrorManager.Instance.PushError (4, Main.Instance.time);
+			SoundManager.Instance.PlayCrash ();
+			break;
 		}
 	}
 	#endregion
 
 	#region PLAYER STATE
 	private void OnRoadChange (PlayerState oldState, PlayerState newState) {
-		//NotifierHandler.Instance.PushNotify (oldState.road.Direction + "=>" + newState.road.Direction);
+
+		#region Lan tuyen + Duong cam
+		if (newState.road.BikeAvailable == false) {
+			if (newState.road.Direction == oldState.road.Direction) {
+				if (viphamLanTuyen == false) {
+					viphamLanTuyen = true;
+					ErrorManager.Instance.PushError (1, Main.Instance.time);
+				}
+			} else {
+				if (viphamDuongCam == false) {
+					viphamDuongCam = true;
+					ErrorManager.Instance.PushError (21, Main.Instance.time);
+				}
+			}
+		} else { viphamLanTuyen = false; viphamDuongCam = false; }
+		#endregion
 
 		#region Vuot Den Do
 		if (Ultil.IsRoad (newState.road.tile.typeId) 
@@ -99,7 +162,6 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		    && oldState.road.LightStatus == TrafficLightStatus.red //Den dang do
 		    && oldState.direction == oldState.road.Direction) { //Di dung chieu
 
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Vượt đèn đỏ[-]");
 			ErrorManager.Instance.PushError (2, Main.Instance.time);
 		}
 		#endregion
@@ -111,71 +173,67 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		    && oldState.road.LightStatus == TrafficLightStatus.yellow
 		    && oldState.direction == oldState.road.Direction) {
 
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Vượt đèn vàng[-]");
-			ErrorManager.Instance.PushError (2, Main.Instance.time);
+			ErrorManager.Instance.PushError (28, Main.Instance.time);
 		}
 		#endregion
 
 		#region Re tai noi ko cho re
-//		//1: re trai tai nga 3, 4
-//		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
-//			if (newState.road.Direction != MoveDirection.NONE) {
-//				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
-//					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
-//					if (prev != null) {
-//						if (newState.road.Direction == Ultil.LeftOf (prev.road.Direction)) {
-//							if (prev.road.CanTurnLeft == false) {
-//								//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ trái[-]");
-//								ErrorManager.Instance.PushError (21, Main.Instance.time);
-//							}
-//						}
-//					}
-//				} else if (newState.road.Direction == Ultil.LeftOf (oldState.road.Direction)) { //Ko Co Giao Lo
-//					PlayerState prev = oldState;
-//					if (prev.road.CanTurnLeft == false) {
-//						NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ trái[-]");
-//					}
-//				}
-//			}
-//		}
-//		
-//		//2: re phai tai nga 3, 4
-//		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
-//			if (newState.road.Direction != MoveDirection.NONE) {
-//				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
-//					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
-//					if (prev != null) {
-//						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {
-//							if (prev.road.CanTurnRight == false) {
-//								NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ phai[-]");
-//							}
-//						}
-//					}
-//				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) { //Ko Co Giao Lo
-//					PlayerState prev = oldState;
-//					if (prev.road.CanTurnRight == false) {
-//						NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không được rẽ phai[-]");
-//					}
-//				}
-//			}
-//		}
+		//1: re trai tai nga 3, 4
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
+			if (newState.road.Direction != MoveDirection.NONE) {
+				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {
+						if (newState.road.Direction == Ultil.LeftOf (prev.road.Direction)) {
+							if (prev.road.CanTurnLeft == false) {
+								ErrorManager.Instance.PushError (27, Main.Instance.time);
+							}
+						}
+					}
+				} else if (newState.road.Direction == Ultil.LeftOf (oldState.road.Direction)) { //Ko Co Giao Lo
+					PlayerState prev = oldState;
+					if (prev.road.CanTurnLeft == false) {
+						ErrorManager.Instance.PushError (27, Main.Instance.time);
+					}
+				}
+			}
+		}
+		
+		//2: re phai tai nga 3, 4
+		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
+			if (newState.road.Direction != MoveDirection.NONE) {
+				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {
+						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {
+							if (prev.road.CanTurnRight == false) {
+								ErrorManager.Instance.PushError (26, Main.Instance.time);
+							}
+						}
+					}
+				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) { //Ko Co Giao Lo
+					PlayerState prev = oldState;
+					if (prev.road.CanTurnRight == false) {
+						ErrorManager.Instance.PushError (26, Main.Instance.time);
+					}
+				}
+			}
+		}
 		
 		//3: quay dau xe
 		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
 			if (newState.road.Direction != MoveDirection.NONE) {
 				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
-//					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
-//					if (prev != null) {
-//						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
-//							if (prev.road.CanTurnBack == false || prev.road.CanTurnLeft == false) {
-//								//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Đường cấm quay đầu[-]");
-//								ErrorManager.Instance.PushError (16, Main.Instance.time);
-//							}
-//						}
-//					}
-				} else if (newState.road.Direction == Ultil.OppositeOf (oldState.road.Direction)) { //Ko Co Giao Lo
-					//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Quay đầu nơi không được phép[-]");
-					ErrorManager.Instance.PushError (16, Main.Instance.time);
+					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
+					if (prev != null) {
+						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
+							if (prev.road.CanTurnBack == false || prev.road.CanTurnLeft == false) {
+								ErrorManager.Instance.PushError (16, Main.Instance.time);
+							}
+						}
+					}
+				} else { //Ko Co Giao Lo
+					ErrorManager.Instance.PushError (24, Main.Instance.time);
 				}
 			}
 		}
@@ -192,14 +250,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 							//KO xi nhanh
 							if (prev.turnLight != TurnLight.LEFT && oldState.turnLight != TurnLight.LEFT && newState.turnLight != TurnLight.LEFT) {
-								//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không xi nhanh[-]");
 								ErrorManager.Instance.PushError (5, Main.Instance.time);
 							}
 
 							//KO giam toc do
 							if (prev.lastState != null) {
 								if (prev.lastState.speed <= prev.speed && prev.speed > Global.MAX_TURNING_SPEED) {
-									//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không giảm tốc độ[-]");
 									ErrorManager.Instance.PushError (18, Main.Instance.time);
 								}
 							}
@@ -210,14 +266,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 					//Ko xi nhanh
 					if (prev.turnLight != TurnLight.LEFT  && newState.turnLight != TurnLight.LEFT) {
-						//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không xi nhanh[-]");
 						ErrorManager.Instance.PushError (5, Main.Instance.time);
 					}
 					
 					//KO giam toc do
 					if (prev.lastState != null) {
 						if (prev.lastState.speed <= prev.speed && prev.speed > Global.MAX_TURNING_SPEED) {
-							//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ trái không giảm tốc độ[-]");
 							ErrorManager.Instance.PushError (18, Main.Instance.time);
 						}
 					}
@@ -236,14 +290,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 							
 							//Ko xi nhanh
 							if (prev.turnLight != TurnLight.RIGHT  && oldState.turnLight != TurnLight.RIGHT && newState.turnLight != TurnLight.RIGHT) {
-								//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không xi nhanh[-]");
 								ErrorManager.Instance.PushError (5, Main.Instance.time);
 							}
 							
 							//KO giam toc do
 							if (prev.lastState != null) {
 								if (prev.lastState.speed <= prev.speed && prev.speed > Global.MAX_TURNING_SPEED) {
-									//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không giảm tốc độ[-]");
 									ErrorManager.Instance.PushError (18, Main.Instance.time);
 								}
 							}
@@ -255,14 +307,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 					//Ko xi nhanh
 					if (prev.turnLight != TurnLight.RIGHT && newState.turnLight != TurnLight.RIGHT) {
-						//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không xi nhanh[-]");
 						ErrorManager.Instance.PushError (5, Main.Instance.time);
 					}
 					
 					//KO giam toc do
 					if (prev.lastState != null) {
 						if (prev.lastState.speed <= prev.speed && prev.speed > Global.MAX_TURNING_SPEED) {
-							//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Rẽ phai không giảm tốc độ[-]");
 							ErrorManager.Instance.PushError (18, Main.Instance.time);
 						}
 					}
@@ -281,14 +331,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 							
 							//Ko xi nhanh
 							if (prev.turnLight != TurnLight.LEFT && oldState.turnLight != TurnLight.LEFT && newState.turnLight != TurnLight.LEFT) {
-								//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Quay đầu xe không xi nhanh[-]");
 								ErrorManager.Instance.PushError (5, Main.Instance.time);
 							}
 
 							//KO giam toc do
 							if (prev.lastState != null) {
 								if (prev.lastState.speed <= prev.speed && prev.speed > Global.MAX_TURNING_SPEED) {
-									//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Quay đầu xe không giảm tốc độ[-]");
 									ErrorManager.Instance.PushError (18, Main.Instance.time);
 								}
 							}
@@ -334,29 +382,29 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private void CheckState (PlayerState state) {
 		//Khong doi mu bao hiem
 		if (state.isHelmetOn == false && state.speed > Global.RUN_SPEED_POINT) {
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không đội mũ bảo hiểm[-]");s
-			ErrorManager.Instance.PushError (6, Main.Instance.time);
-		}
+			if (viphamMuBaoHiem == false) {
+				viphamMuBaoHiem = true;
+				ErrorManager.Instance.PushError (6, Main.Instance.time);
+			}
+		} else { viphamMuBaoHiem = false; }
 
 		//Nguoc chieu
 		if (Ultil.IsOpposite (state.direction, state.road.Direction)) {
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Ngược chiều[-]");
-			ErrorManager.Instance.PushError (3, Main.Instance.time);
+			if (viphamNguocChieu == false) {
+				viphamNguocChieu = true;
+				ErrorManager.Instance.PushError (3, Main.Instance.time);
+			}
 		} else {
-
-		}
-
-		//Lan tuyen
-		if (state.road.BikeAvailable == false) {
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Lấn tuyến[-]");
-			ErrorManager.Instance.PushError (1, Main.Instance.time);
+			viphamNguocChieu = false;
 		}
 
 		//Chay qua cham
 		if (state.speed < state.road.MinSpeed) {
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy dưới tốc độ tối thiểu[-]");
-			ErrorManager.Instance.PushError (22, Main.Instance.time);
-		}
+			if (viphamTocDoDuoi == false) {
+				viphamTocDoDuoi = true;
+				ErrorManager.Instance.PushError (22, Main.Instance.time);
+			}
+		} else { viphamTocDoDuoi = false; }
 
 		//Chay qua toc do
 		if (state.speed > state.road.MaxSpeed) {
@@ -367,41 +415,52 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			//35
 			float deltaSpeed = state.speed - state.road.MaxSpeed;
 			if (deltaSpeed < 5) {
-				NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Warning: over speed limit![-]");
-			} else if (deltaSpeed < 10) {
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 5-10 km/h[-]");
-				ErrorManager.Instance.PushError (8, Main.Instance.time);
-			} else if (deltaSpeed < 20) {
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: 10-20 km/h[-]");
-				ErrorManager.Instance.PushError (9, Main.Instance.time);
-			} else if (deltaSpeed >= 20) {
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Chạy quá tốc độ: >20 km/h[-]");
-				ErrorManager.Instance.PushError (10, Main.Instance.time);
-			}
+				if (viphamTocDo == false) {
+					viphamTocDo = true;
+					NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Warning: over speed limit![-]");
+				}
+			} else { viphamTocDo = false; }
+
+			if (deltaSpeed >= 5 && deltaSpeed < 10) {
+				if (viphamTocDo1 == false && viphamTocDo2 == false && viphamTocDo3 == false) {
+					viphamTocDo1 = true;
+					ErrorManager.Instance.PushError (8, Main.Instance.time);
+				}
+			} else { viphamTocDo1 = false; }
+
+			if (deltaSpeed >= 10 && deltaSpeed < 20) {
+				if (viphamTocDo2 == false && viphamTocDo3 == false) {
+					viphamTocDo2 = true;
+					viphamTocDo1 = true;
+					ErrorManager.Instance.PushError (9, Main.Instance.time);
+				}
+			} else { viphamTocDo2 = false; }
+
+			if (deltaSpeed >= 20) {
+				if (viphamTocDo3 == false) {
+					viphamTocDo3 = true;
+					viphamTocDo2 = true;
+					viphamTocDo1 = true;
+					ErrorManager.Instance.PushError (10, Main.Instance.time);
+				}
+			} else { viphamTocDo3 = false; }
 		}
 
-		//Bat den chieu xa trong do thi
-		if (state.isLightOn == true && state.isNearLight == false) {
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Đèn chiếu xa trong đô thị[-]");
-			ErrorManager.Instance.PushError (13, Main.Instance.time);
-		}
 
 		//Khong bat den khi troi toi
 		if (state.isLightOn == false && Main.Instance.needTheLight == true) {
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Không bật đèn khi trời tối[-]");
-			ErrorManager.Instance.PushError (7, Main.Instance.time);
-		}
-
+			if (viphamBatDen == false) {
+				viphamBatDen = true;
+				ErrorManager.Instance.PushError (7, Main.Instance.time);
+			}
+		} else { viphamBatDen = false; }
 	}
 
 	public void OnStop (PlayerState oldState, PlayerState newState) {
+
 		//Dung Tram Xe Bus
-		if (newState.road.tile.typeId == TileID.ROAD_BUS_UP 
-		    || newState.road.tile.typeId == TileID.ROAD_BUS_DOWN 
-		    || newState.road.tile.typeId == TileID.ROAD_BUS_LEFT
-		    || newState.road.tile.typeId == TileID.ROAD_BUS_RIGHT) 
+		if (newState.road.IsBus == true)
 		{
-			//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe tại trạm xe bus[-]");
 			ErrorManager.Instance.PushError (14, Main.Instance.time);
 		}
 
@@ -413,47 +472,45 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			case MoveDirection.RIGHT:
 			case MoveDirection.UP:
 			case MoveDirection.DOWN:
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dậm vạch[-]");
 				ErrorManager.Instance.PushError (20, Main.Instance.time);
 				break;
-
-			default:
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe tại giao lộ[-]");
-				ErrorManager.Instance.PushError (11, Main.Instance.time);
-				break;
 			}
 		}
 
-		//Debug.Log ("On Stop");
-		//Dung vo le duong
 		MoveDirection dir = newState.road.CheckInLeDuong (this.transform.position);
-		//Debug.Log (dir);
 
-		//Dung ko dung le duong
-		if (dir == MoveDirection.NONE) {
-			if (newState.road.LightStatus != TrafficLightStatus.red) {
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe không đúng chỗ[-]");
-				ErrorManager.Instance.PushError (11, Main.Instance.time);
+		if (newState.road.IsBus == false) {
+			if (newState.road.tile.typeId == TileID.ROAD_NONE && newState.vachKeDuong == MoveDirection.NONE) {Debug.Log ("1");
+				if (viphamDungGiuaDuong == false) {Debug.Log ("1.1");
+					viphamDungGiuaDuong = true;
+					ErrorManager.Instance.PushError (11, Main.Instance.time);
+				}
+			} else if (newState.road.tile.typeId != TileID.ROAD_NONE
+			           && dir == MoveDirection.NONE 
+			           && newState.road.LightStatus != TrafficLightStatus.red) {Debug.Log ("2");
+
+				if (viphamDungGiuaDuong == false) {Debug.Log ("2.1");
+					viphamDungGiuaDuong = true;
+					ErrorManager.Instance.PushError (11, Main.Instance.time);
+				}
 			}
 		}
+		
 
 		//Dung xe khong co tin hieu
-		if (dir != MoveDirection.NONE) {
-			if (oldState.turnLight == TurnLight.NONE) {
-				//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ffff00]Dừng xe không co tin hieu den[-]");
-				ErrorManager.Instance.PushError (23, Main.Instance.time);
-			} else if (dir == Ultil.RightOf (newState.direction)) { //Phai
-				if (oldState.turnLight != TurnLight.RIGHT) {
-					//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe không dung tin hieu den[-]");
-					ErrorManager.Instance.PushError (23, Main.Instance.time);
-				}
-			} else if (dir == Ultil.LeftOf (newState.direction)) { //Trai
-				if (oldState.turnLight != TurnLight.LEFT) {
-					//NotifierHandler.Instance.PushNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Dừng xe không dung tin hieu den[-]");
-					ErrorManager.Instance.PushError (23, Main.Instance.time);
-				}
-			}
-		}
+//		if (dir != MoveDirection.NONE) {
+//			if (oldState.turnLight == TurnLight.NONE) {
+//				ErrorManager.Instance.PushError (23, Main.Instance.time);
+//			} else if (dir == Ultil.RightOf (newState.direction)) { //Phai
+//				if (oldState.turnLight != TurnLight.RIGHT) {
+//					ErrorManager.Instance.PushError (23, Main.Instance.time);
+//				}
+//			} else if (dir == Ultil.LeftOf (newState.direction)) { //Trai
+//				if (oldState.turnLight != TurnLight.LEFT) {
+//					ErrorManager.Instance.PushError (23, Main.Instance.time);
+//				}
+//			}
+//		}
 	}
 
 	private PlayerState _currentState;
@@ -501,6 +558,8 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 				if (_currentState.speed < Global.RUN_SPEED_POINT) {
 					if (_lastState != null && _lastState.speed > Global.RUN_SPEED_POINT) {
 						OnStop (_lastState, _currentState);
+					} else {
+						viphamDungGiuaDuong = false;
 					}
 				}
 			}
