@@ -1,0 +1,107 @@
+Ghi chú chung: 
+- Có những ghi chú cho từ mới ở cuối mỗi trang, từ mới được đặt sup, có đánh số
+- Code đưa vào nên để ở dạng hình ảnh, chụp màn hình code
+- In slide ra, 1 bên là slide, 1 bên là dòng trống, để hội đồng nhận xét.
+- Hỏi anh Trường về mục đích sử dụng Sơ yếu lí lịch
+- 
+
+
+
+
+1. Hứa Phước Trường
+Mạng xã hội Zie
+- Có sơ yếu lý lịch
+- Có nhận xét khoá luận của GVHD (sau danh sách hội đồng)
+Đánh giá khoá luận:
++ Số trang, số hình, số chương, số bảng số liệu, tài liệu tham khảo, sản phẩm,
++ Nội dung nghiên cứu, đã được gì, chưa được gì...
++ Về ứng dụng
++ Về thái độ sinh viên
++ Đánh giá chung 
++ Điểm cho sv
+
+- Đề cương chi tiết:
++ Tên đề tài
++ Cán bộ
++ SInh viên
++ Nội dung đề tài
+	. Mục tiêu đề tài
+	. Mục đích của hệ thống
+	. Kết quả mong đợi
++ Kế hoạch thực hiện (mô tả chi tiết thời gian, làm gì)
++ Nhận xét của giảng viên
++ Sinh viên ký tên
+
+Mục lục: (đánh số bắt đầu từ TÓM tắt luận văn)
+Tóm tắt luận văn
+	=> Nói có số liệu
+	=> Có những phần ghi chú nhỏ thì ghi (sup ở trên, sau đó ở cuối trang note chi tiết)
+Mở đầu
+	=> Gần giống tóm tắt
+I. Tổng quan
+8 trang
+Tình hình (lịch sử, thế giới, Việt Nam)
+Bối cảnh nghiên cứu
+	=> Tiềm năng
+Động lực nghiên cứu
+	=> Các vấn đề khó khăn khi làm bằng tay
+Mục tiêu
+Sản phẩm tương tự
+
+II. Phân tích chức năng
+- Tổng quan chức năng
+	Có bao nhiu phần, mỗi phần làm chức năng gì
+	Yêu cầu kỹ thuật (phải đạt được gì)
+	=> Có thể sử dụng tối đa tài nguyên, 
+	=> Thời gian đáp ứng người dùng 
+	=> Tốc độ...
+- Sơ đồ Use case (15 trang)
+- Sơ đồ hoạt động
+- Hướng tiếp cận
+	=> Đưa ra các hướng tiếp cận khác nhau
+	=> Phân tích và tìm ra hướng nào tốt hơn
+	=> Kết luận
+- Những vấn đề gặp phải khi thực hiện hệ thống
+	+ Thống nhất các tên gọi trước khi trình bày
+	Vấn đề
+		=> Đặt vấn đề
+		=> Hướng giải quyết
+	Các vấn đề:
+		. Tương thích hệ thống
+
+III. Thiết kế hệ thống
+Có mô hình về cách thức hoạt động hệ thống
+- Các thành phần trong hệ thống (từ nhỏ nhất)
+	VD: Làn đường, Biển báo, Cây cối, Vỉa hè, Người chơi, Auto...
+	=> Ý tưởng phát sinh
+	=> Khái niệm
+	=> Nghiệm vụ
+	VD: Làn đường
+		Ý tưởng: Mỗi làn đường có những đặc tính riêng, do đó cần phải sử lý nó riêng
+		Khái niệm: Làn đường là đơn vị nhỏ nhất trên đường, nó có chiều rộng, chiều dài, các lại xe được đi, dừng, trạng thái đèn...
+- Thiết kế dữ liệu
+	Các table trong database
+- Các kỹ thuật sử dụng
+
+IV. Cài đặt minh hoạ
+Trình bày quá trình khởi động, sử dụng các hệ thống
+
+V. Kết luận và hướng phát triển
+- Cài đặt và chạy được kết quả thế nào
+- Cấu hình phần cứng tới đâu, chạy được tốt
+- Vài hình ảnh, kết quả minh hoạ 
+- Hướng phát triển
+
+PHỤ LỤC
+- Các khái niệm, thông tin chung về Công nghệ sử dụng
+VD: mongodb, npl,...
+- Các mã lệnh, mã lỗi chi tiết, các cheat dùng trong debug, ...
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+
+
+Game Engine
+- Giới thiệu
+- Lịch sử
+- Các loại
+- Một vài game engine
+
+Unity Engine
+- Giới thiệu
+- So sánh
+- Kiến trúc Component
+- Các componet phổ biến
+
+Laravel Framework
+- Giới thiệu
+- So sánh
+- Các thành phần
+
+Tổng quan đề tài
+- Tình hình (lịch sử, thế giới, Việt Nam)
+- Bối cảnh nghiên cứu
+	=> Tiềm năng
+- Động lực nghiên cứu
+	=> Các vấn đề khó khăn khi làm bằng tay
+- Sản phẩm tương tự
+- Khảo sát yêu cầu phần mềm
+	+ Yêu cầu chức năng
+	+ Yêu cầu phi chức năng
+
+Xây dựng hệ thống
+- Phân tích, thiết kế
+	+ Kiến trúc tổng quát
+	+ Thiết kế database
+- Thiết kế Game
+	+ Thiết kế phần game 
+	+ Thiết kế giao diện
+	+ Các thành phần trong Game
+
+
+
+
+Tổng kết
+- Kết quả đạt được
+- Hướng phát triển
+
+
+
+
