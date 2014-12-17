@@ -5,21 +5,27 @@ using System.Collections.Generic;
 
 public class ErrorManager : SingletonMono<ErrorManager> {
 
+	public const int MAX_SCORE = 100;
 	public List<ModelErrorItem> listError = new List<ModelErrorItem> ();
 
 	void Start () {}
 
 	void Update () {}
 
-	public void PushError (int errorId, DateTime time) {
-		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
+	/// <summary>
+	/// Pushs the error.
+	/// </summary>
+	/// <returns><c>true</c>If can continue run<c>false</c>If must stop run immediately</returns>
+	public bool PushError (int errorId, DateTime time) {
+		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return false;}
+		
+		ConfigErrorItem configItem = ConfigError.Instance.GetError (errorId);
 
 		ModelErrorItem item = new ModelErrorItem ();
 		item.errorId = errorId;
 		item.time = time;
+		item.configItem = configItem;
 		AddNewError (item);
-
-		ConfigErrorItem configItem = ConfigError.Instance.GetError (item.errorId);
 
 		//show
 		string message = item.time.ToShortTimeString() 
@@ -27,12 +33,16 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 			+ ": " + configItem.name +"[-]";
 
 		NotifierHandler.Instance.PushNotify (message);
+
+		if (configItem.sub >= MAX_SCORE) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private void AddNewError (ModelErrorItem item) {
 		listError.Add (item);
-
-
 	}
 
 	public string StringError {
@@ -45,6 +55,17 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 			s = s.Trim ();
 			s = s.Replace (" ", ",");
 			return s;
+		}
+	}
+
+	public int Score {
+		get {
+			int score = MAX_SCORE;
+			for (int i = 0; i < listError.Count; ++i) {
+				score -= listError[i].configItem.sub;
+			}
+
+			return score;
 		}
 	}
 }

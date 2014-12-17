@@ -12,6 +12,7 @@ public class ConfigErrorItem {
 	public string phase2;
 	public int moneyFrom;
 	public int moneyTo;
+	public int sub;
 }
 
 

@@ -31,16 +31,17 @@ public class ScorePanelHandler : MonoBehaviour {
 				totalFrom += it.moneyFrom;
 				totalTo += it.moneyTo;
 
-				s += "[ff0000]" + (i+1) + ". [-]"
+				s += 	"[ff0000]" + (i+1) + ". [-]"
 						+ "[0000ff]" + l[i].time.ToLongTimeString() + "[-]"
 						+ "[000000]\n" + it.name + "[-]"
-						+ "\n=> [FF2F00]" + it.moneyFrom.ToString("C0") + "[-] - [FF2F00]" + it.moneyTo.ToString("C0") + "[-] vnd\n\n";
+						+ "\n=> [FF2F00]" + it.moneyFrom.ToString("n0") + "[-] - [FF2F00]" + it.moneyTo.ToString("n0") + "[-] vnd\n\n";
 			}
 		}
 		s += "[-]";
 
-		s = "[000000]TOTAL ERROR[-]: [ff0000]" + count + "[-]"
-			+ "\n[000000]TOTAL MONEY[-]: [FF2F00]" + totalFrom.ToString("C0") + "[-] - [FF2F00]" + totalTo.ToString("C0") + "[-] vnd\n\n" + s;
+		s = "[000000]TOTAL SCORE[-]: [ff0000]" + ErrorManager.Instance.Score + "[-]"
+			+ "\n[000000]TOTAL ERROR[-]: [ff0000]" + count + "[-]"
+			+ "\n[000000]TOTAL MONEY[-]: [FF2F00]" + totalFrom.ToString("n0") + "[-] - [FF2F00]" + totalTo.ToString("n0") + "[-] vnd\n\n" + s;
 
 		lbContent.text = s;
 
@@ -61,8 +62,7 @@ public class ScorePanelHandler : MonoBehaviour {
 		WWWForm form = new WWWForm();
 
 		string map = MapManager.Instance.mapNetwork.uid;
-		Debug.Log ("Missing score!");
-		int score = 0;
+		int score = ErrorManager.Instance.Score;
 		string detail = ErrorManager.Instance.StringError;
 
 		form.AddField("username", UserManager.Instance.user.username);
