@@ -45,7 +45,7 @@ public class HistoryItemHandler : MonoBehaviour {
 				if (errorId != -1) {
 					ConfigErrorItem item = ConfigError.Instance.GetError (errorId);
 					if (item != null) {
-						content += "[b][ff0000]" + errorId + "[-][/b]. [000000]" + item.name + "[-]\n";
+						content += "[b][ff0000]" + errorId + " (-" + item.sub + ")[-][/b]. [000000]" + item.name + "[-]\n";
 					} else {
 						Debug.LogError ("Item==null: " + errorId);
 						Debug.Log (JsonWriter.Serialize (p));

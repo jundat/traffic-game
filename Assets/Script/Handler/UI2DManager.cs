@@ -15,9 +15,11 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 	public UILabel lbRunTime;
 	public ScorePanelHandler scoreHandler;
 
+
 	public GameObject objTutorial;
 
-	void Start () {}
+	void Start () {
+	}
 
 	void Update () {}
 

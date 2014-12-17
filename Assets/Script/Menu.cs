@@ -30,8 +30,6 @@ public class Menu : MonoBehaviour {
 	void Update () {}
 
 	public void OnPlay () {
-//		loadingHandler.gameObject.SetActive (true);
-//		StartCoroutine (StartGame ());
 		Application.LoadLevel ("SelectMap");
 	}
 
@@ -131,5 +129,4 @@ public class Menu : MonoBehaviour {
 	public void OnCloseAbout () {
 		pnAbout.gameObject.SetActive (false);
 	}
-	
 }

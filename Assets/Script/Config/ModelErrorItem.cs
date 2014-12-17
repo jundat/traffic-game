@@ -6,5 +6,5 @@ public class ModelErrorItem {
 
 	public int errorId;
 	public DateTime time;
-
+	public ConfigErrorItem configItem;
 }
