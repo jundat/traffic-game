@@ -4,7 +4,12 @@ using System.Collections;
 
 public class Global {
 
-	public const string URL_SERVER = "http://localhost/trafficgame/";
+#if UNITY_EDITOR
+	public static string URL_SERVER = "http://localhost/trafficgame/";
+#else
+	public static string URL_SERVER = "http://widocom.com/projects/trafficgame/";
+#endif
+
 	public const string URL_LOGIN = "gamelogin";
 	public const string URL_HISTORY = "getscore";
 	public const string URL_GETMAP = "getmap";
