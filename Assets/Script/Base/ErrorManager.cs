@@ -28,9 +28,9 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 		AddNewError (item);
 
 		//show
-		string message = item.time.ToShortTimeString() 
-			+ ": [ff0000]" + configItem.id
-			+ ": " + configItem.name +"[-]";
+		string message = "[ff0000]" + item.time.ToShortTimeString() + "[-]: "
+			+  configItem.id
+			+ "-" + configItem.name;
 
 		NotifierHandler.Instance.PushNotify (message);
 
