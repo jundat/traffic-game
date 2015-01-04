@@ -1,0 +1,79 @@
+
+Với những hỗ trợ tốt nhất, Unity giúp người dùng có thể tập trung phát triển ý tưởng hơn là quan tâm vào các vấn đề kỹ thuật.
+
+----------------------
+2. Chất lượng
+
+2.1 Dựng hình
+- DirectX 11 được hỗ trợ làm cho hiệu suất dựng hình được nâng cao
+- Kỹ thuật chiếu sáng Pre-Pass và đa luồng cho ánh sáng chân thực
+- 100 kiểu shader sẵn có, từ đơn giản đến phức tạp phục vụ mọi mục đích
+- Cho phép can thiệp xuống tầng thấp của quá trình dựng hình để tối ưu hoá
+
+2.2 Ánh sáng
+- Tích hợp bộ công cụ Beast cho phép thực hiện kỹ thuật lightmapping một cách dễ dàng
+- Kỹ thuật lightmapping kép cho các khung cảnh lớn
+- Hard-shadow và soft-shadow tuỳ vào phần cứng thiết bị cho trải nghiệm tốt nhất
+
+2.3 Kỹ thuật đặc biệt
+- Vô số hiệu ứng tiền xử lý toàn màn hình cho phép chất lượng hình ảnh tuyệt vời hơn
+- Tăng tính chân thực với các hiệu ứng vẽ lên texture 
+- Chất lỏng với nhiều trạng thái và màu sắc
+- Unity 4 hỗ trợ Shuriken particle cho các hiệu ứng đặc sắc hơn nhưng vẫn đảm bảo mượt mà
+- Quản lý nhiều particle cùng lúc hiệu quả
+
+2.4 Âm thanh
+- Đưa âm thanh vào game một cách đơn giản, hiệu quả
+- Hỗ trợ streaming với file kích thước lớn
+- Cung cấp rất nhiều bộ filter để tạo ra các hiệu ứng âm thành khác nhau
+
+2.5 Tài nguyên
+- Công nghệ Substance của Allegorithmic giúp giảm kích thước tài nguyên và tạo ra các hiệu ứng ấn tượng
+
+2.5 Địa hình
+- Tạo địa hình đơn giản nhưng hiệu quả hoàn toàn bằng thao tác kéo thả
+- Công nghệ lightmapping của Beast cho ánh sáng địa hình được chân thực
+
+2.6 Vật lý 
+- Engine vật lý NVIDIA PhysX được tích hợp cho hiệu xuất xử lý vật lý cực cao
+- Thư viện Box2D được sử dụng cho game 2D tăng hiệu xuất hơn cho game 2D
+- Xây dựng game đua xe đơn giản hơn với Wheel Collider
+
+2.7 Trí tuệ nhân tạo
+- Bộ thư viện tìm đường đi được tích hợp hỗ trợ hiệu quả quá trình làm game
+
+----------------------
+3. 2D and 3D
+- Unity cho phép sử dụng model từ các phần mềm phổ biến như Maya, 3ds Max, Modo, Cinema 4D, Blender
+- Xây dựng các màn chơi đơn giản chỉ với thao tác kéo thả
+- Công cụ Profiler cho phép kiểm soát tài nguyên, tối ưu hoá hệ thống tốt hơn
+- Hỗ trợ nhiều camera cho phép tích hợp các đối tượng 2D và 3D trong cùng một khung cảnh dễ dàng
+
+---------------------
+4. Hoạt hoạ
+Từ phiên bản 4.0, Unity đã cung cấp thêm công cụ xây dựng hoạt hoạ. Các thao tác trực tiếp trên khung xương ở chế độ 2D hay 3D đều đơn giản và dễ dàng. 
+
+---------------------
+5. Hiệu suất
+- Giải pháp tiền xử lý Occlusion Culling của Unity, phát triển cùng với Umbra Software đảm bảo chỉ những đối tượng được thấy mới cần phải vẽ
+- LODGroups hỗ trợ thực hiện kỹ thuật Level-Of-Detail dễ dàng
+- Cơ chế tự động tối ưu bằng cách gắn nhiều khối nhỏ thành một khối lớn
+- Tự động loại bỏ các tài nguyên không sử dụng 
+- Tối ưu mã GLSL trên mobile giúp tăng tốc độ lên 2-3 lần
+
+--------------------
+6. Đa nền tảng
+- Tất cả các nền tảng mà Unity hỗ trợ, bao gồm: iOS, Android, Windows Phone 8, Blackberry 10, Windows, Windows Story Apps, Mac OS, Linux, Web Player, PS3, PS4, PlayStation Vista, PlayStation Mobile, Xbox One, Xbox 360, Wii U
+- Quá trình build chỉ đơn giản bằng một thao tác click
+
+--------------------
+7. Giao diện người dùng
+- Bộ thư viện UI mới của Unity hỗ trợ đầy đủ các loại điều khiển từ cơ bản đến phức tạp
+
+
+
+
+
+
+
+
