@@ -9,7 +9,7 @@ public class AutoCarHandler : TileHandler {
 	public const float UPDATE_DELAY = 2.0f;
 	public const float UPDATE_INTERVAL = 0.1f;
 	private const float STOP_SPEED = 0.001f;
-	private const float DELTA_TO_ROAD = 5;
+	private const float DELTA_TO_ROAD = 8;
 	
 	public List<AutocarCollider> listCollider = new List<AutocarCollider> ();
 	public List<Collider> currentCollision = new List<Collider> ();
@@ -39,6 +39,7 @@ public class AutoCarHandler : TileHandler {
 		objCurrentDest = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		objCurrentDest.transform.position = Vector3.zero;
 		objCurrentDest.transform.localScale = new Vector3 (4, 4, 4);
+		objCurrentDest.SetActive (false);
 		Destroy (objCurrentDest.GetComponent<BoxCollider>());
 		
 		
@@ -53,7 +54,7 @@ public class AutoCarHandler : TileHandler {
 	
 	void StartRun () {
 		InitDestination ();
-		Invoke ("ScheduleUpdate", UPDATE_DELAY);
+		InvokeRepeating ("ScheduleUpdate", UPDATE_DELAY, UPDATE_INTERVAL);
 	}
 	
 	void InitDestination () {
@@ -194,6 +195,11 @@ public class AutoCarHandler : TileHandler {
 	}
 	
 	private void CalculateNextDest (RoadHandler nextRoad, RoadHandler nowRoad) {
+		bool isOpposite = false;
+		if (Ultil.IsOpposite (nextRoad.Direction, direction)) {
+			isOpposite = true;
+		}
+
 		//get point A1, A2, A3, A4
 		Vector3 a1 = transform.position;
 		Vector3 a2 = a1;
@@ -226,24 +232,48 @@ public class AutoCarHandler : TileHandler {
 			a3 = nextRoad.anchorUp.transform.position;
 			a4 = a3;
 			a4.z += hRoad/4;
+
+			if (isOpposite) {
+				a3.z -= hRoad/4;
+				a4.z -= hRoad/4;
+			}
+
 			break;
 			
 		case MoveDirection.UP: //quay dau
 			a3 = nextRoad.anchorDown.transform.position;
 			a4 = a3;
 			a4.z -= hRoad/4;
+
+			if (isOpposite) {
+				a3.z += hRoad/4;
+				a4.z += hRoad/4;
+			}
+
 			break;
 			
 		case MoveDirection.LEFT: //quay dau
 			a3 = nextRoad.anchorRight.transform.position;
 			a4 = a3;
 			a4.x += wRoad/4;
+
+			if (isOpposite) {
+				a3.x -= wRoad/4;
+				a4.x -= wRoad/4;
+			}
+
 			break;
 			
 		case MoveDirection.RIGHT: //quay dau
 			a3 = nextRoad.anchorLeft.transform.position;
 			a4 = a3;
 			a4.x -= wRoad/4;
+			
+			if (isOpposite) {
+				a3.x += wRoad/4;
+				a4.x += wRoad/4;
+			}
+
 			break;
 		}
 		
@@ -346,7 +376,7 @@ public class AutoCarHandler : TileHandler {
 		}
 	}
 	
-	private void AddDebugDest (Vector3 v, int number) {
+	private void AddDebugDest (Vector3 v, int number) {return;
 		GameObject ins = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		BoxCollider box = ins.GetComponent<BoxCollider>();
 		Destroy (box);
