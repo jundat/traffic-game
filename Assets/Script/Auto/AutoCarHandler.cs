@@ -2,25 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 public class AutoCarHandler : TileHandler {
 
 	public const float UPDATE_DELAY = 2.0f;
 	public const float UPDATE_INTERVAL = 0.2f;
-	
+	private const float STOP_SPEED = 0.001f;
+
+	public List<AutocarCollider> listCollider = new List<AutocarCollider> ();
+	public List<Collider> currentCollision = new List<Collider> ();
+	public GameObject frontTire;
+	public GameObject rearTire;
 	public float SPEED = 40.0f;
+	public float currentSpeed;
 	public MoveDirection direction;
 
 	private bool isInJunction = false; //giao lo
+	private TweenRotation tweenFront;
+	private TweenRotation tweenRear;
+
+	void Awake () {
+		tweenFront = frontTire.GetComponent<TweenRotation>();
+		tweenRear = rearTire.GetComponent<TweenRotation>();
+	}
 
 	void Start () {
+		currentSpeed = SPEED;
+
+		for (int i = 0; i < listCollider.Count; ++i) {
+			listCollider[i].onCollideEnter = this.CallbackCollideEnter;
+			listCollider[i].onCollideExit = this.CallbackCollideExit;
+		}
+
 		InvokeRepeating ("ScheduleUpdate", UPDATE_DELAY, UPDATE_INTERVAL);
 	}
 
 	void Update () {
 
 		Vector3 pos = transform.localPosition;
-		pos += SPEED * transform.forward * Time.deltaTime;
+		pos += currentSpeed * transform.forward * Time.deltaTime;
 		transform.localPosition = pos;
+
+		tweenFront.duration = 0.5f * SPEED / (currentSpeed + 0.001f);
+		tweenRear.duration = 0.5f * SPEED / (currentSpeed + 0.001f);
 	}
 
 	public void Init () {
@@ -75,7 +100,7 @@ public class AutoCarHandler : TileHandler {
 						}
 
 					} else {
-						SPEED = 0;
+						currentSpeed = STOP_SPEED;
 					}
 				}
 			} else {
@@ -103,6 +128,56 @@ public class AutoCarHandler : TileHandler {
 		case MoveDirection.RIGHT:
 			transform.eulerAngles = new Vector3 (0, -90, 0);
 			break;
+		}
+	}
+
+	public void CallbackCollideEnter (Collider col, AutocarCollider side) {
+		string sideName = side.gameObject.name;
+		string colName = col.gameObject.name;
+
+
+		if (colName != OBJ.START_POINT &&
+		    colName != OBJ.FINISH_POINT &&
+		    colName != OBJ.CHECK_POINT) 
+		{
+			//Debug.Log (col.gameObject.name + " >< " + side.gameObject.name);
+
+			if (sideName == AutocarCollider.FAR_FRONT) {
+				if (currentCollision.Count == 0) {
+					currentSpeed = SPEED / 2;
+				}
+			}
+
+			if (sideName == AutocarCollider.FRONT) {
+				currentCollision.Add (col);
+				currentSpeed = STOP_SPEED;
+			}
+		}
+	}
+
+	public void CallbackCollideExit (Collider col, AutocarCollider side) {
+
+		string sideName = side.gameObject.name;
+		string colName = col.gameObject.name;
+
+		if (colName != OBJ.START_POINT &&
+		    colName != OBJ.FINISH_POINT &&
+		    colName != OBJ.CHECK_POINT) 
+		{
+			//Debug.LogError (col.gameObject.name + " >< " + side.gameObject.name);
+
+			if (sideName == AutocarCollider.FRONT) {
+				currentCollision.Remove (col);
+				if (currentCollision.Count == 0) {
+					currentSpeed = SPEED;
+				}
+			}
+
+			if (sideName == AutocarCollider.FAR_FRONT) {
+				if (currentCollision.Count == 0) {
+					currentSpeed = SPEED;
+				}
+			}
 		}
 	}
 }

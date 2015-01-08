@@ -31,7 +31,7 @@ public class Login : MonoBehaviour {
 		WWWForm form = new WWWForm();
 		form.AddField("username", username);
 		form.AddField("password", password);
-		Debug.Log (Global.URL_SERVER + Global.URL_LOGIN);
+
 		WWW w = new WWW(Global.URL_SERVER + Global.URL_LOGIN, form);
 		
 		yield return w;
