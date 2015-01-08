@@ -12,7 +12,7 @@ public class BikeMovement : MonoBehaviour {
 	public float accelMoveBackward;
 	public float accelAutoStop;
 
-	private float moveSpeed = 0.0f;
+	private float moveSpeed = 0.01f;
 	private CharacterController controller;
 
 	public float Speed {
@@ -53,8 +53,8 @@ public class BikeMovement : MonoBehaviour {
 		           || Input.GetKey (KeyCode.S)) {
 			
 			moveSpeed -= accelMoveBackward * Time.deltaTime;
-			if (moveSpeed < 0.2) {
-				moveSpeed = 0;
+			if (moveSpeed < 0.2f) {
+				moveSpeed = 0.01f;
 			}
 		}
 
@@ -72,8 +72,8 @@ public class BikeMovement : MonoBehaviour {
 		while (moveSpeed > 0) {
 			
 			moveSpeed -= accelMoveBackward/2.0f * Time.deltaTime;
-			if (moveSpeed < 0.1) {
-				moveSpeed = 0;
+			if (moveSpeed < 0.1f) {
+				moveSpeed = 0.01f;
 			}
 
 			Vector3 v = transform.forward * moveSpeed * Time.deltaTime;

@@ -52,7 +52,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	void Update () {
 		//Started
 		if (Main.Instance.isStarted == false) {
-			if (bikeMovement.Speed > 0) {
+			if (bikeMovement.Speed > 0.1f) {
 				Main.Instance.OnStartGame ();
 			}
 		}
@@ -480,16 +480,16 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		MoveDirection dir = newState.road.CheckInLeDuong (this.transform.position);
 
 		if (newState.road.IsBus == false) {
-			if (newState.road.tile.typeId == TileID.ROAD_NONE && newState.vachKeDuong == MoveDirection.NONE) {Debug.Log ("1");
-				if (viphamDungGiuaDuong == false) {Debug.Log ("1.1");
+			if (newState.road.tile.typeId == TileID.ROAD_NONE && newState.vachKeDuong == MoveDirection.NONE) {
+				if (viphamDungGiuaDuong == false) {
 					viphamDungGiuaDuong = true;
 					ErrorManager.Instance.PushError (11, Main.Instance.time);
 				}
 			} else if (newState.road.tile.typeId != TileID.ROAD_NONE
 			           && dir == MoveDirection.NONE 
-			           && newState.road.LightStatus != TrafficLightStatus.red) {Debug.Log ("2");
+			           && newState.road.LightStatus != TrafficLightStatus.red) {
 
-				if (viphamDungGiuaDuong == false) {Debug.Log ("2.1");
+				if (viphamDungGiuaDuong == false) {
 					viphamDungGiuaDuong = true;
 					ErrorManager.Instance.PushError (11, Main.Instance.time);
 				}
