@@ -73,6 +73,8 @@ public class OBJ {
 	public const string START_POINT = "302(Clone)";
 	public const string FINISH_POINT = "303(Clone)";
 	public const string CHECK_POINT = "304(Clone)";
+	public const string PLAYER = "Player";
+	public const string AUTOCAR = "310(Clone)";
 
 	public const string ROAD = "Road(Clone)";
 
