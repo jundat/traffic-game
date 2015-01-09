@@ -10,12 +10,15 @@ public class AutoCarHandler : TileHandler {
 	public const float UPDATE_INTERVAL = 0.2f;
 	private const float STOP_SPEED = 0.001f;
 	private const float DELTA_TO_ROAD = 8;
+	private const float RANDOM_INROAD = 4.0f / 5.0f;
+	private const int MIN_SPEED = 30;
+	private const int MAX_SPEED = 50;
 	
 	public List<AutocarCollider> listCollider = new List<AutocarCollider> ();
 	public List<Collider> currentCollision = new List<Collider> ();
 	public GameObject frontTire;
 	public GameObject rearTire;
-	public float SPEED = 40.0f;
+	public float SPEED;
 	public float currentSpeed;
 	public MoveDirection direction;
 	
@@ -31,8 +34,8 @@ public class AutoCarHandler : TileHandler {
 	public GameObject objCurrentDest;
 	
 	void Awake () {
-		//tweenFront = frontTire.GetComponent<TweenRotation>();
-		//tweenRear = rearTire.GetComponent<TweenRotation>();
+		tweenFront = frontTire.GetComponent<TweenRotation>();
+		tweenRear = rearTire.GetComponent<TweenRotation>();
 	}
 	
 	void Start () {
@@ -42,7 +45,7 @@ public class AutoCarHandler : TileHandler {
 		objCurrentDest.SetActive (false);
 		Destroy (objCurrentDest.GetComponent<BoxCollider>());
 		
-		
+		SPEED = Ultil.random.Next (MIN_SPEED, MAX_SPEED);
 		currentSpeed = SPEED;
 		for (int i = 0; i < listCollider.Count; ++i) {
 			listCollider[i].onCollideEnter = this.CallbackCollideEnter;
@@ -60,7 +63,7 @@ public class AutoCarHandler : TileHandler {
 	
 	void InitDestination () {
 		
-		listDest.Add (transform.position); //AddDebugDest (transform.position, listDest.Count);
+		listDest.Add (transform.position);
 		currentPos = -1;
 		currentDest = 0;
 		
@@ -73,25 +76,25 @@ public class AutoCarHandler : TileHandler {
 			case MoveDirection.UP:
 				v = new Vector3 (p.x, p.y, p.z);
 				v.z = road.anchorUp.transform.position.z - DELTA_TO_ROAD;
-				listDest.Add (v); AddDebugDest (v, listDest.Count);
+				listDest.Add (v); 
 				break;
 				
 			case MoveDirection.DOWN:
 				v = new Vector3 (p.x, p.y, p.z);
 				v.z = road.anchorDown.transform.position.z + DELTA_TO_ROAD;
-				listDest.Add (v); AddDebugDest (v, listDest.Count);
+				listDest.Add (v); 
 				break;
 				
 			case MoveDirection.LEFT:
 				v = new Vector3 (p.x, p.y, p.z);
 				v.x = road.anchorLeft.transform.position.x + DELTA_TO_ROAD;
-				listDest.Add (v); AddDebugDest (v, listDest.Count);
+				listDest.Add (v); 
 				break;
 				
 			case MoveDirection.RIGHT:
 				v = new Vector3 (p.x, p.y, p.z);
 				v.x = road.anchorRight.transform.position.x - DELTA_TO_ROAD;
-				listDest.Add (v); AddDebugDest (v, listDest.Count);
+				listDest.Add (v); 
 				break;
 				
 			default:
@@ -114,13 +117,17 @@ public class AutoCarHandler : TileHandler {
 			
 			if (Vector3.Distance (transform.position, listDest[currentDest]) < move.magnitude) {
 				transform.position = listDest[currentDest];
+
 				ScheduleUpdate ();
 				NextStep ();
 			}
+
+			if (currentSpeed != 0) {
+				tweenFront.duration = tweenRear.duration = 20.0f / currentSpeed;
+			}
+		} else {
+			tweenFront.duration = tweenRear.duration = 1000;
 		}
-		
-		//tweenFront.duration = 0.5f * SPEED / (currentSpeed + 0.001f);
-		//tweenRear.duration = 0.5f * SPEED / (currentSpeed + 0.001f);
 	}
 	
 	public void Init () {
@@ -161,9 +168,9 @@ public class AutoCarHandler : TileHandler {
 			if (road.tile.typeId == TileID.ROAD_NONE) {
 				
 				//Debug.Log ("In NONE Road");
-
+				
 				if (isInJunction == false) {
-
+					
 					List<RoadHandler> listAvai = new List<RoadHandler> ();
 					for (int i = 0; i < road.listCollisionRoads.Count; ++i) {
 						RoadHandler.CollisionRoad c = road.listCollisionRoads[i];
@@ -176,10 +183,10 @@ public class AutoCarHandler : TileHandler {
 					int count = listAvai.Count;
 					if (count > 0) {
 						isInJunction = true;
-
+						
 						int randomIndex = Ultil.random.Next (0, count);
 						RoadHandler nextRoad = listAvai[randomIndex];
-
+						
 						//Move in bezier
 						CalculateNextDest (nextRoad, road);
 						
@@ -207,7 +214,7 @@ public class AutoCarHandler : TileHandler {
 		if (Ultil.IsOpposite (nextRoad.Direction, direction)) {
 			isOpposite = true;
 		}
-
+		
 		//get point A1, A2, A3, A4
 		Vector3 a1 = transform.position;
 		Vector3 a2 = a1;
@@ -235,62 +242,62 @@ public class AutoCarHandler : TileHandler {
 		
 		Vector3 a3 = Vector3.one;
 		Vector3 a4 = Vector3.one;
-
+		
 		float hNextRoad = Mathf.Abs (nextRoad.anchorUp.transform.position.z - nextRoad.anchorDown.transform.position.z);
 		float wNextRoad = Mathf.Abs (nextRoad.anchorLeft.transform.position.x - nextRoad.anchorRight.transform.position.x);
-
-		float deltaX = (float)(Ultil.random.NextDouble () * wNextRoad/3*2);
-		float deltaZ = (float)(Ultil.random.NextDouble () * hNextRoad/3*2);
+		
+		float deltaX = (float)(Ultil.random.NextDouble () * wNextRoad * RANDOM_INROAD);
+		float deltaZ = (float)(Ultil.random.NextDouble () * hNextRoad * RANDOM_INROAD);
 		deltaX -= deltaX/2;
 		deltaZ -= deltaZ/2;
-
+		
 		switch (nextRoad.Direction) {
 		case MoveDirection.DOWN: //quay dau
 			a3 = nextRoad.anchorUp.transform.position;
 			a4 = a3;
 			a4.z += hRoad/4;
-
+			
 			//random
 			a3.x += deltaX;
 			a4.x += deltaX;
-
+			
 			if (isOpposite) {
 				a3.z -= hRoad/4;
 				a4.z -= hRoad/4;
 			}
-
+			
 			break;
 			
 		case MoveDirection.UP: //quay dau
 			a3 = nextRoad.anchorDown.transform.position;
 			a4 = a3;
 			a4.z -= hRoad/4;
-
+			
 			//random
 			a3.x += deltaX;
 			a4.x += deltaX;
-
+			
 			if (isOpposite) {
 				a3.z += hRoad/4;
 				a4.z += hRoad/4;
 			}
-
+			
 			break;
 			
 		case MoveDirection.LEFT: //quay dau
 			a3 = nextRoad.anchorRight.transform.position;
 			a4 = a3;
 			a4.x += wRoad/4;
-
+			
 			//random
 			a3.z += deltaZ;
 			a4.z += deltaZ;
-
+			
 			if (isOpposite) {
 				a3.x -= wRoad/4;
 				a4.x -= wRoad/4;
 			}
-
+			
 			break;
 			
 		case MoveDirection.RIGHT: //quay dau
@@ -301,12 +308,12 @@ public class AutoCarHandler : TileHandler {
 			//random
 			a3.z += deltaZ;
 			a4.z += deltaZ;
-
+			
 			if (isOpposite) {
 				a3.x += wRoad/4;
 				a4.x += wRoad/4;
 			}
-
+			
 			break;
 		}
 		
@@ -326,13 +333,13 @@ public class AutoCarHandler : TileHandler {
 		
 		// how many points do you need on the curve?
 		int POINTS_ON_CURVE = 40;
-
+		
 		double[] ptind = new double[ptList.Count];
 		double[] curvePoints = new double[POINTS_ON_CURVE];
 		ptList.CopyTo (ptind, 0);
 		
 		bc.Bezier2D(ptind, (POINTS_ON_CURVE) / 2, curvePoints);
-
+		
 		//remove 2 first + 1 last element
 		for (int i = 3; i != POINTS_ON_CURVE-3; i += 2)
 		{
@@ -340,41 +347,40 @@ public class AutoCarHandler : TileHandler {
 			//y
 			//p[i]
 			Vector3 newDest = new Vector3 ((float)curvePoints[i+1], transform.position.y, (float)curvePoints[i]);
-			listDest.Add (newDest); AddDebugDest (newDest, listDest.Count);
+			listDest.Add (newDest); 
 		}
 		
 		a4.y = transform.position.y;
-		listDest.Add (a4); AddDebugDest (a4, listDest.Count);
+		listDest.Add (a4); 
 		
 		//-----------------------------------------------
-		// Destination from next road
-		
+		//Destination from next road
 		Vector3 curPos = a4;
-		Vector3 vec3;
+		Vector3 v2;
 		
 		switch (nextRoad.Direction) {
 		case MoveDirection.UP:
-			vec3 = new Vector3 (curPos.x, curPos.y, curPos.z);
-			vec3.z = nextRoad.anchorUp.transform.position.z - DELTA_TO_ROAD;
-			listDest.Add (vec3); AddDebugDest (vec3, listDest.Count);
+			v2 = new Vector3 (curPos.x, curPos.y, curPos.z);
+			v2.z = nextRoad.anchorUp.transform.position.z - DELTA_TO_ROAD;
+			listDest.Add (v2); 
 			break;
 			
 		case MoveDirection.DOWN:
-			vec3 = new Vector3 (curPos.x, curPos.y, curPos.z);
-			vec3.z = nextRoad.anchorDown.transform.position.z + DELTA_TO_ROAD;
-			listDest.Add (vec3); AddDebugDest (vec3, listDest.Count);
+			v2 = new Vector3 (curPos.x, curPos.y, curPos.z);
+			v2.z = nextRoad.anchorDown.transform.position.z + DELTA_TO_ROAD;
+			listDest.Add (v2); 
 			break;
 			
 		case MoveDirection.LEFT:
-			vec3 = new Vector3 (curPos.x, curPos.y, curPos.z);
-			vec3.x = nextRoad.anchorLeft.transform.position.x + DELTA_TO_ROAD;
-			listDest.Add (vec3); AddDebugDest (vec3, listDest.Count);
+			v2 = new Vector3 (curPos.x, curPos.y, curPos.z);
+			v2.x = nextRoad.anchorLeft.transform.position.x + DELTA_TO_ROAD;
+			listDest.Add (v2); 
 			break;
 			
 		case MoveDirection.RIGHT:
-			vec3 = new Vector3 (curPos.x, curPos.y, curPos.z);
-			vec3.x = nextRoad.anchorRight.transform.position.x - DELTA_TO_ROAD;
-			listDest.Add (vec3); AddDebugDest (vec3, listDest.Count);
+			v2 = new Vector3 (curPos.x, curPos.y, curPos.z);
+			v2.x = nextRoad.anchorRight.transform.position.x - DELTA_TO_ROAD;
+			listDest.Add (v2); 
 			break;
 			
 		default:
@@ -386,7 +392,7 @@ public class AutoCarHandler : TileHandler {
 			NextStep ();
 		}
 	}
-	
+
 	private void RotateToDirection () {
 		
 		//Rotation
@@ -408,26 +414,15 @@ public class AutoCarHandler : TileHandler {
 			break;
 		}
 	}
-	
-	private void AddDebugDest (Vector3 v, int number) {return;
-		GameObject ins = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		BoxCollider box = ins.GetComponent<BoxCollider>();
-		Destroy (box);
-		ins.transform.position = v;
-		ins.name = "" + number;
-	}
-	
+
 	public void CallbackCollideEnter (Collider col, AutocarCollider side) {
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
-		
 		
 		if (colName != OBJ.START_POINT &&
 		    colName != OBJ.FINISH_POINT &&
 		    colName != OBJ.CHECK_POINT) 
 		{
-			//Debug.Log (col.gameObject.name + " >< " + side.gameObject.name);
-			
 			if (sideName == AutocarCollider.FAR_FRONT) {
 				if (currentCollision.Count == 0) {
 					currentSpeed = SPEED / 2;
@@ -450,8 +445,6 @@ public class AutoCarHandler : TileHandler {
 		    colName != OBJ.FINISH_POINT &&
 		    colName != OBJ.CHECK_POINT) 
 		{
-			//Debug.LogError (col.gameObject.name + " >< " + side.gameObject.name);
-			
 			if (sideName == AutocarCollider.FRONT) {
 				currentCollision.Remove (col);
 				if (currentCollision.Count == 0) {
