@@ -20,7 +20,7 @@ public class Global {
 	public const float ZERO_POINT = 0.001f;
 
 //#if UNITY_EDITOR
-	public const bool BUILD_BUIDING = true;
+	public const bool BUILD_BUIDING = false;
 //#else
 //	public const bool BUILD_BUIDING = true;
 //#endif
