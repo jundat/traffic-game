@@ -27,7 +27,6 @@ public class AutoCarHandler : TileHandler {
 	private TweenRotation tweenRear;
 	
 	public bool isRun = false;
-	public Vector3 step = Vector3.zero;
 	public int currentPos = -1;
 	public int currentDest = 0;
 	public List<Vector3> listDest = new List<Vector3> ();
@@ -110,6 +109,7 @@ public class AutoCarHandler : TileHandler {
 	
 	void Update () {
 		if (isRun) {
+			Vector3 step = (listDest[currentDest] - transform.position) / Vector3.Distance (transform.position, listDest[currentDest]);
 			Vector3 move = step * currentSpeed * Time.deltaTime;
 			transform.position = transform.position + move;
 			transform.LookAt (listDest[currentDest]);
@@ -131,7 +131,7 @@ public class AutoCarHandler : TileHandler {
 	}
 	
 	public void Init () {
-		direction = Ultil.ToMoveDirection ( tile.properties[TileKey.AUTOCAR_DIR]);
+		direction = Ultil.ToMoveDirection ( Ultil.GetString (TileKey.AUTOCAR_DIR, "UP", tile.properties));
 		RotateToDirection ();
 	}
 	
@@ -145,17 +145,16 @@ public class AutoCarHandler : TileHandler {
 			
 			transform.position = listDest[currentPos];
 			transform.LookAt (listDest[currentDest]);
-			step = (listDest[currentDest] - listDest[currentPos]) / Vector3.Distance (listDest[currentDest], listDest[currentPos]);
-			
-			if (step.magnitude < 0.001f) {
+
+			if (Vector3.Distance (listDest[currentDest], listDest[currentPos]) < 0.001f) {
 				NextStep ();
 			}
 			
 		} else {
 			Debug.LogError ("No next destination => Stop Car");
-			step = Vector3.zero;
 			isRun = false;
-			
+
+			isInJunction = false;
 			this.ScheduleUpdate ();
 		}
 	}
