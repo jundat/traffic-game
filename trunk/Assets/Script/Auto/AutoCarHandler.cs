@@ -6,8 +6,8 @@ using System.Collections.Generic;
 
 public class AutoCarHandler : TileHandler {
 	
-	public const float UPDATE_DELAY = 2.0f;
-	public const float UPDATE_INTERVAL = 0.1f;
+	public const float START_DELAY = 4.0f;
+	public const float UPDATE_INTERVAL = 0.2f;
 	private const float STOP_SPEED = 0.001f;
 	private const float DELTA_TO_ROAD = 8;
 	
@@ -49,12 +49,13 @@ public class AutoCarHandler : TileHandler {
 			listCollider[i].onCollideExit = this.CallbackCollideExit;
 		}
 		
-		Invoke ("StartRun", 4);
+		Invoke ("StartRun", START_DELAY);
 	}
 	
 	void StartRun () {
 		InitDestination ();
-		InvokeRepeating ("ScheduleUpdate", UPDATE_DELAY, UPDATE_INTERVAL);
+		Invoke ("ScheduleUpdate", 0);
+		//InvokeRepeating ("ScheduleUpdate", 0, UPDATE_INTERVAL);
 	}
 	
 	void InitDestination () {
@@ -128,7 +129,7 @@ public class AutoCarHandler : TileHandler {
 	}
 	
 	private void NextStep () {
-		Debug.Log ("Next Step");
+		//Debug.Log ("Next Step");
 		
 		if (listDest.Count > currentDest + 1) {
 			currentDest++;
@@ -144,7 +145,7 @@ public class AutoCarHandler : TileHandler {
 			}
 			
 		} else {
-			Debug.Log ("No next destination => Stop Car");
+			Debug.LogError ("No next destination => Stop Car");
 			step = Vector3.zero;
 			isRun = false;
 			
@@ -159,9 +160,10 @@ public class AutoCarHandler : TileHandler {
 		if (road != null) {
 			if (road.tile.typeId == TileID.ROAD_NONE) {
 				
+				//Debug.Log ("In NONE Road");
+
 				if (isInJunction == false) {
-					isInJunction = true;
-					
+
 					List<RoadHandler> listAvai = new List<RoadHandler> ();
 					for (int i = 0; i < road.listCollisionRoads.Count; ++i) {
 						RoadHandler.CollisionRoad c = road.listCollisionRoads[i];
@@ -173,11 +175,11 @@ public class AutoCarHandler : TileHandler {
 					
 					int count = listAvai.Count;
 					if (count > 0) {
-						int randomIndex = Ultil.random.Next (0, count-1);
+						isInJunction = true;
+
+						int randomIndex = Ultil.random.Next (0, count);
 						RoadHandler nextRoad = listAvai[randomIndex];
-						
-						Debug.LogError ("In NONE Road");
-						
+
 						//Move in bezier
 						CalculateNextDest (nextRoad, road);
 						
@@ -185,16 +187,22 @@ public class AutoCarHandler : TileHandler {
 						direction = nextRoad.Direction;
 						//------
 					} else {
+						//Debug.Log ("No way to run");
 						currentSpeed = STOP_SPEED;
 					}
 				}
 			} else {
+				//Debug.LogError ("Not NONE road");
 				isInJunction = false;
 			}
+		} else {
+			isInJunction = false;
+			//Debug.LogError ("Null road");
 		}
 	}
 	
 	private void CalculateNextDest (RoadHandler nextRoad, RoadHandler nowRoad) {
+		//Debug.Log ("Calculate Next Dest");
 		bool isOpposite = false;
 		if (Ultil.IsOpposite (nextRoad.Direction, direction)) {
 			isOpposite = true;
@@ -227,11 +235,24 @@ public class AutoCarHandler : TileHandler {
 		
 		Vector3 a3 = Vector3.one;
 		Vector3 a4 = Vector3.one;
+
+		float hNextRoad = Mathf.Abs (nextRoad.anchorUp.transform.position.z - nextRoad.anchorDown.transform.position.z);
+		float wNextRoad = Mathf.Abs (nextRoad.anchorLeft.transform.position.x - nextRoad.anchorRight.transform.position.x);
+
+		float deltaX = (float)(Ultil.random.NextDouble () * wNextRoad/3*2);
+		float deltaZ = (float)(Ultil.random.NextDouble () * hNextRoad/3*2);
+		deltaX -= deltaX/2;
+		deltaZ -= deltaZ/2;
+
 		switch (nextRoad.Direction) {
 		case MoveDirection.DOWN: //quay dau
 			a3 = nextRoad.anchorUp.transform.position;
 			a4 = a3;
 			a4.z += hRoad/4;
+
+			//random
+			a3.x += deltaX;
+			a4.x += deltaX;
 
 			if (isOpposite) {
 				a3.z -= hRoad/4;
@@ -245,6 +266,10 @@ public class AutoCarHandler : TileHandler {
 			a4 = a3;
 			a4.z -= hRoad/4;
 
+			//random
+			a3.x += deltaX;
+			a4.x += deltaX;
+
 			if (isOpposite) {
 				a3.z += hRoad/4;
 				a4.z += hRoad/4;
@@ -256,6 +281,10 @@ public class AutoCarHandler : TileHandler {
 			a3 = nextRoad.anchorRight.transform.position;
 			a4 = a3;
 			a4.x += wRoad/4;
+
+			//random
+			a3.z += deltaZ;
+			a4.z += deltaZ;
 
 			if (isOpposite) {
 				a3.x -= wRoad/4;
@@ -269,6 +298,10 @@ public class AutoCarHandler : TileHandler {
 			a4 = a3;
 			a4.x -= wRoad/4;
 			
+			//random
+			a3.z += deltaZ;
+			a4.z += deltaZ;
+
 			if (isOpposite) {
 				a3.x += wRoad/4;
 				a4.x += wRoad/4;
@@ -292,15 +325,15 @@ public class AutoCarHandler : TileHandler {
 		ptList.Add (a4.z);
 		
 		// how many points do you need on the curve?
-		const int POINTS_ON_CURVE = 40;
-		
+		int POINTS_ON_CURVE = 40;
+
 		double[] ptind = new double[ptList.Count];
 		double[] curvePoints = new double[POINTS_ON_CURVE];
 		ptList.CopyTo (ptind, 0);
 		
 		bc.Bezier2D(ptind, (POINTS_ON_CURVE) / 2, curvePoints);
 
-		//remove first + last element
+		//remove 2 first + 1 last element
 		for (int i = 3; i != POINTS_ON_CURVE-3; i += 2)
 		{
 			//p[i+1]
