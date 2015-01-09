@@ -8,7 +8,9 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 	public const int MAX_SCORE = 100;
 	public List<ModelErrorItem> listError = new List<ModelErrorItem> ();
 
-	void Start () {}
+	void Start () {
+		listError.Clear ();
+	}
 
 	void Update () {}
 
@@ -61,6 +63,7 @@ public class ErrorManager : SingletonMono<ErrorManager> {
 	public int Score {
 		get {
 			int score = MAX_SCORE;
+
 			for (int i = 0; i < listError.Count; ++i) {
 				score -= listError[i].configItem.sub;
 			}

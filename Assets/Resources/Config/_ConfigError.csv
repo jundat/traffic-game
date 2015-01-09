@@ -1,5 +1,4 @@
 Id	Name	Phase1	Phase2	MoneyFrom	MoneyTo	Sub
-0	Hết giờ	Hết giờ	Hết giờ	0	0	100
 1	Lấn tuyến	1. Phạt tiền từ 40.000 đồng đến 60.000 đồng đối với một trong các hành vi vi phạm sau đây:	a) Không chấp hành hiệu lệnh, chỉ dẫn của biển báo hiệu, vạch kẻ đường, trừ các hành vi vi phạm quy định tại điểm a, điểm b, điểm đ, điểm h, điểm l khoản 2; điểm c, điểm đ khoản 3; điểm c, điểm d khoản 4; điểm a, điểm c, điểm d khoản 5; điểm d khoản 7 Điều này;	40000	60000	5
 2	Vượt đèn đỏ	3. Phạt tiền từ 100.000 đồng đến 200.000 đồng đối với một trong các hành vi vi phạm sau đây:	a) Không chấp hành hiệu lệnh của đèn tín hiệu giao thông;	100000	200000	10
 3	Đi ngược chiều	3. Phạt tiền từ 100.000 đồng đến 200.000 đồng đối với một trong các hành vi vi phạm sau đây:	đ) Đi vào đường cấm, khu vực cấm; đi ngược chiều của đường một chiều, trừ trường hợp xe ưu tiên đang đi làm nhiệm vụ khẩn cấp theo quy định;	100000	200000	10

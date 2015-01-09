@@ -33,15 +33,16 @@ public class ScorePanelHandler : MonoBehaviour {
 
 				s += 	"[ff0000]" + (i+1) + ". [-]"
 						+ "[0000ff]" + l[i].time.ToLongTimeString() + "[-]"
+						+ "[ff0000] (-" + it.sub + ")[-]"
 						+ "[000000]\n" + it.name + "[-]"
-						+ "\n=> [FF2F00]" + it.moneyFrom.ToString("n0") + "[-] - [FF2F00]" + it.moneyTo.ToString("n0") + "[-] vnd\n\n";
+						+ "\n[000000]=>[-] [FF2F00]" + it.moneyFrom.ToString("n0") + "[-] - [FF2F00]" + it.moneyTo.ToString("n0") + "[-][000000] vnd[-]\n\n";
 			}
 		}
 		s += "[-]";
 
 		s = "[000000]TOTAL SCORE[-]: [ff0000]" + ErrorManager.Instance.Score + "[-]"
 			+ "\n[000000]TOTAL ERROR[-]: [ff0000]" + count + "[-]"
-			+ "\n[000000]TOTAL MONEY[-]: [FF2F00]" + totalFrom.ToString("n0") + "[-] - [FF2F00]" + totalTo.ToString("n0") + "[-] vnd\n\n" + s;
+				+ "\n[000000]TOTAL MONEY[-]: [FF2F00]" + totalFrom.ToString("n0") + "[-] - [FF2F00]" + totalTo.ToString("n0") + "[-][000000] vnd[-]\n\n" + s;
 
 		lbContent.text = s;
 

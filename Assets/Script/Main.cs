@@ -48,7 +48,9 @@ public class Main : SingletonMono<Main> {
 			if (span.TotalSeconds >= 0) {
 				UI2DManager.Instance.SetRemainTime (span);
 			} else {
-				Debug.LogError ("Out of time :(");
+				//Debug.LogError ("Out of time :(");
+
+				ErrorManager.Instance.PushError (0, Main.Instance.time);
 				Main.Instance.isEndGame = true;
 				SoundManager.Instance.PlayOutOfTime ();
 				ShowEndGame ();
