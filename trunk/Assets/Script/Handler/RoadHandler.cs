@@ -71,7 +71,10 @@ public class RoadHandler : TileHandler {
 	public GameObject anchorUp;
 	public GameObject anchorDown;
 
-
+	public GameObject redStop = null;
+	private const float RED_STOP_Y_OUT = -20;
+	private const float RED_STOP_Y = 8;
+	private const float RED_STOP_DELTA = 15;
 
 	public TrafficLightStatus LightStatus {
 		get {
@@ -80,24 +83,45 @@ public class RoadHandler : TileHandler {
 		set {
 			lightStatus = value;
 
+			if (lightStatus == TrafficLightStatus.red) {
+				switch (tile.typeId) {
+				case 1://down
+					redStop.transform.position = this.anchorDown.transform.position + new Vector3 (0, RED_STOP_Y, - RED_STOP_DELTA);
+					break;
+					
+				case 2: //left
+					redStop.transform.position = this.anchorLeft.transform.position + new Vector3 (- RED_STOP_DELTA, RED_STOP_Y, 0);;
+					break;
+					
+				case 3: //right
+					redStop.transform.position = this.anchorRight.transform.position + new Vector3 (+ RED_STOP_DELTA, RED_STOP_Y, 0);;
+					break;
+					
+				case 4: //up
+					redStop.transform.position = this.anchorUp.transform.position + new Vector3 (0, RED_STOP_Y, + RED_STOP_DELTA);;
+					break;
+				}
+			} else {
+				redStop.transform.position = redStop.transform.position + new Vector3 (0, RED_STOP_Y_OUT, 0);
+			}
+			
 			//-------- debug --------
 			if (Global.DEBUG_LIGHT) { 
-				RoadHandler handler = gameObject.GetComponent <RoadHandler> ();
 				switch (lightStatus) {
 				case TrafficLightStatus.none:
-					handler.roadMeshRender.material.color = Color.white;
+					this.roadMeshRender.material.color = Color.white;
 					break;
 
 				case TrafficLightStatus.green:
-					handler.roadMeshRender.material.color = Color.green;
+					this.roadMeshRender.material.color = Color.green;
 					break;
 
 				case TrafficLightStatus.red:
-					handler.roadMeshRender.material.color = Color.red;
+					this.roadMeshRender.material.color = Color.red;
 					break;
 					
 				case TrafficLightStatus.yellow:
-					handler.roadMeshRender.material.color = Color.yellow;
+					this.roadMeshRender.material.color = Color.yellow;
 					break;
 				}
 			}
@@ -253,6 +277,61 @@ public class RoadHandler : TileHandler {
 
 		//-------------- Tim cac duong giao --------------
 
+		//Create Red Stop
+		float hRoad = Vector3.Distance (anchorUp.transform.position, anchorDown.transform.position);
+		float wRoad = Vector3.Distance (anchorLeft.transform.position, anchorRight.transform.position);
+
+		redStop = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		TweenRotation t = redStop.AddComponent <TweenRotation>();
+		t.duration = 8;
+		t.style = UITweener.Style.Loop;
+		t.from = Vector3.zero;
+		
+		switch (tile.typeId) {
+		case 1://down
+			redStop.transform.localScale = new Vector3 (4*wRoad, 0.125f, 0.125f);
+			redStop.name = "Down";
+			t.to = new Vector3 (360, 0, 0);
+			//redStop.transform.position = this.anchorDown.transform.position;
+			break;
+			
+		case 2: //left
+			redStop.transform.localScale = new Vector3 (0.125f, 0.125f, 4*hRoad);
+			redStop.name = "Left";
+			t.to = new Vector3 (0, 0, 360);
+			//redStop.transform.position = this.anchorLeft.transform.position;
+			break;
+			
+		case 3: //right
+			redStop.transform.localScale = new Vector3 (0.125f, 0.125f, 4*hRoad);
+			redStop.name = "Right";
+			t.to = new Vector3 (0, 0, 360);
+			//redStop.transform.position = this.anchorRight.transform.position;
+			break;
+			
+		case 4: //up
+			redStop.transform.localScale = new Vector3 (4*wRoad, 0.125f, 0.125f);
+			redStop.name = "Up";
+			//t.to = new Vector3 (360, 0, 0);
+			//redStop.transform.position = this.anchorUp.transform.position;
+			break;
+		}
+
+		//redStop.transform.parent = this.transform;
+		redStop.transform.position = new Vector3 (0, RED_STOP_Y_OUT, 0);
+
+//		BoxCollider box = redStop.GetComponent<BoxCollider>();
+//		box.isTrigger = true;
+
+		Rigidbody rig = redStop.AddComponent <Rigidbody>();
+		rig.mass = 1000;
+		rig.drag = 0;
+		rig.angularDrag = 0;
+		rig.isKinematic = false;
+		rig.useGravity = false;
+		rig.constraints = RigidbodyConstraints.FreezeAll;
+
+		redStop.GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	#region Collision Road

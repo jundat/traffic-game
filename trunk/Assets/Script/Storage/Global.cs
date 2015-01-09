@@ -25,7 +25,7 @@ public class Global {
 //	public const bool BUILD_BUIDING = true;
 //#endif
 
-	public const bool DEBUG_LIGHT = false;
+	public const bool DEBUG_LIGHT = true;
 
 	public const float DELTA_HEIGH = 0.001f;
 
