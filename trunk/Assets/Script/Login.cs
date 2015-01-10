@@ -13,11 +13,21 @@ public class Login : MonoBehaviour {
 	public UILabel lbError;
 	
 	void Start () {
+		InitFirstTime ();
+
 		objWait.SetActive (false);
 		IsRunned = true;
 	}
 	
 	void Update () {}
+
+	private void InitFirstTime () {
+		if (Application.absoluteURL.Length == 0 || Application.absoluteURL.Contains ("localhost")) {
+			Global.URL_SERVER = Global.LOCALHOST;
+		} else {
+			Global.URL_SERVER = Global.WIDOCOM;
+		}
+	}
 	
 	public void OnSubmit () {
 		objWait.SetActive (true);
