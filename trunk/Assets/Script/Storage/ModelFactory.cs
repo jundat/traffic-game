@@ -258,6 +258,14 @@ public class ModelFactory : Singleton <ModelFactory> {
 				handler.tile = tile;
 				handler.Init ();
 			}
+
+			//Auto Bike
+			if (tile.typeId == TileID.AUTO_BIKE) {
+				AutoScooterHandler handler = ins.GetComponent<AutoScooterHandler> ();
+				handler.tile = tile;
+				handler.Init ();
+			}
+
 		} else {
 			return null;
 		}

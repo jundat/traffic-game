@@ -71,9 +71,10 @@ public class TileID {
 	public const int LIGHT = 301;
 
 	public const int AUTO_CAR = 310;
+	public const int AUTO_BIKE = 311;
 }
 
-[System.Serializable]
+
 public class ModelTile {
 
 	public int objId;

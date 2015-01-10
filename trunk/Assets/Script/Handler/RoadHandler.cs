@@ -106,25 +106,25 @@ public class RoadHandler : TileHandler {
 			}
 			
 			//-------- debug --------
-			if (Global.DEBUG_LIGHT) { 
-				switch (lightStatus) {
-				case TrafficLightStatus.none:
-					this.roadMeshRender.material.color = Color.white;
-					break;
-
-				case TrafficLightStatus.green:
-					this.roadMeshRender.material.color = Color.green;
-					break;
-
-				case TrafficLightStatus.red:
-					this.roadMeshRender.material.color = Color.red;
-					break;
-					
-				case TrafficLightStatus.yellow:
-					this.roadMeshRender.material.color = Color.yellow;
-					break;
-				}
-			}
+//			if (Global.DEBUG_LIGHT) { 
+//				switch (lightStatus) {
+//				case TrafficLightStatus.none:
+//					this.roadMeshRender.material.color = Color.white;
+//					break;
+//
+//				case TrafficLightStatus.green:
+//					this.roadMeshRender.material.color = Color.green;
+//					break;
+//
+//				case TrafficLightStatus.red:
+//					this.roadMeshRender.material.color = Color.red;
+//					break;
+//					
+//				case TrafficLightStatus.yellow:
+//					this.roadMeshRender.material.color = Color.yellow;
+//					break;
+//				}
+//			}
 		}
 	}
 
@@ -330,6 +330,7 @@ public class RoadHandler : TileHandler {
 		rig.isKinematic = false;
 		rig.useGravity = false;
 		rig.constraints = RigidbodyConstraints.FreezeAll;
+		rig.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
 		redStop.GetComponent<MeshRenderer>().enabled = false;
 	}

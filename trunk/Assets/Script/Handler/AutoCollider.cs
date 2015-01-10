@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class AutocarCollider : MonoBehaviour {
+public class AutoCollider : MonoBehaviour {
 
 	public const string LEFT 		= "ColLeft";
 	public const string RIGHT 		= "ColRight";
@@ -10,8 +10,8 @@ public class AutocarCollider : MonoBehaviour {
 	public const string BACK 		= "ColBack";
 	public const string FAR_FRONT 	= "ColFarFront";
 
-	public Action<Collider, AutocarCollider> onCollideEnter;
-	public Action<Collider, AutocarCollider> onCollideExit;
+	public Action<Collider, AutoCollider> onCollideEnter;
+	public Action<Collider, AutoCollider> onCollideExit;
 
 	void Start () {}
 
