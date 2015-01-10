@@ -252,16 +252,9 @@ public class ModelFactory : Singleton <ModelFactory> {
 				ins.transform.localRotation = Quaternion.Euler(0, rot, 0);
 			}
 
-			//Auto Car
-			if (tile.typeId == TileID.AUTO_CAR) {
-				AutoCarHandler handler = ins.GetComponent<AutoCarHandler> ();
-				handler.tile = tile;
-				handler.Init ();
-			}
-
-			//Auto Bike
-			if (tile.typeId == TileID.AUTO_BIKE) {
-				AutoScooterHandler handler = ins.GetComponent<AutoScooterHandler> ();
+			//Auto Car & Auto Bike
+			if (tile.typeId == TileID.AUTO_CAR || tile.typeId == TileID.AUTO_BIKE) {
+				AutoVehicleHandler handler = ins.GetComponent<AutoVehicleHandler> ();
 				handler.tile = tile;
 				handler.Init ();
 			}
