@@ -10,6 +10,8 @@ public class Global {
 	public static string URL_SERVER = "http://widocom.com/projects/trafficgame/";
 #endif
 
+//	public static string URL_SERVER = "http://localhost/trafficgame/";
+
 	public const string URL_LOGIN = "gamelogin";
 	public const string URL_HISTORY = "getscore";
 	public const string URL_GETMAP = "getmap";
@@ -20,12 +22,12 @@ public class Global {
 	public const float ZERO_POINT = 0.001f;
 
 //#if UNITY_EDITOR
-	public const bool BUILD_BUIDING = false;
+//	public const bool BUILD_BUIDING = false;
 //#else
 //	public const bool BUILD_BUIDING = true;
 //#endif
 
-	public const bool DEBUG_LIGHT = true;
+	//public const bool DEBUG_LIGHT = false;
 
 	public const float DELTA_HEIGH = 0.001f;
 

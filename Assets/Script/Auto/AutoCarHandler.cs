@@ -14,35 +14,22 @@ public class AutoCarHandler : TileHandler {
 	private const int MIN_SPEED = 30;
 	private const int MAX_SPEED = 50;
 	
-	public List<AutocarCollider> listCollider = new List<AutocarCollider> ();
+	public List<AutoCollider> listCollider = new List<AutoCollider> ();
 	public List<Collider> currentCollision = new List<Collider> ();
-	public GameObject frontTire;
-	public GameObject rearTire;
-	public float SPEED;
+	public float SPEED = 40;
 	public float currentSpeed;
 	public MoveDirection direction;
 	
 	public bool isInJunction = false; //giao lo
-	private TweenRotation tweenFront;
-	private TweenRotation tweenRear;
+	public TweenRotation tweenFront;
+	public TweenRotation tweenRear;
 	
 	public bool isRun = false;
 	public int currentPos = -1;
 	public int currentDest = 0;
 	public List<Vector3> listDest = new List<Vector3> ();
-	public GameObject objCurrentDest;
-	
-	void Awake () {
-		tweenFront = frontTire.GetComponent<TweenRotation>();
-		tweenRear = rearTire.GetComponent<TweenRotation>();
-	}
-	
+
 	void Start () {
-		objCurrentDest = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		objCurrentDest.transform.position = Vector3.zero;
-		objCurrentDest.transform.localScale = new Vector3 (4, 4, 4);
-		objCurrentDest.SetActive (false);
-		Destroy (objCurrentDest.GetComponent<BoxCollider>());
 		
 		SPEED = Ultil.random.Next (MIN_SPEED, MAX_SPEED);
 		currentSpeed = SPEED;
@@ -113,7 +100,6 @@ public class AutoCarHandler : TileHandler {
 			Vector3 move = step * currentSpeed * Time.deltaTime;
 			transform.position = transform.position + move;
 			transform.LookAt (listDest[currentDest]);
-			objCurrentDest.transform.position = listDest[currentDest];
 			
 			if (Vector3.Distance (transform.position, listDest[currentDest]) < move.magnitude) {
 				transform.position = listDest[currentDest];
@@ -414,7 +400,7 @@ public class AutoCarHandler : TileHandler {
 		}
 	}
 
-	public void CallbackCollideEnter (Collider col, AutocarCollider side) {
+	public void CallbackCollideEnter (Collider col, AutoCollider side) {
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
 		
@@ -422,20 +408,20 @@ public class AutoCarHandler : TileHandler {
 		    colName != OBJ.FINISH_POINT &&
 		    colName != OBJ.CHECK_POINT) 
 		{
-			if (sideName == AutocarCollider.FAR_FRONT) {
+			if (sideName == AutoCollider.FAR_FRONT) {
 				if (currentCollision.Count == 0) {
 					currentSpeed = SPEED / 2;
 				}
 			}
 			
-			if (sideName == AutocarCollider.FRONT) {
+			if (sideName == AutoCollider.FRONT) {
 				currentCollision.Add (col);
 				currentSpeed = STOP_SPEED;
 			}
 		}
 	}
 	
-	public void CallbackCollideExit (Collider col, AutocarCollider side) {
+	public void CallbackCollideExit (Collider col, AutoCollider side) {
 		
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
@@ -444,14 +430,14 @@ public class AutoCarHandler : TileHandler {
 		    colName != OBJ.FINISH_POINT &&
 		    colName != OBJ.CHECK_POINT) 
 		{
-			if (sideName == AutocarCollider.FRONT) {
+			if (sideName == AutoCollider.FRONT) {
 				currentCollision.Remove (col);
 				if (currentCollision.Count == 0) {
 					currentSpeed = SPEED;
 				}
 			}
 			
-			if (sideName == AutocarCollider.FAR_FRONT) {
+			if (sideName == AutoCollider.FAR_FRONT) {
 				if (currentCollision.Count == 0) {
 					currentSpeed = SPEED;
 				}
