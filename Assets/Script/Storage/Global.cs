@@ -4,13 +4,14 @@ using System.Collections;
 
 public class Global {
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 	public static string URL_SERVER = "http://localhost/trafficgame/";
-#else
-	public static string URL_SERVER = "http://widocom.com/projects/trafficgame/";
-#endif
+//#else
+//	public static string URL_SERVER = "http://widocom.com/projects/trafficgame/";
+//#endif
 
-//	public static string URL_SERVER = "http://localhost/trafficgame/";
+	public static string LOCALHOST = "http://localhost/trafficgame/";
+	public static string WIDOCOM = "http://widocom.com/projects/trafficgame/";
 
 	public const string URL_LOGIN = "gamelogin";
 	public const string URL_HISTORY = "getscore";
