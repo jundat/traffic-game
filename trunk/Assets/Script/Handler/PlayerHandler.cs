@@ -38,8 +38,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private bool viphamTocDoDuoi = false;
 
 	#endregion
-
-
+	
 	void Awake () {
 		bikeHandler = gameObject.GetComponent <BikeHandler> ();
 		bikeMovement = gameObject.GetComponent <BikeMovement> ();
@@ -106,6 +105,34 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	public void StopRunning () {
 		bikeMovement.StopRunning ();
 	}
+
+	//Check road to run right direction
+	public void CheckRoad () {
+		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0));
+		if (road != null) {
+			switch (road.tile.typeId) {
+			case TileID.ROAD_UP:
+				transform.localEulerAngles = new Vector3 (0, 180, 0);
+				break;
+
+			case TileID.ROAD_DOWN:
+				transform.localEulerAngles = new Vector3 (0, 0, 0);
+				break;
+
+			case TileID.ROAD_LEFT:
+				transform.localEulerAngles = new Vector3 (0, 90, 0);
+				break;
+
+			case TileID.ROAD_RIGHT:
+				transform.localEulerAngles = new Vector3 (0, -90, 0);
+				break;
+			}
+		} else {
+			Debug.LogError ("Some thing wrong here!");
+			//default run UP
+		}
+	}
+
 	
 	#region COLLISION, CHECK POINT
 	void OnTriggerEnter(Collider other) {

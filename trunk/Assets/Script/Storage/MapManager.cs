@@ -48,6 +48,8 @@ public class MapManager : Singleton <MapManager> {
 				r.FetchCollisionRoad ();
 			}
 
+			Main.Instance.LateInit ();
+
 		} else {
 			Debug.Log ("Load map file before start game");
 		}

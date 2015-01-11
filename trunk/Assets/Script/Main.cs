@@ -58,6 +58,10 @@ public class Main : SingletonMono<Main> {
 		}
 	}
 
+	public void LateInit () {
+		player.CheckRoad ();
+	}
+
 	public void OnStartGame () {
 		Main.Instance.isStarted = true;
 		Main.Instance.startTime = Main.Instance.time;
