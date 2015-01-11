@@ -111,7 +111,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	void OnTriggerEnter(Collider other) {
 		if (Main.Instance.isEndGame == true) {return;}
 
-		Debug.Log (other.name);
+		//Debug.Log (other.name);
 
 		switch (other.name) {
 		case OBJ.FINISH_POINT:

@@ -15,7 +15,7 @@ public class AutoVehicleHandler : TileHandler {
 
 	public List<GameObject> listModel = new List<GameObject> ();
 	public List<AutoCollider> listCollider = new List<AutoCollider> ();
-	public List<Collider> currentCollision = new List<Collider> ();
+	public List<Collider> listCollision = new List<Collider> ();
 	public float SPEED = 30;
 	public float currentSpeed;
 	public MoveDirection direction;
@@ -113,15 +113,17 @@ public class AutoVehicleHandler : TileHandler {
 		if (isRun) {
 
 			currentSpeed = currentSpeed + accelerate;
-			if (accelerate == ACCEL_UP) {
-				if (currentSpeed > SPEED) {
-					currentSpeed = SPEED;
+
+			if (currentSpeed > SPEED) {
+				currentSpeed = SPEED;
+				accelerate = ACCEL_NORMAL;
+			} else if (currentSpeed < 0) {
+				currentSpeed = 0;
+				if (listCollision.Count == 0) {
+					accelerate = ACCEL_UP;
+				} else {
 					accelerate = ACCEL_NORMAL;
 				}
-			}
-
-			if (currentSpeed < 0) {
-				currentSpeed = 0;
 			}
 
 			Vector3 step = (listDest[currentDest] - transform.position) / Vector3.Distance (transform.position, listDest[currentDest]);
@@ -439,14 +441,16 @@ public class AutoVehicleHandler : TileHandler {
 		    colName != OBJ.CHECK_POINT) 
 		{
 			if (sideName == AutoCollider.FAR_FRONT) {
-				if (currentCollision.Count == 0) {
+				if (listCollision.Count == 0) {
 					//currentSpeed = SPEED / 2;
-					accelerate = ACCEL_DOWN;
+					if (isInJunction == false) {
+						accelerate = ACCEL_DOWN;
+					}
 				}
 			}
 			
 			if (sideName == AutoCollider.FRONT) {
-				currentCollision.Add (col);
+				listCollision.Add (col);
 				currentSpeed = STOP_SPEED;
 				accelerate = ACCEL_NORMAL;
 			}
@@ -463,15 +467,15 @@ public class AutoVehicleHandler : TileHandler {
 		    colName != OBJ.CHECK_POINT) 
 		{
 			if (sideName == AutoCollider.FRONT) {
-				currentCollision.Remove (col);
-				if (currentCollision.Count == 0) {
+				listCollision.Remove (col);
+				if (listCollision.Count == 0) {
 					//currentSpeed = SPEED;
 					accelerate = ACCEL_UP;
 				}
 			}
 			
 			if (sideName == AutoCollider.FAR_FRONT) {
-				if (currentCollision.Count == 0) {
+				if (listCollision.Count == 0) {
 					//currentSpeed = SPEED;
 					accelerate = ACCEL_UP;
 				}
