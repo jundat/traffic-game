@@ -15,7 +15,6 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 	public UILabel lbRunTime;
 	public ScorePanelHandler scoreHandler;
 
-
 	public GameObject objTutorial;
 
 	void Start () {
@@ -72,5 +71,9 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 		if (Main.Instance.isEndGame == true) {return;}
 
 		objTutorial.SetActive (true);
+	}
+
+	public void OnExitGame () {
+		Application.LoadLevel ("SelectMap");
 	}
 }

@@ -5,26 +5,29 @@ using System.Collections.Generic;
 
 public class AutoVehicleHandler : TileHandler {
 	
-	public const float START_DELAY = 4.0f;
-	public const float UPDATE_INTERVAL = 0.2f;
+	const float START_DELAY = 4.0f;
+	const float UPDATE_INTERVAL = 0.2f;
 	const float STOP_SPEED = 0.001f;
 	const float DELTA_TO_ROAD = 8;
 	const float RANDOM_INROAD = 4.0f / 5.0f;
 	const int MIN_SPEED = 20;
 	const int MAX_SPEED = 40;
+	const int TIME_REMOVE_SELF = 2;
 
 	public List<GameObject> listModel = new List<GameObject> ();
 	public List<AutoCollider> listCollider = new List<AutoCollider> ();
 	public List<Collider> listCollision = new List<Collider> ();
+
 	public float SPEED = 30;
 	public float currentSpeed;
-	public MoveDirection direction;
 
 	public bool isInJunction = false; //giao lo
 	public TweenRotation tweenFront;
 	public TweenRotation tweenRear;
+	public Collider autoCollider;
 	
 	public bool isRun = false;
+	public bool isPrioritized = false; //duoc quyen uu tien chay truoc
 	public int currentPos = -1;
 	public int currentDest = 0;
 	public List<Vector3> listDest = new List<Vector3> ();
@@ -58,8 +61,7 @@ public class AutoVehicleHandler : TileHandler {
 	
 	void StartRun () {
 		InitDestination ();
-		Invoke ("ScheduleUpdate", 0);
-		//InvokeRepeating ("ScheduleUpdate", 0, UPDATE_INTERVAL);
+		CheckRoad ();
 	}
 	
 	void InitDestination () {
@@ -72,8 +74,8 @@ public class AutoVehicleHandler : TileHandler {
 		if (road != null) {
 			Vector3 p = transform.position;
 			Vector3 v;
-			
-			switch (direction) {
+
+			switch (road.Direction) {
 			case MoveDirection.UP:
 				v = new Vector3 (p.x, p.y, p.z);
 				v.z = road.anchorUp.transform.position.z - DELTA_TO_ROAD;
@@ -98,8 +100,8 @@ public class AutoVehicleHandler : TileHandler {
 				listDest.Add (v); 
 				break;
 				
-			default:
-				Debug.Log ("Something wrong here!");
+			default: //O giua giao lo
+				CheckRoad ();
 				break;
 			}
 		} else {
@@ -134,7 +136,7 @@ public class AutoVehicleHandler : TileHandler {
 			if (Vector3.Distance (transform.position, listDest[currentDest]) < move.magnitude) {
 				transform.position = listDest[currentDest];
 				
-				ScheduleUpdate ();
+				CheckRoad ();
 				NextStep ();
 			}
 			
@@ -146,46 +148,34 @@ public class AutoVehicleHandler : TileHandler {
 		}
 	}
 	
-	public void Init () {
-		direction = Ultil.ToMoveDirection ( Ultil.GetString (TileKey.AUTOCAR_DIR, "UP", tile.properties));
-		RotateToDirection ();
-	}
+	public void Init () {}
 	
 	private void NextStep () {
-		//Debug.Log ("Next Step");
-		
 		if (listDest.Count > currentDest + 1) {
 			currentDest++;
 			currentPos++;
 			isRun = true;
-			
-			transform.position = listDest[currentPos];
+
 			transform.LookAt (listDest[currentDest]);
 			
-			if (Vector3.Distance (listDest[currentDest], listDest[currentPos]) < 0.001f) {
+			if (Vector3.Distance (listDest[currentDest], transform.position) < 0.001f) {
 				NextStep ();
 			}
 			
 		} else {
-			Debug.LogError ("No next destination => Stop Car");
+			Debug.Log ("No next destination");
 			isRun = false;
-			
 			isInJunction = false;
-			this.ScheduleUpdate ();
+			CheckRoad ();
 		}
 	}
 	
-	public void ScheduleUpdate () {
-		//Change direction if need
-		
+	public void CheckRoad () {
 		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0));
 		if (road != null) {
 			if (road.tile.typeId == TileID.ROAD_NONE) {
-				
-				//Debug.Log ("In NONE Road");
-				
+
 				if (isInJunction == false) {
-					
 					List<RoadHandler> listAvai = new List<RoadHandler> ();
 					for (int i = 0; i < road.listCollisionRoads.Count; ++i) {
 						RoadHandler.CollisionRoad c = road.listCollisionRoads[i];
@@ -204,29 +194,23 @@ public class AutoVehicleHandler : TileHandler {
 						
 						//Move in bezier
 						CalculateNextDest (nextRoad, road);
-						
-						//------
-						direction = nextRoad.Direction;
-						//------
 					} else {
-						//Debug.Log ("No way to run");
 						currentSpeed = STOP_SPEED;
 					}
 				}
 			} else {
-				//Debug.LogError ("Not NONE road");
 				isInJunction = false;
 			}
 		} else {
 			isInJunction = false;
-			//Debug.LogError ("Null road");
 		}
 	}
 	
-	private void CalculateNextDest (RoadHandler nextRoad, RoadHandler nowRoad) {
-		//Debug.Log ("Calculate Next Dest");
+	private void CalculateNextDest (RoadHandler nextRoad, RoadHandler currentRoad) {
+
 		bool isOpposite = false;
-		if (Ultil.IsOpposite (nextRoad.Direction, direction)) {
+		MoveDirection currentDirection = Ultil.GetMoveDirection (this.transform.forward);
+		if (Ultil.IsOpposite (nextRoad.Direction, currentDirection)) {
 			isOpposite = true;
 		}
 		
@@ -234,10 +218,10 @@ public class AutoVehicleHandler : TileHandler {
 		Vector3 a1 = transform.position;
 		Vector3 a2 = a1;
 		
-		float hRoad = Mathf.Abs (nowRoad.anchorUp.transform.position.z - nowRoad.anchorDown.transform.position.z);
-		float wRoad = Mathf.Abs (nowRoad.anchorLeft.transform.position.x - nowRoad.anchorRight.transform.position.x);
+		float hRoad = Mathf.Abs (currentRoad.anchorUp.transform.position.z - currentRoad.anchorDown.transform.position.z);
+		float wRoad = Mathf.Abs (currentRoad.anchorLeft.transform.position.x - currentRoad.anchorRight.transform.position.x);
 		
-		switch (direction) {
+		switch (currentDirection) {
 		case MoveDirection.UP:
 			a2.z -= hRoad/4;
 			break;
@@ -358,9 +342,6 @@ public class AutoVehicleHandler : TileHandler {
 		//remove 2 first + 1 last element
 		for (int i = 3; i != POINTS_ON_CURVE-3; i += 2)
 		{
-			//p[i+1]
-			//y
-			//p[i]
 			Vector3 newDest = new Vector3 ((float)curvePoints[i+1], transform.position.y, (float)curvePoints[i]);
 			listDest.Add (newDest); 
 		}
@@ -407,34 +388,10 @@ public class AutoVehicleHandler : TileHandler {
 			NextStep ();
 		}
 	}
-	
-	private void RotateToDirection () {
-		
-		//Rotation
-		switch (direction) {
-		case MoveDirection.UP:
-			transform.eulerAngles = new Vector3 (0, 180, 0);
-			break;
-			
-		case MoveDirection.DOWN:
-			transform.eulerAngles = new Vector3 (0, 0, 0);
-			break;
-			
-		case MoveDirection.LEFT:
-			transform.eulerAngles = new Vector3 (0, 90, 0);
-			break;
-			
-		case MoveDirection.RIGHT:
-			transform.eulerAngles = new Vector3 (0, -90, 0);
-			break;
-		}
-	}
-	
+
 	public void CallbackCollideEnter (Collider col, AutoCollider side) {
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
-
-//		Debug.Log (col.gameObject.name + " >< " + side.name);
 
 		if (colName != OBJ.START_POINT &&
 		    colName != OBJ.FINISH_POINT &&
@@ -442,7 +399,6 @@ public class AutoVehicleHandler : TileHandler {
 		{
 			if (sideName == AutoCollider.FAR_FRONT) {
 				if (listCollision.Count == 0) {
-					//currentSpeed = SPEED / 2;
 					if (isInJunction == false) {
 						accelerate = ACCEL_DOWN;
 					}
@@ -453,12 +409,39 @@ public class AutoVehicleHandler : TileHandler {
 				listCollision.Add (col);
 				currentSpeed = STOP_SPEED;
 				accelerate = ACCEL_NORMAL;
+
+				//check in deadlock
+				AutoVehicleHandler other = col.gameObject.GetComponentInParent <AutoVehicleHandler>();
+				if (other != null) {
+
+					if (other.listCollision.Contains (autoCollider)) {
+						if (other.isPrioritized == this.isPrioritized) {
+							//Debug.LogError ("Deadlock");
+							//Debug.Break ();
+
+							this.isPrioritized = false;
+							other.isPrioritized = true;
+
+							//Copy other's destination
+							transform.position = transform.position + new Vector3 (0, -30, 0);
+							isRun = false;
+							currentSpeed = 0;
+							accelerate = 0;
+
+							//auto remove after 
+							Invoke ("RemoveSelf", TIME_REMOVE_SELF);
+						}
+					}
+				}
 			}
 		}
 	}
+
+	private void RemoveSelf () {
+		Destroy (gameObject);
+	}
 	
 	public void CallbackCollideExit (Collider col, AutoCollider side) {
-		
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
 		
@@ -469,14 +452,12 @@ public class AutoVehicleHandler : TileHandler {
 			if (sideName == AutoCollider.FRONT) {
 				listCollision.Remove (col);
 				if (listCollision.Count == 0) {
-					//currentSpeed = SPEED;
 					accelerate = ACCEL_UP;
 				}
 			}
 			
 			if (sideName == AutoCollider.FAR_FRONT) {
 				if (listCollision.Count == 0) {
-					//currentSpeed = SPEED;
 					accelerate = ACCEL_UP;
 				}
 			}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -14,7 +14,7 @@ public class AutoCarHandlerEditor : Editor {
 		GUILayoutOption[] gg = new GUILayoutOption[] {};
 		
 		if (GUILayout.Button ("CheckRoad", gg)) {
-			car.ScheduleUpdate ();
+			car.CheckRoad ();
 		}
 	}
 }
