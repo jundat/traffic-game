@@ -14,6 +14,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 	private BikeMovement bikeMovement;
 
 	public AutoCollider leftCollider;
+	public AutoCollider rightCollider;
 
 	#region Kiem tra loi
 
@@ -51,6 +52,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		InvokeRepeating ("UpdateState", DELAY_TIME, SCHEDULE_TIME);
 
 		leftCollider.onCollideEnter = this.OnLeftColliderEnter;
+		rightCollider.onCollideEnter = this.OnRightColliderEnter;
 	}
 
 	void Update () {
@@ -185,9 +187,33 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 						//cung lan duong
 						RoadHandler autoRoad = Ultil.RayCastRoad (autoVehicle.transform.position + new Vector3 (0, 1, 0), Vector3.down);
-
-						if (_currentState != null && _currentState.road == autoRoad) {
+						PlayerState state = GetCurrentState ();
+						if (state != null && state.road == autoRoad) {
 							ErrorManager.Instance.PushError (17, Main.Instance.time);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	void OnRightColliderEnter (Collider other, AutoCollider side) {
+		string name = other.name;
+		if (name == OBJ.AUTOBIKE || name == OBJ.AUTOCAR) {
+			AutoVehicleHandler autoVehicle = other.gameObject.GetComponentInParent <AutoVehicleHandler>();
+			if (autoVehicle != null) {
+				if (bikeMovement.moveSpeed > autoVehicle.currentSpeed) {
+					//cung huong
+					MoveDirection dir = Ultil.GetMoveDirection (autoVehicle.transform.forward);
+					MoveDirection mydir = Ultil.GetMoveDirection (this.transform.forward);
+					if (dir == mydir) {
+						//cung lan duong
+						RoadHandler autoRoad = Ultil.RayCastRoad (autoVehicle.transform.position + new Vector3 (0, 1, 0), Vector3.down);
+						PlayerState state = GetCurrentState ();
+						if (state != null && state.road == autoRoad) {
+							if (state.turnLight != TurnLight.LEFT) {
+								ErrorManager.Instance.PushError (19, Main.Instance.time);
+							}
 						}
 					}
 				}
