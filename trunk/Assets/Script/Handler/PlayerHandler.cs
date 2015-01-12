@@ -15,6 +15,8 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	public AutoCollider leftCollider;
 	public AutoCollider rightCollider;
+	public AutoCollider centerCollider;
+
 
 	#region Kiem tra loi
 
@@ -53,6 +55,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 		leftCollider.onCollideEnter = this.OnLeftColliderEnter;
 		rightCollider.onCollideEnter = this.OnRightColliderEnter;
+		centerCollider.onCollideEnter = this.OnCenterColliderEnter;
 	}
 
 	void Update () {
@@ -217,6 +220,17 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	void OnCenterColliderEnter (Collider other, AutoCollider side) {
+		string name = other.name;
+		if (name == OBJ.AUTOBIKE || name == OBJ.AUTOCAR) {
+			AutoVehicleHandler autoVehicle = other.gameObject.GetComponentInParent <AutoVehicleHandler>();
+			if (autoVehicle != null) {
+				ErrorManager.Instance.PushError (4, Main.Instance.time);
+				SoundManager.Instance.PlayCrash ();
 			}
 		}
 	}
