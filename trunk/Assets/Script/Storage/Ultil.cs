@@ -224,16 +224,18 @@ public class Ultil {
 		return MoveDirection.NONE;
 	}
 
-	public static RoadHandler RayCastRoad (Vector3 pos) {
+	public static RoadHandler RayCastRoad (Vector3 pos, Vector3 dir) {
 		RoadHandler road = null;
 
-		RaycastHit hit;
-		Ray rayDown = new Ray (pos, Vector3.down);
-		if (Physics.Raycast (rayDown, out hit)) {
-			if (hit.transform.gameObject.name.Equals (OBJ.ROAD)) {
-				road = hit.transform.gameObject.GetComponent <RoadHandler>();
-			} else {
-				//Debug.Log ("Null: " + hit.transform.gameObject.name);
+		//raycast down
+		RaycastHit[] hits;
+		Ray ray = new Ray (pos, dir);
+		hits = Physics.RaycastAll (ray);
+
+		for (int i = 0; i < hits.Length; ++i) {
+			road = hits[i].transform.gameObject.GetComponentInParent<RoadHandler>();
+			if (road != null && road.IsBus == false) {
+				break;
 			}
 		}
 

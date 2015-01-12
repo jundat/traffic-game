@@ -108,7 +108,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	//Check road to run right direction
 	public void CheckRoad () {
-		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0));
+		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
 		if (road != null) {
 			switch (road.tile.typeId) {
 			case TileID.ROAD_UP:
@@ -130,6 +130,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		} else {
 			Debug.LogError ("Some thing wrong here!");
 			//default run UP
+			//in the bus road or none-road
 		}
 	}
 

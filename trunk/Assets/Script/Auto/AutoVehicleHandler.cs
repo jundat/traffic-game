@@ -70,7 +70,7 @@ public class AutoVehicleHandler : TileHandler {
 		currentPos = -1;
 		currentDest = 0;
 		
-		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0));
+		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
 		if (road != null) {
 			Vector3 p = transform.position;
 			Vector3 v;
@@ -104,11 +104,13 @@ public class AutoVehicleHandler : TileHandler {
 				CheckRoad ();
 				break;
 			}
+			
+			NextStep ();
 		} else {
-			Debug.LogError ("Put the car in a road, plz!");
+			Debug.LogError ("Car not in road! => Destroy");
+			//Destroy (gameObject);
+			Debug.Break ();
 		}
-		
-		NextStep ();
 	}
 	
 	void Update () {
@@ -170,7 +172,7 @@ public class AutoVehicleHandler : TileHandler {
 	}
 	
 	public void CheckRoad () {
-		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0));
+		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
 		if (road != null) {
 			if (road.tile.typeId == TileID.ROAD_NONE) {
 
