@@ -290,33 +290,30 @@ public class RoadHandler : TileHandler {
 		switch (tile.typeId) {
 		case 1://down
 			redStop.transform.localScale = new Vector3 (4*wRoad, 0.125f, 0.125f);
-			redStop.name = "Down";
 			t.to = new Vector3 (360, 0, 0);
 			//redStop.transform.position = this.anchorDown.transform.position;
 			break;
 			
 		case 2: //left
 			redStop.transform.localScale = new Vector3 (0.125f, 0.125f, 4*hRoad);
-			redStop.name = "Left";
 			t.to = new Vector3 (0, 0, 360);
 			//redStop.transform.position = this.anchorLeft.transform.position;
 			break;
 			
 		case 3: //right
 			redStop.transform.localScale = new Vector3 (0.125f, 0.125f, 4*hRoad);
-			redStop.name = "Right";
 			t.to = new Vector3 (0, 0, 360);
 			//redStop.transform.position = this.anchorRight.transform.position;
 			break;
 			
 		case 4: //up
 			redStop.transform.localScale = new Vector3 (4*wRoad, 0.125f, 0.125f);
-			redStop.name = "Up";
 			//t.to = new Vector3 (360, 0, 0);
 			//redStop.transform.position = this.anchorUp.transform.position;
 			break;
 		}
 
+		redStop.name = OBJ.RED_STOP;
 		//redStop.transform.parent = this.transform;
 		redStop.transform.position = new Vector3 (0, RED_STOP_Y_OUT, 0);
 
@@ -324,7 +321,7 @@ public class RoadHandler : TileHandler {
 //		box.isTrigger = true;
 
 		Rigidbody rig = redStop.AddComponent <Rigidbody>();
-		rig.mass = 1000;
+		rig.mass = 1;
 		rig.drag = 0;
 		rig.angularDrag = 0;
 		rig.isKinematic = false;

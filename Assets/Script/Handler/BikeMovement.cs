@@ -12,7 +12,7 @@ public class BikeMovement : MonoBehaviour {
 	public float accelMoveBackward;
 	public float accelAutoStop;
 
-	private float moveSpeed = 0.01f;
+	public float moveSpeed = 0.01f;
 	private CharacterController controller;
 
 	public float Speed {

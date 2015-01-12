@@ -8,9 +8,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	public const float DELAY_TIME = 1;
 	public const float SCHEDULE_TIME = 0.25f;
+	public const float LANGLACH_DISTANCE = 8;
 
 	private BikeHandler bikeHandler;
 	private BikeMovement bikeMovement;
+
+	public AutoCollider leftCollider;
 
 	#region Kiem tra loi
 
@@ -46,6 +49,8 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	void Start () {
 		InvokeRepeating ("UpdateState", DELAY_TIME, SCHEDULE_TIME);
+
+		leftCollider.onCollideEnter = this.OnLeftColliderEnter;
 	}
 
 	void Update () {
@@ -164,6 +169,32 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			break;
 		}
 	}
+
+	void OnLeftColliderEnter (Collider other, AutoCollider side) {
+		string name = other.name;
+		if (name == OBJ.AUTOBIKE || name == OBJ.AUTOCAR) {
+			AutoVehicleHandler autoVehicle = other.gameObject.GetComponentInParent <AutoVehicleHandler>();
+			if (autoVehicle != null) {
+				if (bikeMovement.moveSpeed > autoVehicle.currentSpeed) {
+
+					//cung huong
+					MoveDirection dir = Ultil.GetMoveDirection (autoVehicle.transform.forward);
+					MoveDirection mydir = Ultil.GetMoveDirection (this.transform.forward);
+
+					if (dir == mydir) {
+
+						//cung lan duong
+						RoadHandler autoRoad = Ultil.RayCastRoad (autoVehicle.transform.position + new Vector3 (0, 1, 0), Vector3.down);
+
+						if (_currentState != null && _currentState.road == autoRoad) {
+							ErrorManager.Instance.PushError (17, Main.Instance.time);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	#endregion
 
 	#region PLAYER STATE
@@ -253,16 +284,19 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		//3: quay dau xe
 		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
 			if (newState.road.Direction != MoveDirection.NONE) {
+
 				if (oldState.road.Direction == MoveDirection.NONE) { 							//Co Giao Lo
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
-							if (prev.road.CanTurnBack == false || prev.road.CanTurnLeft == false) {
+							if (prev.road.CanTurnBack == false) {
 								ErrorManager.Instance.PushError (16, Main.Instance.time);
 							}
 						}
 					}
-				} else { //Ko Co Giao Lo
+				} else { //Ko co giao lo
+
+					//Chuyen lan duong ko dung noi quy dinh
 					ErrorManager.Instance.PushError (24, Main.Instance.time);
 				}
 			}
@@ -270,13 +304,14 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		#endregion
 
 		#region Re ko xi nhanh
+
 		//1: re trai tai nga 3, 4
 		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
 			if (newState.road.Direction != MoveDirection.NONE) {
 				if (oldState.road.Direction == MoveDirection.NONE) {					//Co Giao Lo
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
-						if (newState.road.Direction == Ultil.LeftOf (prev.road.Direction)) {
+						if (newState.direction == Ultil.LeftOf (prev.direction)) {
 
 							//KO xi nhanh
 							if (prev.turnLight != TurnLight.LEFT && oldState.turnLight != TurnLight.LEFT && newState.turnLight != TurnLight.LEFT) {
@@ -291,7 +326,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 							}
 						}
 					}
-				} else if (newState.road.Direction == Ultil.LeftOf (oldState.road.Direction)) { //Ko Co Giao Lo
+				} else if (newState.direction == Ultil.LeftOf (oldState.direction)) { //Ko Co Giao Lo
 					PlayerState prev = oldState;
 
 					//Ko xi nhanh
@@ -309,6 +344,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			}
 		}
 
+
 		//2: re phai tai nga 3, 4
 		if (newState.road.IsBus == false && oldState.road.IsBus == false) {
 			if (newState.road.Direction != MoveDirection.NONE) {
@@ -316,7 +352,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 
-						if (newState.road.Direction == Ultil.RightOf (prev.road.Direction)) {
+						if (newState.direction == Ultil.RightOf (prev.direction)) {
 							
 							//Ko xi nhanh
 							if (prev.turnLight != TurnLight.RIGHT  && oldState.turnLight != TurnLight.RIGHT && newState.turnLight != TurnLight.RIGHT) {
@@ -332,7 +368,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 						}
 
 					}
-				} else if (newState.road.Direction == Ultil.RightOf (oldState.road.Direction)) {//Ko Co Giao Lo
+				} else if (newState.direction == Ultil.RightOf (oldState.direction)) {//Ko Co Giao Lo
 					PlayerState prev = oldState;
 
 					//Ko xi nhanh
@@ -357,7 +393,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					PlayerState prev = Ultil.GetPreviousDiffState (oldState, queueStateDiff);
 					if (prev != null) {
 
-						if (newState.road.Direction == Ultil.OppositeOf (prev.road.Direction)) {//Quay nguoc lai
+						if (newState.direction == Ultil.OppositeOf (prev.direction)) {//Quay nguoc lai
 							
 							//Ko xi nhanh
 							if (prev.turnLight != TurnLight.LEFT && oldState.turnLight != TurnLight.LEFT && newState.turnLight != TurnLight.LEFT) {
@@ -384,28 +420,28 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	private void OnInRoadChange (PlayerState newState) {
 		#region LANG LACH
-//		PlayerState oldState = null;
-//		object[] arr = queueState.ToArray ();
-//
-//		int index1 = -1;
-//		//int index2 = -1;
-//		for (int i = arr.Length-1; i >= 0; --i) {
-//			PlayerState pl = arr[i] as PlayerState;
-//			if (pl.road.tile.objId == newState.road.tile.objId) {
-//				if (pl.inRoadPos != newState.inRoadPos) {
-//					index1 = i;
-//				} else {
-//					if (index1 > -1) {
-//						//index2 = i;
-//						oldState = pl;
-//						if (newState.time - oldState.time < Global.TIME_TO_LANGLACH) {
-//							NotifierHandler.Instance.AddNotify ((int)Time.realtimeSinceStartup + "s: [ff0000]Lạng lách[-]");
-//						}
-//						break;
-//					}
-//				}
-//			}
-//		}
+		PlayerState oldState = null;
+		object[] arr = queueState.ToArray ();
+
+		int index1 = -1;
+		for (int i = arr.Length-1; i >= 0; --i) {
+			PlayerState pl = arr[i] as PlayerState;
+			if (pl.road.tile.objId == newState.road.tile.objId) {
+				if (pl.inRoadPos != newState.inRoadPos) {
+					index1 = i;
+				} else {
+					if (index1 > -1) {
+						oldState = pl;
+						if (newState.time - oldState.time < Global.TIME_TO_LANGLACH) {
+							if (Vector3.Distance(newState.position, oldState.position) >= LANGLACH_DISTANCE) {
+								ErrorManager.Instance.PushError (15, Main.Instance.time);
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
 		#endregion
 	}
 
@@ -422,6 +458,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		if (Ultil.IsOpposite (state.direction, state.road.Direction)) {
 			if (viphamNguocChieu == false) {
 				viphamNguocChieu = true;
+
 				ErrorManager.Instance.PushError (3, Main.Instance.time);
 			}
 		} else {
@@ -607,6 +644,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		p.speed = bikeMovement.Speed;
 		p.road = null;
 		p.vachKeDuong = MoveDirection.NONE;
+		p.position = this.transform.position;
 
 		//direction
 		float x = transform.forward.x;
