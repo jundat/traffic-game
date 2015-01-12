@@ -13,6 +13,7 @@ public class AutoVehicleHandler : TileHandler {
 	const int MIN_SPEED = 20;
 	const int MAX_SPEED = 40;
 	const int TIME_REMOVE_SELF = 2;
+	const int DEADLOCK_LEVEL = 3;
 
 	public List<GameObject> listModel = new List<GameObject> ();
 	public List<AutoCollider> listCollider = new List<AutoCollider> ();
@@ -25,6 +26,8 @@ public class AutoVehicleHandler : TileHandler {
 	public TweenRotation tweenFront;
 	public TweenRotation tweenRear;
 	public Collider autoCollider;
+
+	public GameObject light;
 	
 	public bool isRun = false;
 	public bool isPrioritized = false; //duoc quyen uu tien chay truoc
@@ -32,8 +35,8 @@ public class AutoVehicleHandler : TileHandler {
 	public int currentDest = 0;
 	public List<Vector3> listDest = new List<Vector3> ();
 
-	const float ACCEL_UP = 1.0f;
-	const float ACCEL_DOWN = -1.0f;
+	const float ACCEL_UP = 2.0f;
+	const float ACCEL_DOWN = -2.0f;
 	const float ACCEL_NORMAL = 0;
 	public float accelerate = ACCEL_UP;
 	
@@ -55,6 +58,9 @@ public class AutoVehicleHandler : TileHandler {
 			}
 			listModel[rd].SetActive (true);
 		}
+
+		//lights
+		light.SetActive (Main.Instance.needTheLight);
 
 		Invoke ("StartRun", START_DELAY);
 	}
@@ -174,6 +180,7 @@ public class AutoVehicleHandler : TileHandler {
 	public void CheckRoad () {
 		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
 		if (road != null) {
+
 			if (road.tile.typeId == TileID.ROAD_NONE) {
 
 				if (isInJunction == false) {
@@ -394,9 +401,7 @@ public class AutoVehicleHandler : TileHandler {
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
 
-		if (colName != OBJ.START_POINT &&
-		    colName != OBJ.FINISH_POINT &&
-		    colName != OBJ.CHECK_POINT) 
+		if (colName == OBJ.AUTOCAR || colName == OBJ.AUTOBIKE || colName == OBJ.PLAYER || colName == OBJ.RED_STOP) 
 		{
 			if (sideName == AutoCollider.FAR_FRONT) {
 				if (listCollision.Count == 0) {
@@ -414,31 +419,46 @@ public class AutoVehicleHandler : TileHandler {
 				//check in deadlock
 				AutoVehicleHandler other = col.gameObject.GetComponentInParent <AutoVehicleHandler>();
 				if (other != null) {
-
-					if (other.listCollision.Contains (autoCollider)) {
-						if (other.isPrioritized == this.isPrioritized) {
-							//Debug.LogError ("Deadlock");
-							//Debug.Break ();
-
-							this.isPrioritized = false;
-							other.isPrioritized = true;
-
-							//Copy other's destination
-							transform.position = transform.position + new Vector3 (0, -30, 0);
-							isRun = false;
-							currentSpeed = 0;
-							accelerate = 0;
-
-							//auto remove after 
-							Invoke ("RemoveSelf", TIME_REMOVE_SELF);
-						}
-					}
+					CheckInDeadLock (other, 1);
 				}
 			}
 		}
 	}
 
-	private void RemoveSelf () {
+	void CheckInDeadLock (AutoVehicleHandler other, int level) {
+		if (level > DEADLOCK_LEVEL) {
+			return;
+		}
+
+		AutoVehicleHandler c1 = other;
+
+		if (c1.listCollision.Contains (this.autoCollider)) { //Cap 1
+			SolveDeadlock (level);
+		} else {
+			for (int i = 0; i < c1.listCollision.Count; ++i) {
+				Collider col = c1.listCollision[i];
+				AutoVehicleHandler c2 = col.gameObject.GetComponentInParent <AutoVehicleHandler>();
+				if (c2 != null) {
+					CheckInDeadLock (c2, level + 1);
+				}
+			}
+		}
+	}
+
+	void SolveDeadlock (int level) {
+		Debug.LogError ("Solve Deadlock: " + level);
+
+		//Copy other's destination
+		transform.position = transform.position + new Vector3 (0, -30, 0);
+		isRun = false;
+		currentSpeed = 0;
+		accelerate = 0;
+		
+		//auto remove after
+		Invoke ("RemoveSelf", TIME_REMOVE_SELF);
+	}
+
+	void RemoveSelf () {
 		Destroy (gameObject);
 	}
 	
@@ -446,9 +466,7 @@ public class AutoVehicleHandler : TileHandler {
 		string sideName = side.gameObject.name;
 		string colName = col.gameObject.name;
 		
-		if (colName != OBJ.START_POINT &&
-		    colName != OBJ.FINISH_POINT &&
-		    colName != OBJ.CHECK_POINT) 
+		if (colName == OBJ.AUTOCAR || colName == OBJ.AUTOBIKE || colName == OBJ.PLAYER || colName == OBJ.RED_STOP)
 		{
 			if (sideName == AutoCollider.FRONT) {
 				listCollision.Remove (col);

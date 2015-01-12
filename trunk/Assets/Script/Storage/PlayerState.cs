@@ -17,10 +17,7 @@ public class PlayerState {
 	public TurnLight turnLight; //-1: left, 0: none, 1: right
 
 	public float speed; //real 0->160 km/h
+	public Vector3 position;
 
 	public PlayerState () {}
-
-	public PlayerState Copy () {
-		return new PlayerState ();
-	}
 }
