@@ -135,8 +135,7 @@ public class AutoVehicleHandler : TileHandler {
 			
 			if (Vector3.Distance (transform.position, listDest[currentDest]) < move.magnitude) {
 				transform.position = listDest[currentDest];
-				
-				CheckRoad ();
+				//CheckRoad ();
 				NextStep ();
 			}
 			
@@ -163,7 +162,7 @@ public class AutoVehicleHandler : TileHandler {
 			}
 			
 		} else {
-			Debug.Log ("No next destination");
+			//Debug.Log ("No next destination");
 			isRun = false;
 			isInJunction = false;
 			CheckRoad ();
