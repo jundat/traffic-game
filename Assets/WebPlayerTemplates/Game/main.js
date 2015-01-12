@@ -4,16 +4,16 @@
 
 
 var config = {
-	width: 1136, 
-	height: 700,
+	width: 1200, 
+	height: 640,
 	params: { 
-		enableDebugging:"0"
+		enableDebugging:"0",
 		backgroundcolor: "6f6f6f",
 	    bordercolor: "ffffff",
 	    textcolor: "FFFFFF",
-	    logoimage: "protected/editor/MyLogo.png",
-	    progressbarimage: "protected/editor/MyProgressBar.png",
-	    progressframeimage: "protected/editor/MyProgressFrame.png"
+	    logoimage: "https://dl.dropboxusercontent.com/u/41829250/KhoaLuan/DontDeleteData/MapEditor/MyLogo.png",
+	    progressbarimage: "https://dl.dropboxusercontent.com/u/41829250/KhoaLuan/DontDeleteData/MapEditor/MyProgressBar.png",
+	    progressframeimage: "https://dl.dropboxusercontent.com/u/41829250/KhoaLuan/DontDeleteData/MapEditor/MyProgressFrame.png"
 	}
 	
 };
@@ -53,7 +53,7 @@ jQuery(function() {
 			break;
 		}
 	});
-	u.initPlugin(jQuery("#unityPlayer")[0], "protected/editor/editor.unity3d");
+	u.initPlugin(jQuery("#unityPlayer")[0], "protected/game/game.unity3d");
 });
 
 
