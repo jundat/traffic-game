@@ -61,7 +61,7 @@ public class BikeMovement : MonoBehaviour {
 		Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
 		controller.Move (v);
 
-		controller.Move (transform.up * Gravity);
+		//controller.Move (transform.up * Gravity);
 	}
 
 	public void StopRunning () {
