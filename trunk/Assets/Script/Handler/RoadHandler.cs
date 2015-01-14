@@ -82,6 +82,7 @@ public class RoadHandler : TileHandler {
 		}
 		set {
 			lightStatus = value;
+			redStop.SetActive (true);
 
 			if (lightStatus == TrafficLightStatus.red) {
 				switch (tile.typeId) {
@@ -104,27 +105,6 @@ public class RoadHandler : TileHandler {
 			} else {
 				redStop.transform.position = redStop.transform.position + new Vector3 (0, RED_STOP_Y_OUT, 0);
 			}
-			
-			//-------- debug --------
-//			if (Global.DEBUG_LIGHT) { 
-//				switch (lightStatus) {
-//				case TrafficLightStatus.none:
-//					this.roadMeshRender.material.color = Color.white;
-//					break;
-//
-//				case TrafficLightStatus.green:
-//					this.roadMeshRender.material.color = Color.green;
-//					break;
-//
-//				case TrafficLightStatus.red:
-//					this.roadMeshRender.material.color = Color.red;
-//					break;
-//					
-//				case TrafficLightStatus.yellow:
-//					this.roadMeshRender.material.color = Color.yellow;
-//					break;
-//				}
-//			}
 		}
 	}
 
@@ -291,45 +271,38 @@ public class RoadHandler : TileHandler {
 		case 1://down
 			redStop.transform.localScale = new Vector3 (4*wRoad, 0.125f, 0.125f);
 			t.to = new Vector3 (360, 0, 0);
-			//redStop.transform.position = this.anchorDown.transform.position;
 			break;
 			
 		case 2: //left
 			redStop.transform.localScale = new Vector3 (0.125f, 0.125f, 4*hRoad);
 			t.to = new Vector3 (0, 0, 360);
-			//redStop.transform.position = this.anchorLeft.transform.position;
 			break;
 			
 		case 3: //right
 			redStop.transform.localScale = new Vector3 (0.125f, 0.125f, 4*hRoad);
 			t.to = new Vector3 (0, 0, 360);
-			//redStop.transform.position = this.anchorRight.transform.position;
 			break;
 			
 		case 4: //up
 			redStop.transform.localScale = new Vector3 (4*wRoad, 0.125f, 0.125f);
-			//t.to = new Vector3 (360, 0, 0);
-			//redStop.transform.position = this.anchorUp.transform.position;
+			t.to = new Vector3 (360, 0, 0);
 			break;
 		}
 
 		redStop.name = OBJ.RED_STOP;
-		//redStop.transform.parent = this.transform;
 		redStop.transform.position = new Vector3 (0, RED_STOP_Y_OUT, 0);
-
-//		BoxCollider box = redStop.GetComponent<BoxCollider>();
-//		box.isTrigger = true;
 
 		Rigidbody rig = redStop.AddComponent <Rigidbody>();
 		rig.mass = 1;
 		rig.drag = 0;
 		rig.angularDrag = 0;
-		rig.isKinematic = false;
+		rig.isKinematic = true;
 		rig.useGravity = false;
 		rig.constraints = RigidbodyConstraints.FreezeAll;
 		rig.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
 		redStop.GetComponent<MeshRenderer>().enabled = false;
+		redStop.SetActive (false);
 	}
 
 	#region Collision Road
