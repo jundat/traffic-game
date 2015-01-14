@@ -94,7 +94,9 @@ public class Menu : MonoBehaviour {
 		{
 			objWait.SetActive (false);
 			lbError.text = "Can not connect to server!";
-			
+			Debug.Log (w.error);
+			Debug.Log (w.text);
+			Debug.Log (w.url);
 		}
 		else
 		{

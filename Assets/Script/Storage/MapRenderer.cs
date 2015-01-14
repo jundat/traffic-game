@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class MapRenderer : SingletonMono <MapRenderer> {
 	
-	public Terrain terrain;
+	public GameObject terrain;
 	public float terrainY = -0.2f;
 
 	public ModelMap map;
@@ -24,8 +24,8 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 
 		int width = int.Parse (Ultil.GetString ("width", "1", map.info));
 		int height = int.Parse (Ultil.GetString ("height", "1", map.info));
-		terrain.terrainData.size = new Vector3 (width * 16, 1, height * 16);
-		terrain.transform.localPosition = new Vector3(-width * 8, terrainY, -height * 8);
+		terrain.transform.localScale = new Vector3 (width, 1, height);
+		terrain.GetComponent<MeshRenderer>().material.mainTextureScale = new Vector2 (width, height);
 
 		foreach (KeyValuePair<string, ModelLayer> p in map.layer) {
 			LayerType layerType = p.Value.type;
