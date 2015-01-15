@@ -224,24 +224,10 @@ public class Ultil {
 		return MoveDirection.NONE;
 	}
 
-	public static RoadHandler RayCastRoad (Vector3 pos, Vector3 dir) {
-		RoadHandler road = null;
-
-		//raycast down
-		RaycastHit[] hits;
-		Ray ray = new Ray (pos, dir);
-		hits = Physics.RaycastAll (ray);
-
-		for (int i = 0; i < hits.Length; ++i) {
-			road = hits[i].transform.gameObject.GetComponentInParent<RoadHandler>();
-			if (road != null && road.IsBus == false) {
-				break;
-			}
-		}
-
+	public static RoadHandler GetRoadNotBusAt (Vector2 pos) {
+		RoadHandler road = MapRenderer.Instance.GetRoadNotBusAt (pos);
 		return road;
 	}
-
 
 	public static MoveDirection GetMoveDirection (Vector3 dir) {
 

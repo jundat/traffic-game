@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,8 +10,6 @@ public class AutoVehicleHandler : TileHandler {
 	const float STOP_SPEED = 0.001f;
 	const float DELTA_TO_ROAD = 8;
 	const float RANDOM_INROAD = 4.0f / 5.0f;
-	const int MIN_SPEED = 20;
-	const int MAX_SPEED = 40;
 	const int TIME_REMOVE_SELF = 2;
 	const int DEADLOCK_LEVEL = 3;
 
@@ -19,7 +17,9 @@ public class AutoVehicleHandler : TileHandler {
 	public List<AutoCollider> listCollider = new List<AutoCollider> ();
 	public List<Collider> listCollision = new List<Collider> ();
 
-	public float SPEED = 30;
+	public int minSpeed;
+	public int maxSpeed;
+	public float SPEED = 40;
 	public float currentSpeed;
 
 	public bool isInJunction = false; //giao lo
@@ -36,12 +36,12 @@ public class AutoVehicleHandler : TileHandler {
 	public List<Vector3> listDest = new List<Vector3> ();
 
 	const float ACCEL_UP = 2.0f;
-	const float ACCEL_DOWN = -2.0f;
+	const float ACCEL_DOWN = -4.0f;
 	const float ACCEL_NORMAL = 0;
 	public float accelerate = ACCEL_UP;
 	
 	void Start () {
-		SPEED = Ultil.random.Next (MIN_SPEED, MAX_SPEED);
+		SPEED = Ultil.random.Next (minSpeed, maxSpeed);
 		currentSpeed = 0;
 		accelerate = ACCEL_UP;
 		for (int i = 0; i < listCollider.Count; ++i) {
@@ -76,7 +76,7 @@ public class AutoVehicleHandler : TileHandler {
 		currentPos = -1;
 		currentDest = 0;
 		
-		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
+		RoadHandler road = Ultil.GetRoadNotBusAt (new Vector2 (transform.position.x, transform.position.z));
 		if (road != null) {
 			Vector3 p = transform.position;
 			Vector3 v;
@@ -121,7 +121,6 @@ public class AutoVehicleHandler : TileHandler {
 	
 	void Update () {
 		if (isRun) {
-
 			currentSpeed = currentSpeed + accelerate;
 
 			if (currentSpeed > SPEED) {
@@ -136,28 +135,29 @@ public class AutoVehicleHandler : TileHandler {
 				}
 			}
 
-			Vector3 step = (listDest[currentDest] - transform.position) / Vector3.Distance (transform.position, listDest[currentDest]);
+			Vector3 dir = (listDest[currentDest] - transform.position);
+			float dis = Vector3.Distance (transform.position, listDest[currentDest]);
+			Vector3 step = dir / dis;
 			Vector3 move = step * currentSpeed * Time.deltaTime;
 			transform.position = transform.position + move;
-			transform.LookAt (listDest[currentDest]);
 			
 			if (Vector3.Distance (transform.position, listDest[currentDest]) < move.magnitude) {
 				transform.position = listDest[currentDest];
-				//CheckRoad ();
 				NextStep ();
 			}
 			
 			if (currentSpeed != 0) {
 				tweenFront.duration = tweenRear.duration = 20.0f / currentSpeed;
 			}
-		} else {
+		}
+		else {
 			tweenFront.duration = tweenRear.duration = 1000;
 		}
 	}
 	
 	public void Init () {}
 	
-	private void NextStep () {
+	private void NextStep () {//Debug.Log ("Next Step");
 		if (listDest.Count > currentDest + 1) {
 			currentDest++;
 			currentPos++;
@@ -165,7 +165,7 @@ public class AutoVehicleHandler : TileHandler {
 
 			transform.LookAt (listDest[currentDest]);
 			
-			if (Vector3.Distance (listDest[currentDest], transform.position) < 0.001f) {
+			if (listDest[currentDest] == transform.position) {
 				NextStep ();
 			}
 			
@@ -178,7 +178,7 @@ public class AutoVehicleHandler : TileHandler {
 	}
 	
 	public void CheckRoad () {
-		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
+		RoadHandler road = Ultil.GetRoadNotBusAt (new Vector2 (transform.position.x, transform.position.z));
 		if (road != null) {
 
 			if (road.tile.typeId == TileID.ROAD_NONE) {
@@ -446,7 +446,7 @@ public class AutoVehicleHandler : TileHandler {
 	}
 
 	void SolveDeadlock (int level) {
-		Debug.LogError ("Solve Deadlock: " + level);
+		Debug.Log ("Solve Deadlock: " + level);
 
 		//Copy other's destination
 		transform.position = transform.position + new Vector3 (0, -30, 0);

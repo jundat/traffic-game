@@ -14,6 +14,7 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 	public Dictionary<int, TileHandler> layerView = new Dictionary<int, TileHandler> ();
 	public Dictionary<int, TileHandler> layerSign = new Dictionary<int, TileHandler> ();
 	public Dictionary<int, TileHandler> layerRoad = new Dictionary<int, TileHandler> ();
+	public Dictionary<int, TileHandler> layerRoadNotBus = new Dictionary<int, TileHandler> ();
 
 	void Start () {}
 
@@ -32,6 +33,14 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 
 			foreach (KeyValuePair<string, ModelTile> p2 in p.Value.tile) {
 				ModelTile tile = p2.Value;
+
+//				if (tile.layerType == LayerType.View) {
+//					break;
+//				}
+
+				if (tile.layerType == LayerType.View && tile.typeId != 203) {
+					tile.typeId = 201;
+				}
 
 				GameObject go = ModelFactory.Instance.GetNewModel (tile);
 				if (go == null) {
@@ -64,6 +73,10 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 					break;
 				case LayerType.Road:
 					layerRoad[tile.objId] = handler;
+					if (handler.gameObject.GetComponent<RoadHandler>().IsBus == false) {
+						layerRoadNotBus[tile.objId] = handler;
+					}
+
 					break;
 				default:
 					Debug.LogError ("Wrong: " + tile.typeId);
@@ -107,5 +120,29 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 			}
 			}
 		}
+	}
+
+	public RoadHandler GetRoadNotBusAt (Vector2 point) {
+		foreach (KeyValuePair<int, TileHandler> p in layerRoadNotBus) {
+			RoadHandler r = p.Value.gameObject.GetComponent<RoadHandler>();
+			if (r.Rect.Contains (point)) {
+				return r;
+			}
+		}
+
+		return null;
+	}
+
+	public List<RoadHandler> GetAllRoadAt (Vector2 point) {
+		List<RoadHandler> list = new List<RoadHandler> ();
+
+		foreach (KeyValuePair<int, TileHandler> p in layerRoad) {
+			RoadHandler r = p.Value.gameObject.GetComponent<RoadHandler>();
+			if (r.Rect.Contains (point)) {
+				list.Add (r);
+			}
+		}
+		
+		return list;
 	}
 }

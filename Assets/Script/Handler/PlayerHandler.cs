@@ -118,7 +118,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	//Check road to run right direction
 	public void CheckRoad () {
-		RoadHandler road = Ultil.RayCastRoad (this.transform.position + new Vector3 (0,1,0), Vector3.down);
+		RoadHandler road = Ultil.GetRoadNotBusAt (new Vector2 (transform.position.x, transform.position.z));
 		if (road != null) {
 			switch (road.tile.typeId) {
 			case TileID.ROAD_UP:
@@ -189,7 +189,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					if (dir == mydir) {
 
 						//cung lan duong
-						RoadHandler autoRoad = Ultil.RayCastRoad (autoVehicle.transform.position + new Vector3 (0, 1, 0), Vector3.down);
+						RoadHandler autoRoad = Ultil.GetRoadNotBusAt (new Vector2 (autoVehicle.transform.position.x, autoVehicle.transform.position.z));
 						PlayerState state = GetCurrentState ();
 						if (state != null && state.road == autoRoad) {
 							ErrorManager.Instance.PushError (17, Main.Instance.time);
@@ -211,7 +211,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 					MoveDirection mydir = Ultil.GetMoveDirection (this.transform.forward);
 					if (dir == mydir) {
 						//cung lan duong
-						RoadHandler autoRoad = Ultil.RayCastRoad (autoVehicle.transform.position + new Vector3 (0, 1, 0), Vector3.down);
+						RoadHandler autoRoad = Ultil.GetRoadNotBusAt (new Vector2 (autoVehicle.transform.position.x, autoVehicle.transform.position.z));
 						PlayerState state = GetCurrentState ();
 						if (state != null && state.road == autoRoad) {
 							if (state.turnLight != TurnLight.LEFT) {
