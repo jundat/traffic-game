@@ -76,4 +76,14 @@ public class UI2DManager : SingletonMono<UI2DManager> {
 	public void OnExitGame () {
 		Application.LoadLevel ("SelectMap");
 	}
+
+	//Mobile control
+
+	public void OnPressUp () {
+
+	}
+
+	public void OnReleaseUp () {
+
+	}
 }

@@ -36,6 +36,7 @@ public class Menu : MonoBehaviour {
 	
 	public IEnumerator StartGame () {
 		WWWForm form = new WWWForm();
+		form.AddField ("fake", 1);
 		WWW w = new WWW(Global.URL_GETMAP, form);
 		
 		yield return w;

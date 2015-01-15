@@ -22,11 +22,15 @@ public class Login : MonoBehaviour {
 	void Update () {}
 
 	private void InitFirstTime () {
-		if (Application.absoluteURL.Length == 0 || Application.absoluteURL.Contains ("localhost")) {
+		if (Application.absoluteURL.Contains ("localhost")) {
 			Global.URL_SERVER = Global.LOCALHOST;
 		} else {
 			Global.URL_SERVER = Global.WIDOCOM;
 		}
+
+#if UNITY_ANDROID
+		Global.URL_SERVER = Global.WIDOCOM;
+#endif
 	}
 	
 	public void OnSubmit () {

@@ -34,6 +34,7 @@ public class MapItemHandler : MonoBehaviour {
 
 	public IEnumerator LoadThumnail () {
 		WWWForm form = new WWWForm();
+		form.AddField ("fake", 1);
 		string s = map.thumnail;
 
 		WWW w = new WWW(s, form);
