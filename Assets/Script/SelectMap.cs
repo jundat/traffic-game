@@ -95,6 +95,7 @@ public class SelectMap : MonoBehaviour {
 
 	public IEnumerator LoadSelectedMap (string url) {
 		WWWForm form = new WWWForm();
+		form.AddField ("fake", 1);
 		string s = url;
 
 		WWW w = new WWW(s, form);
