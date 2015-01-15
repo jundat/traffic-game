@@ -27,5 +27,9 @@ public class RoadHandlerEditor : Editor {
 		GUILayoutOption[] gg = new GUILayoutOption[] {};
 
 		GUILayout.Label (s, gg);
+
+		if (GUILayout.Button ("Rect")) {
+			Rect r = road.Rect;
+		}
 	}
 }

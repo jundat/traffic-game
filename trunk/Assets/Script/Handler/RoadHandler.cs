@@ -70,6 +70,11 @@ public class RoadHandler : TileHandler {
 	public GameObject anchorLeft;
 	public GameObject anchorUp;
 	public GameObject anchorDown;
+	//
+	public GameObject topRight;
+	public GameObject topLeft;
+	public GameObject bottomLeft;
+	public GameObject bottomRight;
 
 	public GameObject redStop = null;
 	private const float RED_STOP_Y_OUT = -20;
@@ -303,6 +308,25 @@ public class RoadHandler : TileHandler {
 
 		redStop.GetComponent<MeshRenderer>().enabled = false;
 		redStop.SetActive (false);
+	}
+
+	private Rect _rect;
+	private bool _isGetRect = false;
+	public Rect Rect {
+		get {
+			if (_isGetRect == false) {
+				Bounds b = roadMeshRenderRepeat.bounds;
+				_rect = new Rect ();
+				_rect.x = b.center.x - b.size.x/2;
+				_rect.y = b.center.z - b.size.z/2;
+				_rect.width = b.size.x;
+				_rect.height = b.size.z;
+
+				_isGetRect = true;
+				//Debug.Log ("Rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height);
+			}
+			return _rect;
+		}
 	}
 
 	#region Collision Road
