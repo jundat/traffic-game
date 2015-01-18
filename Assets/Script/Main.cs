@@ -35,8 +35,6 @@ public class Main : SingletonMono<Main> {
 
 		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
 
-		TrafficLightManager.Instance.Update ();
-
 		//Run Time 
 		if (Main.Instance.isStarted) {
 			int pastSeconds = (int)((Main.Instance.time - startTime).TotalSeconds);

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 	public const float DELAY_TIME = 1;
-	public const float SCHEDULE_TIME = 0.25f;
+	public const float SCHEDULE_TIME = 0.2f;
 	public const float LANGLACH_DISTANCE = 8;
 
 	private BikeHandler bikeHandler;
