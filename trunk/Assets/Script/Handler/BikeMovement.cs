@@ -28,31 +28,19 @@ public class BikeMovement : MonoBehaviour {
 	void Update () {
 		if (Main.Instance.isEndGame == true) {return;}
 
-		if (Input.GetKey (KeyCode.A) == true 
-		    || Input.GetKey (KeyCode.LeftArrow) == true) { //left
+		//Rotate
+		float hor = Input.GetAxis("Horizontal");
+		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * hor, 0);
 
-			transform.localEulerAngles = 
-				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y - RotateSpeed * Time.deltaTime, 0);
-		} else if (Input.GetKey (KeyCode.D) == true 
-		           || Input.GetKey (KeyCode.RightArrow) == true) { //right
-
-			transform.localEulerAngles = 
-				new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * Time.deltaTime, 0);
-		}
-		
-		//Foward
-		if (Input.GetKey (KeyCode.W) 
-		    || Input.GetKey (KeyCode.UpArrow)) { 	//Forward
-			
-			moveSpeed += accelMoveFoward * Time.deltaTime;
+		//Forward
+		float ver = Input.GetAxis("Vertical");
+		if (ver >= 0) {
+			moveSpeed += accelMoveFoward * ver;
 			if (moveSpeed > MaxMoveSpeed) {
 				moveSpeed = MaxMoveSpeed;
 			}
-		} else if (Input.GetKey (KeyCode.Space) 	//Backward
-		           || Input.GetKey (KeyCode.DownArrow) 
-		           || Input.GetKey (KeyCode.S)) {
-			
-			moveSpeed -= accelMoveBackward * Time.deltaTime;
+		} else {
+			moveSpeed += accelMoveBackward * ver;
 			if (moveSpeed < 0.2f) {
 				moveSpeed = 0.01f;
 			}
@@ -60,7 +48,6 @@ public class BikeMovement : MonoBehaviour {
 
 		Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
 		controller.Move (v);
-
 		//controller.Move (transform.up * Gravity);
 	}
 
@@ -71,12 +58,12 @@ public class BikeMovement : MonoBehaviour {
 	private IEnumerator Stopping () {
 		while (moveSpeed > 0) {
 			
-			moveSpeed -= accelMoveBackward/2.0f * Time.deltaTime;
+			moveSpeed -= accelMoveBackward/2.0f * Time.fixedDeltaTime;
 			if (moveSpeed < 0.1f) {
 				moveSpeed = 0.01f;
 			}
 
-			Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
+			Vector3 v = transform.forward * moveSpeed * Time.fixedDeltaTime;
 			controller.Move (v);
 
 			yield return new WaitForSeconds (0.01f);
