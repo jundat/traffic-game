@@ -37,10 +37,10 @@ public class MapRenderer : SingletonMono <MapRenderer> {
 //				if (tile.layerType == LayerType.View) {
 //					break;
 //				}
-
-				if (tile.layerType == LayerType.View && tile.typeId != 203) {
-					tile.typeId = 201;
-				}
+//
+//				if (tile.layerType == LayerType.View && tile.typeId != 203) {
+//					tile.typeId = 201;
+//				}
 
 				GameObject go = ModelFactory.Instance.GetNewModel (tile);
 				if (go == null) {

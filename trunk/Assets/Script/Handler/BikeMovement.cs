@@ -25,7 +25,7 @@ public class BikeMovement : MonoBehaviour {
 		controller = GetComponent<CharacterController> ();
 	}
 
-	void Update () {
+	void FixedUpdate () {
 		if (Main.Instance.isEndGame == true) {return;}
 
 		//Rotate
@@ -46,7 +46,7 @@ public class BikeMovement : MonoBehaviour {
 			}
 		}
 
-		Vector3 v = transform.forward * moveSpeed * Time.deltaTime;
+		Vector3 v = transform.forward * moveSpeed * Time.fixedDeltaTime;
 		controller.Move (v);
 		//controller.Move (transform.up * Gravity);
 	}
