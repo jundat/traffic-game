@@ -6,7 +6,7 @@ public class HelmetHandler : MonoBehaviour {
 	public BikeHandler bikeHandler;
 	private Animator anim;
 
-	void Start () {
+	void Awake () {
 		anim = this.GetComponent<Animator>();
 	}
 
