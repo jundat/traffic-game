@@ -30,6 +30,9 @@ public class BikeHandler : MonoBehaviour {
 	public Light leftLight;
 	public Light rightLight;
 
+	public Camera cameraFront;
+	public Camera cameraBack;
+
 
 	void Start () {
 		bikeMovement = this.gameObject.GetComponent <BikeMovement> ();

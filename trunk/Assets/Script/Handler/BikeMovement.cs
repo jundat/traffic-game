@@ -29,7 +29,7 @@ public class BikeMovement : MonoBehaviour {
 		if (Main.Instance.isEndGame == true) {return;}
 
 		//Rotate
-		float hor = Input.GetAxis("Horizontal");
+		float hor = Input.GetAxis("Horizontal"); //Time.fixedDeltaTime * 
 		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * hor, 0);
 
 		//Forward
