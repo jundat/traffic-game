@@ -57,6 +57,13 @@ public class Main : SingletonMono<Main> {
 	}
 
 	public void LateInit () {
+		BikeHandler bike = player.GetComponent<BikeHandler>();
+		if (needTheLight) {
+			bike.cameraFront.renderingPath = RenderingPath.DeferredLighting;
+		} else {
+			bike.cameraFront.renderingPath = RenderingPath.VertexLit;
+		}
+
 		player.CheckRoad ();
 	}
 

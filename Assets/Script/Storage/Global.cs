@@ -17,9 +17,10 @@ public class Global {
 	public const string URL_HISTORY = "getscore";
 	public const string URL_GETMAP = "getmap";
 	public const string URL_POSTSCORE = "postscore";
+	public const string URL_CONFIGERROR = "configerror";
 
 
-	public const string CONFIG_ERROR_FILE = "Config/ConfigError";
+	public const string LOCAL_CONFIG_ERROR_FILE = "Config/ConfigError";
 	public const float ZERO_POINT = 0.001f;
 
 //#if UNITY_EDITOR
