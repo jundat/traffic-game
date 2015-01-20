@@ -92,7 +92,7 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			bikeHandler.LightFar ();
 
 			//Bat den chieu xa trong do thi
-			if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false) {
+			if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false && Main.Instance.needTheLight == true) {
 				ErrorManager.Instance.PushError (13, Main.Instance.time);
 			}
 		}
