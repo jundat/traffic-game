@@ -29,11 +29,19 @@ public class BikeMovement : MonoBehaviour {
 		if (Main.Instance.isEndGame == true) {return;}
 
 		//Rotate
-		float hor = Input.GetAxis("Horizontal"); //Time.fixedDeltaTime * 
-		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * hor, 0);
+		float hor = Input.GetAxis("Horizontal");
+		Rotate (hor);
 
 		//Forward
 		float ver = Input.GetAxis("Vertical");
+		Move (ver);
+	}
+
+	public void Rotate (float hor) {
+		transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + RotateSpeed * hor, 0);
+	}
+
+	public void Move (float ver) {
 		if (ver >= 0) {
 			moveSpeed += accelMoveFoward * ver;
 			if (moveSpeed > MaxMoveSpeed) {
@@ -45,10 +53,9 @@ public class BikeMovement : MonoBehaviour {
 				moveSpeed = 0.01f;
 			}
 		}
-
+		
 		Vector3 v = transform.forward * moveSpeed * Time.fixedDeltaTime;
 		controller.Move (v);
-		//controller.Move (transform.up * Gravity);
 	}
 
 	public void StopRunning () {
@@ -57,7 +64,6 @@ public class BikeMovement : MonoBehaviour {
 
 	private IEnumerator Stopping () {
 		while (moveSpeed > 0) {
-			
 			moveSpeed -= accelMoveBackward/2.0f * Time.fixedDeltaTime;
 			if (moveSpeed < 0.1f) {
 				moveSpeed = 0.01f;

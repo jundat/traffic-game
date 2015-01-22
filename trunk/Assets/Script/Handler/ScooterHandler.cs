@@ -29,22 +29,35 @@ public class ScooterHandler : MonoBehaviour {
 	}
 
 	void Update () {
+#if !UNITY_ANDROID
 		if (Input.GetKey (KeyCode.A) == true || Input.GetKey (KeyCode.LeftArrow) == true) { //left
-			if (dir != BikeDirection.left) {
-				dir = BikeDirection.left;
-				anim.SetInteger ("dir",2);
-			}
+			AnimLeft ();
 		} else if (Input.GetKey (KeyCode.D) == true || Input.GetKey (KeyCode.RightArrow) == true) { //right
-			if (dir != BikeDirection.right) {
-				dir = BikeDirection.right;
-				anim.SetInteger ("dir",1);
-			}
+			AnimRight ();
 		} else {
-			dir = BikeDirection.ahead;
-			anim.SetInteger ("dir",0);
+			AnimAhead ();
 		}
-		
-		kim.transform.localEulerAngles = new Vector3 (0, angle, 0);
+#endif
 
+		kim.transform.localEulerAngles = new Vector3 (0, angle, 0);
+	}
+
+	public void AnimLeft () {
+		if (dir != BikeDirection.left) {
+			dir = BikeDirection.left;
+			anim.SetInteger ("dir",2);
+		}
+	}
+
+	public void AnimRight () {
+		if (dir != BikeDirection.right) {
+			dir = BikeDirection.right;
+			anim.SetInteger ("dir",1);
+		}
+	}
+
+	public void AnimAhead () {
+		dir = BikeDirection.ahead;
+		anim.SetInteger ("dir",0);
 	}
 }

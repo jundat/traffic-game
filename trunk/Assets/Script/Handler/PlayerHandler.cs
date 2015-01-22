@@ -67,49 +67,73 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 		}
 		
 		if (Input.GetKeyUp (KeyCode.L)) {
-			bikeHandler.LightOnOff ();
-			
-			//Bat den chieu xa trong do thi
-			if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false) {
-				ErrorManager.Instance.PushError (13, Main.Instance.time);
-			}
+			OnLight ();
 		}
 
 		if (Main.Instance.isStarted == false || Main.Instance.isEndGame == true) {return;}
 
 		//Sound ----------------------------------
 		if (Input.GetKeyUp (KeyCode.B)) {
-			SoundManager.Instance.PlayHorn ();
-
-			if (Main.Instance.time >= Global.TIME_STOP_HORN || Main.Instance.time <= Global.TIME_START_HORN) {
-				ErrorManager.Instance.PushError (12, Main.Instance.time);
-			}
+			OnHorn ();
 		}
 		
 		//Light Near/Far--------------------------
 
 		if (Input.GetKeyUp (KeyCode.F)) {
-			bikeHandler.LightFar ();
-
-			//Bat den chieu xa trong do thi
-			if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false && Main.Instance.needTheLight == true) {
-				ErrorManager.Instance.PushError (13, Main.Instance.time);
-			}
+			OnLightFar ();
 		}
 		
 		if (Input.GetKeyUp (KeyCode.N)) {
-			bikeHandler.LightNear ();
+			OnLightNear ();
 		}
 		
 		//Light Left/Right -----------------------
 		
 		if (Input.GetKeyUp (KeyCode.Q) || Input.GetKeyUp (KeyCode.Less)) {
-			bikeHandler.LeftLight ();
+			OnLightTurnLeft ();
 		}
 		
 		if (Input.GetKeyUp (KeyCode.E) || Input.GetKeyUp (KeyCode.Greater)) {
-			bikeHandler.RightLight ();
+			OnLightTurnRight ();
 		}
+	}
+
+	public void OnLight () {
+		bikeHandler.LightOnOff ();
+		
+		//Bat den chieu xa trong do thi
+		if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false) {
+			ErrorManager.Instance.PushError (13, Main.Instance.time);
+		}
+	}
+
+	public void OnHorn () {
+		SoundManager.Instance.PlayHorn ();
+		
+		if (Main.Instance.time >= Global.TIME_STOP_HORN || Main.Instance.time <= Global.TIME_START_HORN) {
+			ErrorManager.Instance.PushError (12, Main.Instance.time);
+		}
+	}
+
+	public void OnLightNear () {
+		bikeHandler.LightNear ();
+	}
+
+	public void OnLightFar () {
+		bikeHandler.LightFar ();
+		
+		//Bat den chieu xa trong do thi
+		if (bikeHandler.isLightOn == true && bikeHandler.isNearLight == false && Main.Instance.needTheLight == true) {
+			ErrorManager.Instance.PushError (13, Main.Instance.time);
+		}
+	}
+
+	public void OnLightTurnLeft () {
+		bikeHandler.LeftLight ();
+	}
+
+	public void OnLightTurnRight () {
+		bikeHandler.RightLight ();
 	}
 
 	public void StopRunning () {
