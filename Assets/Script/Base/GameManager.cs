@@ -21,7 +21,9 @@ public class GameManager : SingletonMono<GameManager> {
 
 	public void CompleteCheckpoint (int objId) {
 		try {
-		if (listCheckpoint[objId] == false) {
+			MiniMap.Instance.CompleteCheckpoint (objId);
+
+			if (listCheckpoint[objId] == false) {
 				SoundManager.Instance.PlayCheckpoint ();
 
 				listCheckpoint[objId] = true;

@@ -6,6 +6,7 @@ using Pathfinding.Serialization.JsonFx;
 public class HistoryItemHandler : MonoBehaviour {
 
 	public ModelHistoryItem historyItem;
+	public int MAX_ERROR = 10;
 
 	public UILabel lbContent;
 	public UILabel lbTitle;
@@ -39,19 +40,24 @@ public class HistoryItemHandler : MonoBehaviour {
 			errorNumber = ss.Length;
 
 			for (int i = 0; i < ss.Length; ++i) {
-				int errorId = -1;
-				int.TryParse (ss[i], out errorId);
+				if (i < MAX_ERROR) {
+					int errorId = -1;
+					int.TryParse (ss[i], out errorId);
 
-				if (errorId != -1) {
-					ConfigErrorItem item = ConfigError.Instance.GetError (errorId);
-					if (item != null) {
-						content += "[b][ff0000]" + errorId + " (-" + item.sub + ")[-][/b]. [000000]" + item.name + "[-]\n";
+					if (errorId != -1) {
+						ConfigErrorItem item = ConfigError.Instance.GetError (errorId);
+						if (item != null) {
+							content += "[b][ff0000]" + errorId + " (-" + item.sub + ")[-][/b]. [000000]" + item.name + "[-]\n";
+						} else {
+							Debug.LogError ("Item==null: " + errorId);
+							Debug.Log (JsonWriter.Serialize (p));
+						}
 					} else {
-						Debug.LogError ("Item==null: " + errorId);
-						Debug.Log (JsonWriter.Serialize (p));
+						Debug.LogError ("ErrorId == -1: " + ss[i]);
 					}
 				} else {
-					Debug.LogError ("ErrorId == -1: " + ss[i]);
+					content += "\n[ff0000]Còn nữa...[-]";
+					break;
 				}
 			}
 		}

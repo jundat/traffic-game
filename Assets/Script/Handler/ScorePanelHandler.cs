@@ -40,9 +40,9 @@ public class ScorePanelHandler : MonoBehaviour {
 		}
 		s += "[-]";
 
-		s = "[000000]TOTAL SCORE[-]: [ff0000]" + ErrorManager.Instance.Score + "[-]"
-			+ "\n[000000]TOTAL ERROR[-]: [ff0000]" + count + "[-]"
-				+ "\n[000000]TOTAL MONEY[-]: [FF2F00]" + totalFrom.ToString("n0") + "[-] - [FF2F00]" + totalTo.ToString("n0") + "[-][000000] vnd[-]\n\n" + s;
+		s = "[000000]Tổng điểm[-]: [ff0000]" + ErrorManager.Instance.Score + "[-]"
+			+ "\n[000000]Tổng lỗi[-]: [ff0000]" + count + "[-]"
+				+ "\n[000000]Tổng tiền phạt[-]: [FF2F00]" + totalFrom.ToString("n0") + "[-] - [FF2F00]" + totalTo.ToString("n0") + "[-][000000] vnd[-]\n\n" + s;
 
 		lbContent.text = s;
 
