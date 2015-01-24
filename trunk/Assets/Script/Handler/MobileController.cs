@@ -11,6 +11,14 @@ public class MobileController : MonoBehaviour {
 	private ScooterHandler scooter;
 	private PlayerHandler player;
 
+	void Awake () {
+		if (Application.platform == RuntimePlatform.Android) {
+			this.gameObject.SetActive (true);
+		} else {
+			this.gameObject.SetActive (false);
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		bike = Main.Instance.player.GetComponent<BikeMovement>();

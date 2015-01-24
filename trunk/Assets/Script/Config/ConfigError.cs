@@ -22,7 +22,7 @@ public class ConfigError : Singleton <ConfigError>
 	public Dictionary<int, ConfigErrorItem> dict = new Dictionary<int, ConfigErrorItem> ();
 
 	public void Load (string data) {
-		if (IsInited == false) {Debug.Log ("Load Online Config");
+		if (IsInited == false) {
 			try {
 				FileHelperEngine<ConfigErrorItem> engine = new FileHelperEngine<ConfigErrorItem>(); 
 				ConfigErrorItem[] res = engine.ReadString (data);
@@ -38,7 +38,7 @@ public class ConfigError : Singleton <ConfigError>
 	}
 
 	public void LoadBuildData () {
-		if (IsInited == false) {Debug.Log ("Load Build-In Config");
+		if (IsInited == false) {
 			try {
 				FileHelperEngine<ConfigErrorItem> engine = new FileHelperEngine<ConfigErrorItem>(); 
 				UnityEngine.Object obj = Resources.Load (Global.LOCAL_CONFIG_ERROR_FILE);

@@ -13,22 +13,22 @@ public class MiniMap : SingletonMono<MiniMap> {
 	public GameObject layerView;
 	public GameObject layerOther;
 	public UITexture ttMiniMap;
+	public float SMALL_CAMERA = 4.0f;
+	public float BIG_CAMERA = 8.0f;
 
+	private Dictionary<int, GridTileHandler> dictCheckpoint = new Dictionary<int, GridTileHandler> ();
 	private bool isBigMap = false;
 	private const int SMALL_WIDTH = 160;
 	private const int SMALL_HEIGHT = 160;
 	private const int BIG_WIDTH = 640;
 	private const int BIG_HEIGHT = 640;
-	private const float SMALL_CAMERA = 2.5f;
-	private const float BIG_CAMERA = 4;
 
 	void Start () {
-
+		cameraMiniMap.orthographicSize = SMALL_CAMERA;
+		dictCheckpoint.Clear ();
 	}
 
 	void Update () {
-		//Position ----------------
-
 		float x = PlayerHandler.Instance.transform.localPosition.x;
 		float y = PlayerHandler.Instance.transform.localPosition.z;
 
@@ -50,7 +50,11 @@ public class MiniMap : SingletonMono<MiniMap> {
 			foreach (KeyValuePair<string, ModelTile> p2 in layer.tile) {
 				ModelTile tile = p2.Value;
 				if (tile.layerType != LayerType.View) {
-					AddNewObject (tile, layer.id);
+					GridTileHandler gt = AddNewObject (tile, layer.id);
+
+					if (tile.typeId == TileID.CHECK_POINT) {
+						dictCheckpoint[tile.objId] = gt;
+					}
 				}
 				Ultil.ResetObjId (tile.objId);
 			}
@@ -97,6 +101,14 @@ public class MiniMap : SingletonMono<MiniMap> {
 		}
 		
 		return null;
+	}
+
+	public void CompleteCheckpoint (int objId) {
+		GridTileHandler gt = null;
+		dictCheckpoint.TryGetValue (objId, out gt);
+		if (gt != null) {
+			gt.gameObject.SetActive (false);
+		}
 	}
 
 	public void OnClickMap () {

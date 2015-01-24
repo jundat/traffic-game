@@ -360,47 +360,84 @@ public class RoadHandler : TileHandler {
 	#endregion
 
 	#region Public Get Functions 
+	bool _directionChecked = false;
+	MoveDirection _direction = MoveDirection.NONE;
 	public MoveDirection Direction {
 		get {
-			switch (tile.typeId) {
-			case 1:
-				return MoveDirection.DOWN;
+			if (_directionChecked == false) {
+				_directionChecked = true;
+				switch (tile.typeId) {
+				case 1:
+					_direction = MoveDirection.DOWN;
+					break;
 
-			case 2:
-				return MoveDirection.LEFT;
+				case 2:
+					_direction = MoveDirection.LEFT;
+					break;
 
-			case 3:
-				return MoveDirection.RIGHT;
+				case 3:
+					_direction = MoveDirection.RIGHT;
+					break;
 
-			case 4:
-				return MoveDirection.UP;
-				
-			case 7:
-				return MoveDirection.NONE;
+				case 4:
+					_direction = MoveDirection.UP;
+					break;
+					
+				case 7:
+					_direction = MoveDirection.NONE;
+					break;
+				}
 			}
 
-			return MoveDirection.NONE;
+			return _direction;
 		}
 	}
 
+	bool _bikeAvailableChecked = false;
+	bool _bikeAvailable = false;
 	public bool BikeAvailable {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_DI + VihicleType.MoToA1, "true", tile.properties);
-			return bool.Parse (s);
+			if (_bikeAvailableChecked == false) {
+				_bikeAvailableChecked = true;
+				string s = Ultil.GetString (TileKey.ROAD_DI + VihicleType.MoToA1, "true", tile.properties);
+				_bikeAvailable = bool.Parse (s);
+			}
+			return _bikeAvailable;
 		}
 	}
 
-	public int MinSpeed {
+	bool _bikeStopAvailableChecked = false;
+	bool _bikeStopAvailable = false;
+	public bool BikeStopAvailable {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_MIN_VEL, "0", tile.properties);
-			return int.Parse (s);
+			if (_bikeStopAvailableChecked == false) {
+				_bikeStopAvailableChecked = true;
+				string s = Ultil.GetString (TileKey.ROAD_DUNG + VihicleType.MoToA1, "true", tile.properties);
+				_bikeStopAvailable = bool.Parse (s);
+			}
+			return _bikeStopAvailable;
 		}
 	}
-	
+
+	int _minSpeed = -1;
+	public int MinSpeed {
+		get {
+			if (_minSpeed == -1) {
+				string s = Ultil.GetString (TileKey.ROAD_MIN_VEL, "0", tile.properties);
+				_minSpeed = int.Parse (s);
+			}
+			return _minSpeed;
+		}
+	}
+
+	int _maxSpeed = -1;
 	public int MaxSpeed {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_MAX_VEL, "40", tile.properties);
-			return int.Parse (s);
+			if (_maxSpeed == -1) {
+				string s = Ultil.GetString (TileKey.ROAD_MAX_VEL, "40", tile.properties);
+				_maxSpeed = int.Parse (s);
+			}
+			return _maxSpeed;
 		}
 	}
 
@@ -587,31 +624,56 @@ public class RoadHandler : TileHandler {
 		}
 	}
 
+	bool _canTurnLeftChecked = false;
+	bool _canTurnLeft = false;
 	public bool CanTurnLeft {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_RE_TRAI, "true", tile.properties);
-			return bool.Parse (s);
+			if (_canTurnLeftChecked == false) {
+				_canTurnLeftChecked = true;
+				string s = Ultil.GetString (TileKey.ROAD_RE_TRAI, "true", tile.properties);
+				_canTurnLeft = bool.Parse (s);
+			}
+
+			return _canTurnLeft;
 		}
 	}
 
+	bool _canTurnRightChecked = false;
+	bool _canTurnRight = false;
 	public bool CanTurnRight {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_RE_PHAI, "true", tile.properties);
-			return bool.Parse (s);
+			if (_canTurnRightChecked == false) {
+				_canTurnRightChecked = true;
+				string s = Ultil.GetString (TileKey.ROAD_RE_PHAI, "true", tile.properties);
+				_canTurnRight = bool.Parse (s);
+			}
+			return _canTurnRight;
 		}
 	}
 
+	bool _canGoAheadChecked = false;
+	bool _canGoAhead = false;
 	public bool CanGoAhead {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_RE_THANG, "true", tile.properties);
-			return bool.Parse (s);
+			if (_canGoAheadChecked == false) {
+				_canGoAheadChecked = true;
+				string s = Ultil.GetString (TileKey.ROAD_RE_THANG, "true", tile.properties);
+				_canGoAhead = bool.Parse (s);
+			}
+			return _canGoAhead;
 		}
 	}
 
+	bool _canTurnBackChecked = false;
+	bool _canTurnBack = false;
 	public bool CanTurnBack {
 		get {
-			string s = Ultil.GetString (TileKey.ROAD_QUAY_DAU, "true", tile.properties);
-			return bool.Parse (s);
+			if (_canTurnBackChecked == false) {
+				_canTurnBackChecked = true;
+				string s = Ultil.GetString (TileKey.ROAD_QUAY_DAU, "true", tile.properties);
+				_canTurnBack = bool.Parse (s);
+			}
+			return _canTurnBack;
 		}
 	}
 
