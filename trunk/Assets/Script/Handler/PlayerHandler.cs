@@ -219,13 +219,13 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 			}
 			break;
 
-		case OBJ.RoadBorderRight:
-		case OBJ.RoadBorderLeft:
-		case OBJ.RoadBorderUp:
-		case OBJ.RoadBorderDown:
-			ErrorManager.Instance.PushError (4, Main.Instance.time);
-			SoundManager.Instance.PlayCrash ();
-			break;
+//		case OBJ.RoadBorderRight:
+//		case OBJ.RoadBorderLeft:
+//		case OBJ.RoadBorderUp:
+//		case OBJ.RoadBorderDown:
+//			ErrorManager.Instance.PushError (4, Main.Instance.time);
+//			SoundManager.Instance.PlayCrash ();
+//			break;
 		}
 	}
 
@@ -587,10 +587,12 @@ public class PlayerHandler : SingletonMono <PlayerHandler> {
 
 		//Chay cham ben trai lan duong
 		float slowSpeed = (state.road.MinSpeed + state.road.MaxSpeed) / 2;
-		if (state.speed <= slowSpeed 
+		if (state.speed > 1
+			&& state.speed <= slowSpeed 
 		    && state.inRoadPos == InRoadPosition.OutLen
 		    && state.road.Direction != MoveDirection.NONE
-		    && state.road.Direction == state.direction) {
+		    && state.road.Direction == state.direction
+		    && state.road.LightStatus == TrafficLightStatus.green) {
 
 			counter1++;
 			if (counter1 >= MAX_COUNTER1) {
