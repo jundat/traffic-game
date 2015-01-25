@@ -44,6 +44,8 @@ public class MapItemHandler : MonoBehaviour {
 		if (string.IsNullOrEmpty(w.error)) {
 			if (w.texture != null) {
 				ttThumnail.mainTexture = w.texture;
+			} else {
+				Debug.LogError ("Null thumnail");
 			}
 		} else {
 			Debug.LogError (w.error);

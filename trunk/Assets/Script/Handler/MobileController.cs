@@ -12,11 +12,11 @@ public class MobileController : MonoBehaviour {
 	private PlayerHandler player;
 
 	void Awake () {
-		if (Application.platform == RuntimePlatform.Android) {
-			this.gameObject.SetActive (true);
-		} else {
-			this.gameObject.SetActive (false);
-		}
+//		if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.OSXEditor) {
+//			this.gameObject.SetActive (true);
+//		} else {
+//			this.gameObject.SetActive (false);
+//		}
 	}
 
 	// Use this for initialization
